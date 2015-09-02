@@ -1,0 +1,44 @@
+{
+  "name": "metamorphoses",
+  "version": "0.1.0",
+  "description": "Transforms API Blueprint AST or legacy Apiary Blueprint AST into Apiary Application AST",
+  "main": "./lib/metamorphoses",
+  "scripts": {
+    "compile": "npm run lint && coffee -b -c -o lib/ src/",
+    "lint": "coffeelint .",
+    "lint-update": "curl 'https://raw.githubusercontent.com/apiaryio/coffeescript-style-guide/master/coffeelint.json' > coffeelint.json",
+    "pretest": "npm run compile",
+    "test": "mocha --compilers coffee:coffee-script/register -R spec --recursive",
+    "prepublish": "npm run compile"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:apiaryio/metamorphoses.git"
+  },
+  "author": "Apiary Inc <support@apiary.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/apiaryio/metamorphoses/issues"
+  },
+  "homepage": "https://github.com/apiaryio/metamorphoses",
+  "dependencies": {
+    "apiary-blueprint-parser": "^0.5.3",
+    "media-typer": "^0.3.0",
+    "robotskirt": "^2.7.1",
+    "sanitizer": "^0.1.2",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "chai": "^3.2.0",
+    "coffee-script": "~1.9",
+    "coffeelint": "^1.11.1",
+    "karma": "^0.13.9",
+    "karma-browserify": "^4.3.0",
+    "karma-chai": "^0.1.0",
+    "karma-coffee-preprocessor": "^0.3.0",
+    "karma-firefox-launcher": "^0.1.6",
+    "karma-mocha": "^0.2.0",
+    "karma-mocha-reporter": "^1.1.1",
+    "mocha": "^2.3.0"
+  }
+}
