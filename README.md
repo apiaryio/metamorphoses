@@ -38,6 +38,24 @@ To be able to work with both of these formats through some sort of uniform inter
 
 > **Note:** The information above is *simplified* for the context of the Metamorphoses library. As noted in the introduction, API Blueprint AST is about to be slowly replaced by [API Description Parse Result Namespace](https://github.com/refractproject/refract-spec/blob/master/namespaces/parse-result.md) as the parser output. Once [Fury](https://github.com/apiaryio/fury.js) has adapters to both *API Blueprint* and the *legacy Apiary Blueprint*, producing *API Description Parse Result Namespace* for both, and once *Apiary* starts to use the *API Description Parse Result Namespace* exclusively, this library becomes redundant.
 
+## Interface
+
+```javascript
+metamorphoses = require('metamorphoses');
+
+// Turning API Blueprint AST into the Apiary Application AST
+var apiBlueprintAst = {...};
+metamorphoses.transform(apiBlueprintAst, 'application/vnd.apiblueprint.ast', function (err, applicationAst) {
+  ...
+});
+
+// Turning legacy Apiary Blueprint AST into the Apiary Application AST
+var apiaryBlueprintAst = {...};
+metamorphoses.transform(apiaryBlueprintAst, 'application/vnd.legacyblueprint.ast', function (err, applicationAst) {
+  ...
+});
+```
+
 ## Name
 
 [Wikipedia](https://en.wikipedia.org/wiki/Metamorphoses): The Metamorphoses (Latin: *Metamorphōseōn librī*: "Books of Transformations") is a Latin narrative poem by the Roman poet Ovid.
