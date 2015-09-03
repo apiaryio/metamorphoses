@@ -3,11 +3,56 @@ blueprintApi = require('../blueprint-api')
 markdown = require('./markdown')
 
 
+countLines = (code, index) ->
+  if index > 0
+    excerpt = code.substr(0, index)
+    return excerpt.split(/\r\n|\r|\n/).length
+  else
+    return 1
+
+
 trimLastNewline = (s) ->
   unless s
     return
 
   if s[s.length - 1] is '\n' then s.slice(0, -1) else s
+
+
+# # Transform AST from Protagonist to legacy/application AST
+# This is needed for two reasons
+# 1) Protagonist's AST do not support .toJSON() yet
+# 2) There are subtle differences in some parts of the tree
+# Takes data and ensures it comes out as an object of objects. If array of
+# sub-objects is given, takes out the 'key' property of the sub-object, places
+# it as a key and uses the rest of the sub-object as a value. (Actual name of
+# the key property can be changed by an argument.)
+#
+#   [
+#     {name: 'a', color: 'blue'}
+#     {name: 'b', color: 'red'}
+#   ]
+#
+# is turned into
+#
+#   {
+#     a: {color: 'blue'}
+#     b: {color: 'red'}
+#   }
+ensureObjectOfObjects = (data, key = 'name') ->
+  if not data
+    {}
+  else if Array.isArray(data)
+    obj = {}
+    for arrayItem in data
+      values = {}
+      for own k, v of arrayItem
+        if k isnt key
+          values[k] = v
+      obj[arrayItem[key]] = values
+    obj
+  else
+    data
+
 
 # ## `legacyHeadersFrom1AHeaders`
 #
@@ -190,7 +235,7 @@ legacyResourcesFrom1AResource = (legacyUrlConverterFn, resource) ->
 
   for action, actionIndex in resource.actions or []
     # Combine resource & action section, preferring action
-    legacyResource = new blueprintApi.Resource({blueprint-api, requests: []})
+    legacyResource = new blueprintApi.Resource({responses: [], requests: []})
 
     legacyResource.url         = legacyUrlConverterFn(action.attributes?.uriTemplate or resource.uriTemplate)
     legacyResource.uriTemplate = resource.uriTemplate
@@ -269,7 +314,7 @@ legacyResourcesFrom1AResource = (legacyUrlConverterFn, resource) ->
 #
 # This method will hopefully be superseeded by transformOldAstToProtagonist
 # once we'll be comfortable with new format and it'll be our default.
-legacyASTfrom1AAST = (ast, warnings, cb) ->
+legacyASTfrom1AAST = (ast) ->
   # Blueprint
   legacyAST = new blueprintApi.Blueprint(
     name: ast.name
@@ -338,47 +383,12 @@ legacyASTfrom1AAST = (ast, warnings, cb) ->
                                                                               and item.content.length \
                                                                               and item.content[0].element is 'dataStructure')
 
-  cb(null, legacyAST, warnings)
-
-
-
-# # Transform AST from Protagonist to legacy/application AST
-# This is needed for two reasons
-# 1) Protagonist's AST do not support .toJSON() yet
-# 2) There are subtle differences in some parts of the tree
-# Takes data and ensures it comes out as an object of objects. If array of
-# sub-objects is given, takes out the 'key' property of the sub-object, places
-# it as a key and uses the rest of the sub-object as a value. (Actual name of
-# the key property can be changed by an argument.)
-#
-#   [
-#     {name: 'a', color: 'blue'}
-#     {name: 'b', color: 'red'}
-#   ]
-#
-# is turned into
-#
-#   {
-#     a: {color: 'blue'}
-#     b: {color: 'red'}
-#   }
-ensureObjectOfObjects = (data, key = 'name') ->
-  if not data
-    {}
-  else if Array.isArray(data)
-    obj = {}
-    for arrayItem in data
-      values = {}
-      for own k, v of arrayItem
-        if k isnt key
-          values[k] = v
-      obj[arrayItem[key]] = values
-    obj
-  else
-    data
-
+  return legacyAST
 
 
 module.exports = {
   transform: legacyASTfrom1AAST
+  countLines
+
+  ensureObjectOfObjects # for testing purposes
 }

@@ -10,7 +10,7 @@
     "compile": "coffee -b -c -o lib/ src/",
     "preserver-test": "npm run compile",
     "prebrowser-test": "npm run compile",
-    "server-test": "mocha --compilers coffee:coffee-script/register -R spec --recursive",
+    "server-test": "mocha --compilers coffee:coffee-script/register -R spec --recursive --timeout 5000",
     "browser-test": "echo 'Skipping `karma start` because robotskirt does not run in browser - we can turn on browser tests only when we migrate to something else...'",
     "test": "npm run server-test && npm run browser-test",
     "prepublish": "npm run compile"
@@ -26,17 +26,18 @@
   },
   "homepage": "https://github.com/apiaryio/metamorphoses",
   "dependencies": {
-    "apiary-blueprint-parser": "^0.5.3",
     "media-typer": "^0.3.0",
     "robotskirt": "^2.7.1",
     "sanitizer": "^0.1.2",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
+    "apiary-blueprint-parser": "^0.5.3",
     "chai": "^3.2.0",
     "coffee-script": "~1.9",
     "coffeeify": "^1.1.0",
     "coffeelint": "^1.11.1",
+    "drafter": "^0.2.8",
     "karma": "^0.13.9",
     "karma-browserify": "^4.3.0",
     "karma-chai": "^0.1.0",
