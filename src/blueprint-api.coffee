@@ -27,28 +27,30 @@ escapeBody = (body) ->
 
 class Blueprint
   @fromJSON: (json = {}) ->
-    new this
-      location:        json.location        # `HOST` metadata
-      name:            json.name            # Name of the API
-      metadata:        json.metadata        # Array of metadata, e.g. `[ { value: '1A', name: 'FORMAT' } ]`
-      version:         json.version         # Proprietary version of the Application AST (e.g. 17), see http://git.io/bbDJ
-      description:     json.description     # Description of the API (in Markdown)
+    new this(
+      location: json.location # `HOST` metadata
+      name: json.name # Name of the API
+      metadata: json.metadata # Array of metadata, e.g. `[ { value: '1A', name: 'FORMAT' } ]`
+      version: json.version # Proprietary version of the Application AST (e.g. 17), see http://git.io/bbDJ
+      description: json.description # Description of the API (in Markdown)
       htmlDescription: json.htmlDescription # Rendered description of the API
-      sections:        Section.fromJSON(s) for s in json.sections or [] # Array of resource groups
-      validations:     JsonSchemaValidation.fromJSON(v) for v in json.validations or [] # Array of JSON Schemas
-      dataStructures:  json.dataStructures  # Array of data struture elements
+      sections: Section.fromJSON(s) for s in json.sections or [] # Array of resource groups
+      validations: JsonSchemaValidation.fromJSON(v) for v in json.validations or [] # Array of JSON Schemas
+      dataStructures: json.dataStructures # Array of data struture elements
+    )
 
   constructor: (props = {}) ->
-    fillProps this, props,
-      location:        null
-      name:            null
-      metadata:        null
-      version:         1.0
-      description:     null
+    fillProps(this, props,
+      location: null
+      name: null
+      metadata: null
+      version: 1.0
+      description: null
       htmlDescription: null
-      sections:        []
-      validations:     []
-      dataStructures:  []
+      sections: []
+      validations: []
+      dataStructures: []
+    )
 
   # ### `resources`
   #
@@ -66,7 +68,7 @@ class Blueprint
     for s in @sections then for r in s.resources
       if opts?.method and opts.method isnt r.method then continue
       if opts?.url and opts.url isnt r.url then continue
-      resources.push r
+      resources.push(r)
     return resources
 
   getUrlPrefixPosition: ->
@@ -74,8 +76,8 @@ class Blueprint
     urlPrefixPosition = 0
 
     if @location
-      urlWithoutProtocol = @location.replace(/^https?:\/\//, "")
-      slashIndex         = urlWithoutProtocol.indexOf("/")
+      urlWithoutProtocol = @location.replace(/^https?:\/\//, '')
+      slashIndex         = urlWithoutProtocol.indexOf('/')
 
       if slashIndex > 0
         urlPrefixPosition = urlWithoutProtocol.slice(slashIndex + 1).length
@@ -91,7 +93,7 @@ class Blueprint
       @version
       @description
       @htmlDescription
-      sections:    s.toJSON(urlPrefixPosition) for s in @sections
+      sections: s.toJSON(urlPrefixPosition) for s in @sections
       validations: v.toJSON(urlPrefixPosition) for v in @validations
       @dataStructures
     }
@@ -103,33 +105,36 @@ class Blueprint
   toBlueprint: ->
     urlPrefixPosition = @getUrlPrefixPosition()
 
-    combineParts "\n\n", (parts) =>
-      parts.push "HOST: #{@location}"        if @location
-      parts.push "--- #{@name} ---"          if @name
-      parts.push "---\n#{"#{@description}".trim()}\n---" if @description
+    combineParts("\n\n", (parts) =>
+      parts.push("HOST: #{@location}") if @location
+      parts.push("--- #{@name} ---") if @name
+      parts.push("---\n#{"#{@description}".trim()}\n---") if @description
 
-      parts.push s.toBlueprint(urlPrefixPosition) for s in @sections
+      parts.push(s.toBlueprint(urlPrefixPosition)) for s in @sections
 
-      parts.push "-- JSON Schema Validations --" if @validations.length > 0
-      parts.push v.toBlueprint(urlPrefixPosition) for v in @validations
+      parts.push("-- JSON Schema Validations --") if @validations.length > 0
+      parts.push(v.toBlueprint(urlPrefixPosition)) for v in @validations
+    )
 
 # ## `Section`
 #
 # Resource Group.
 class Section
   @fromJSON: (json = {}) ->
-    new this
-      name:            json.name            # Name of the resource group
-      description:     json.description     # Markdown description of the resource group
+    new this(
+      name: json.name # Name of the resource group
+      description: json.description # Markdown description of the resource group
       htmlDescription: json.htmlDescription # Rendered description of the resource group
-      resources:       Resource.fromJSON(r) for r in json.resources or [] # Array of resources
+      resources: Resource.fromJSON(r) for r in json.resources or [] # Array of resources
+    )
 
   constructor: (props = {}) ->
-    fillProps this, props,
-      name:            null
-      description:     null
+    fillProps(this, props,
+      name: null
+      description: null
       htmlDescription: null
-      resources:       []
+      resources: []
+    )
 
   toJSON: (urlPrefixPosition) -> return {
     @name
@@ -143,14 +148,15 @@ class Section
   # Turns the AST into a blueprint. Outputs
   # Legacy Blueprint Format.
   toBlueprint: (urlPrefixPosition) ->
-    combineParts "\n\n", (parts) =>
+    combineParts("\n\n", (parts) =>
       if @name
         if @description
-          parts.push "--\n#{@name}\n#{"#{@description}".trim()}\n--"
+          parts.push("--\n#{@name}\n#{"#{@description}".trim()}\n--")
         else
-          parts.push "-- #{@name} --"
+          parts.push("-- #{@name} --")
 
-      parts.push "#{r.toBlueprint(urlPrefixPosition)}\n" for r in @resources or []
+      parts.push("#{r.toBlueprint(urlPrefixPosition)}\n") for r in @resources or []
+    )
 
 
 # ## `Resource`
@@ -159,71 +165,74 @@ class Section
 # `headers`, `name`, ...).
 class Resource
   @fromJSON: (json = {}) ->
-    new this
-      method:              json.method      # HTTP method of the action
+    new this(
+      method: json.method # HTTP method of the action
 
       # URI of the resource including path from the `HOST` metadata.
       # E.g. `/v2/notes`, where `/v2` is path from the `HOST` metadata,
       # `/notes` is URI template of the resource.
-      url:                 json.url
+      url: json.url
 
-      uriTemplate:         json.uriTemplate # URI template of the resoruce
-      name:                json.name        # Name of the resource
-      nameMethod:          json.nameMethod  # Deprecated, use `actionName`
-      actionName:          json.actionName  # Name of the action
-      actionDescription:   json.actionDescription       # Markdown description of the action
+      uriTemplate: json.uriTemplate # URI template of the resoruce
+      name: json.name # Name of the resource
+      nameMethod: json.nameMethod # Deprecated, use `actionName`
+      actionName: json.actionName # Name of the action
+      actionDescription: json.actionDescription # Markdown description of the action
       actionHtmlDescription: json.actionHtmlDescription # Rendered description of the action
-      description:         json.description         # Markdown description of the resource
-      htmlDescription:     json.htmlDescription     # Rendered description of the resource
-      descriptionMethod:   json.descriptionMethod   # Deprecated, use `htmlDescription`
+      description: json.description # Markdown description of the resource
+      htmlDescription: json.htmlDescription # Rendered description of the resource
+      descriptionMethod: json.descriptionMethod # Deprecated, use `htmlDescription`
       resourceDescription: json.resourceDescription # Deprecated, use `htmlDescription`
-      model:               json.model               # Resource model
-      headers:             json.headers             # Resource and action headers
-      actionHeaders:       json.actionHeaders       # Action headers
-      parameters:          json.parameters          # Resource and action URI parameters
-      resourceParameters:  json.resourceParameters  # Resource URI parameters
-      actionParameters:    json.actionParameters    # Action URI parameters
-      request:             if json.request then Request.fromJSON(json.request) else json.request # First request in the `request` array
-      requests:            Request.fromJSON(r) for r in json.requests or []   # Array of requests
-      responses:           Response.fromJSON(r) for r in json.responses or [] # Array of responses
-      attributes:          json.attributes          # Resource attributes
-      resolvedAttributes:  json.resolvedAttributes  # Expanded resource attributes
-      actionAttributes:    json.actionAttributes    # Action attributes
+      model: json.model # Resource model
+      headers: json.headers # Resource and action headers
+      actionHeaders: json.actionHeaders # Action headers
+      parameters: json.parameters # Resource and action URI parameters
+      resourceParameters: json.resourceParameters # Resource URI parameters
+      actionParameters: json.actionParameters # Action URI parameters
+      request: if json.request then Request.fromJSON(json.request) else json.request # First request in the `request` array
+      requests: Request.fromJSON(r) for r in json.requests or [] # Array of requests
+      responses: Response.fromJSON(r) for r in json.responses or [] # Array of responses
+      attributes: json.attributes # Resource attributes
+      resolvedAttributes: json.resolvedAttributes # Expanded resource attributes
+      actionAttributes: json.actionAttributes # Action attributes
       resolvedActionAttributes: json.resolvedActionAttributes # Expanded action attributes
-      actionRelation:      json.actionRelation
-      actionUriTemplate:   json.actionUriTemplate
+      actionRelation: json.actionRelation
+      actionUriTemplate: json.actionUriTemplate
+    )
 
   constructor: (props = {}) ->
-    fillProps this, props,
-      method:              'GET'
-      url:                 '/'
-      uriTemplate:         ''
-      name:                undefined
-      nameMethod:          undefined # deprecated
-      actionName:          undefined
-      actionDescription:   undefined
+    fillProps(this, props,
+      method: 'GET'
+      url: '/'
+      uriTemplate: ''
+      name: undefined
+      nameMethod: undefined # deprecated
+      actionName: undefined
+      actionDescription: undefined
       actionHtmlDescription: undefined
-      description:         undefined
-      htmlDescription:     undefined
-      descriptionMethod:   undefined # deprecated
+      description: undefined
+      htmlDescription: undefined
+      descriptionMethod: undefined # deprecated
       resourceDescription: undefined # deprecated
-      model:               undefined
-      headers:             undefined
-      actionHeaders:       undefined
-      parameters:          undefined
-      resourceParameters:  undefined
-      actionParameters:    undefined
-      request:             undefined
-      requests:            []
-      responses:           []
-      attributes:          undefined
-      resolvedAttributes:  undefined
-      actionAttributes:    undefined
+      model: undefined
+      headers: undefined
+      actionHeaders: undefined
+      parameters: undefined
+      resourceParameters: undefined
+      actionParameters: undefined
+      request: undefined
+      requests: []
+      responses: []
+      attributes: undefined
+      resolvedAttributes: undefined
+      actionAttributes: undefined
       resolvedActionAttributes: undefined
-      actionRelation:      undefined
-      actionUriTemplate:   undefined
+      actionRelation: undefined
+      actionUriTemplate: undefined
+    )
 
-  getUrlFragment: -> "#{@method.toLowerCase()}-#{encodeURIComponent @url}"
+  getUrlFragment: ->
+    "#{@method.toLowerCase()}-#{encodeURIComponent(@url)}"
 
   # Returns array of "examples", each having 'requests' and 'responses'
   # properties containing arrays of corresponding items. The array is sorted
@@ -240,7 +249,7 @@ class Resource
           examples[key] =
             requests: []
             responses: []
-        examples[key][name].push reqOrResp
+        examples[key][name].push(reqOrResp)
 
     return examples
 
@@ -263,9 +272,9 @@ class Resource
     @parameters
     @resourceParameters
     @actionParameters
-    request:     @request?.toJSON()
-    requests:    r.toJSON() for r in @requests or []
-    responses:   r.toJSON() for r in @responses or []
+    request: @request?.toJSON()
+    requests: r.toJSON() for r in @requests or []
+    responses: r.toJSON() for r in @responses or []
     @attributes
     @resolvedAttributes
     @actionAttributes
@@ -279,44 +288,48 @@ class Resource
   # Turns the AST into a blueprint. Outputs
   # Legacy Blueprint Format.
   toBlueprint: (urlPrefixPosition = 0) ->
-    combineParts "\n", (parts) =>
-      parts.push "#{@description}".trim() if @description
-      parts.push "#{@method} #{@url.slice(urlPrefixPosition)}"
+    combineParts("\n", (parts) =>
+      parts.push("#{@description}".trim()) if @description
+      parts.push("#{@method} #{@url.slice(urlPrefixPosition)}")
 
       requestBlueprint = @request?.toBlueprint()
-      parts.push requestBlueprint if requestBlueprint
+      parts.push(requestBlueprint) if requestBlueprint
 
-      responsesBlueprint = combineParts "\n+++++\n", (parts) =>
-        parts.push r.toBlueprint() for r in @responses or []
-      parts.push responsesBlueprint if responsesBlueprint
+      responsesBlueprint = combineParts("\n+++++\n", (parts) =>
+        parts.push(r.toBlueprint()) for r in @responses or []
+      )
+      parts.push(responsesBlueprint) if responsesBlueprint
+    )
 
 
 class Request
   @fromJSON: (json = {}) ->
-    new this
-      name:        json.name                # Name of the request
-      description: json.description         # Markdown description of the request
+    new this(
+      name: json.name # Name of the request
+      description: json.description # Markdown description of the request
       htmlDescription: json.htmlDescription # Rendered description of the request
-      headers:     json.headers
-      reference:   json.reference
-      body:        json.body
-      schema:      json.schema
-      exampleId:   json.exampleId
-      attributes:  json.attributes          # Request attributes
+      headers: json.headers
+      reference: json.reference
+      body: json.body
+      schema: json.schema
+      exampleId: json.exampleId
+      attributes: json.attributes # Request attributes
       resolvedAttributes: json.resolvedAttributes # Expanded request attributes
+    )
 
   constructor: (props = {}) ->
-    fillProps this, props,
-      name:        undefined
+    fillProps(this, props,
+      name: undefined
       description: undefined
       htmlDescription: undefined
-      headers:     {}
-      reference:   undefined
-      body:        undefined
-      schema:      undefined
-      exampleId:   0
-      attributes:  undefined
+      headers: {}
+      reference: undefined
+      body: undefined
+      schema: undefined
+      exampleId: 0
+      attributes: undefined
       resolvedAttributes: undefined
+    )
 
   toJSON: -> return {
     @name
@@ -336,37 +349,40 @@ class Request
   # Turns the AST into a blueprint. Outputs
   # Legacy Blueprint Format.
   toBlueprint: ->
-    combineParts "\n", (parts) =>
-      parts.push "> #{name}: #{value}" for name, value of @headers
-      parts.push escapeBody(@body) if @body
+    combineParts("\n", (parts) =>
+      parts.push("> #{name}: #{value}") for name, value of @headers
+      parts.push(escapeBody(@body)) if @body
+    )
 
 
 class Response
   @fromJSON: (json = {}) ->
-    new this
-      status:      json.status
+    new this(
+      status: json.status
       description: json.description
       htmlDescription: json.htmlDescription
-      headers:     json.headers
-      reference:   json.reference
-      body:        json.body
-      schema:      json.schema
-      exampleId:   json.exampleId
-      attributes:  json.attributes
+      headers: json.headers
+      reference: json.reference
+      body: json.body
+      schema: json.schema
+      exampleId: json.exampleId
+      attributes: json.attributes
       resolvedAttributes: json.resolvedAttributes
+    )
 
   constructor: (props = {}) ->
-    fillProps this, props,
-      status:      200
+    fillProps(this, props,
+      status: 200
       description: undefined
       htmlDescription: undefined
-      headers:     {}
-      reference:   undefined
-      body:        undefined
-      schema:      undefined
-      exampleId:   0
-      attributes:  undefined
+      headers: {}
+      reference: undefined
+      body: undefined
+      schema: undefined
+      exampleId: 0
+      attributes: undefined
       resolvedAttributes: undefined
+    )
 
   toJSON: -> return {
     @status
@@ -386,26 +402,29 @@ class Response
   # Turns the AST into a blueprint. Outputs
   # Legacy Blueprint Format.
   toBlueprint: ->
-    combineParts "\n", (parts) =>
-      parts.push "< #{@status}"
-      parts.push "< #{name}: #{value}" for name, value of @headers
-      parts.push escapeBody(@body) if @body
+    combineParts("\n", (parts) =>
+      parts.push("< #{@status}")
+      parts.push("< #{name}: #{value}") for name, value of @headers
+      parts.push(escapeBody(@body)) if @body
+    )
 
 
 class JsonSchemaValidation
   @fromJSON: (json = {}) ->
-    new this
+    new this(
       status: json.status
       method: json.method
-      url:    json.url
-      body:   json.body
+      url: json.url
+      body: json.body
+    )
 
   constructor: (props = {}) ->
-    fillProps this, props,
+    fillProps(this, props,
       status: undefined
       method: "GET"
-      url:    "/"
-      body:   undefined
+      url: "/"
+      body: undefined
+    )
 
   toJSON: -> return {
     @status
@@ -419,9 +438,10 @@ class JsonSchemaValidation
   # Turns the AST into a blueprint. Outputs
   # Legacy Blueprint Format.
   toBlueprint: (urlPrefixPosition = 0) ->
-    combineParts "\n", (parts) =>
-      parts.push "#{@method} #{@url.slice(urlPrefixPosition)}"
-      parts.push escapeBody(@body) if @body
+    combineParts("\n", (parts) =>
+      parts.push("#{@method} #{@url.slice(urlPrefixPosition)}")
+      parts.push(escapeBody(@body)) if @body
+    )
 
 class DataStructure
 

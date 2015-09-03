@@ -1,17 +1,19 @@
-{assert} = require 'chai'
-markdown = require '../lib/adapters/markdown'
+{assert} = require('chai')
+markdown = require('../lib/adapters/markdown')
 
-describe 'Markdown', ->
-  describe '#toHtml', ->
-    it 'Parse a plain paragraph', (done) ->
+describe('Markdown', ->
+  describe('#toHtml', ->
+    it('Parse a plain paragraph', (done) ->
       markdownString = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
       expectedHtml = '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>\n'
 
-      markdown.toHtml markdownString, (error, html) ->
-        assert.strictEqual html, expectedHtml
-        done error
+      markdown.toHtml(markdownString, (error, html) ->
+        assert.strictEqual(html, expectedHtml)
+        done(error)
+      )
+    )
 
-    it 'Parse a bullet list (stars used as bullets)', (done) ->
+    it('Parse a bullet list (stars used as bullets)', (done) ->
       markdownString = '''
       * Red
       * Green
@@ -29,11 +31,13 @@ describe 'Markdown', ->
 
       '''
 
-      markdown.toHtml markdownString, (error, html) ->
-        assert.strictEqual html, expectedHtml
-        done error
+      markdown.toHtml(markdownString, (error, html) ->
+        assert.strictEqual(html, expectedHtml)
+        done(error)
+      )
+    )
 
-    it 'Parse a bullet list (dashes used as bullets)', (done) ->
+    it('Parse a bullet list (dashes used as bullets)', (done) ->
       markdownString = '''
       - Red
       - Green
@@ -51,11 +55,13 @@ describe 'Markdown', ->
 
       '''
 
-      markdown.toHtml markdownString, (error, html) ->
-        assert.strictEqual html, expectedHtml
-        done error
+      markdown.toHtml(markdownString, (error, html) ->
+        assert.strictEqual(html, expectedHtml)
+        done(error)
+      )
+    )
 
-    it 'Parse an ordered list', (done) ->
+    it('Parse an ordered list', (done) ->
       markdownString = '''
       1. Red
       2. Green
@@ -73,11 +79,13 @@ describe 'Markdown', ->
 
       '''
 
-      markdown.toHtml markdownString, (error, html) ->
-        assert.strictEqual html, expectedHtml
-        done error
+      markdown.toHtml(markdownString, (error, html) ->
+        assert.strictEqual(html, expectedHtml)
+        done(error)
+      )
+    )
 
-    it 'Parse nested lists', (done) ->
+    it('Parse nested lists', (done) ->
       markdownString = '''
 * Lorem
 * Ipsum
@@ -98,11 +106,13 @@ describe 'Markdown', ->
 
       '''
 
-      markdown.toHtml markdownString, (error, html) ->
-        assert.strictEqual html, expectedHtml
-        done error
+      markdown.toHtml(markdownString, (error, html) ->
+        assert.strictEqual(html, expectedHtml)
+        done(error)
+      )
+    )
 
-    it 'Parse headers', (done) ->
+    it('Parse headers', (done) ->
       markdownString = '''
       # Level 1
       ## Level 2
@@ -127,11 +137,13 @@ describe 'Markdown', ->
 
       '''
 
-      markdown.toHtml markdownString, (error, html) ->
-        assert.strictEqual html, expectedHtml
-        done error
+      markdown.toHtml(markdownString, (error, html) ->
+        assert.strictEqual(html, expectedHtml)
+        done(error)
+      )
+    )
 
-    it 'Parse a code block', (done) ->
+    it('Parse a code block', (done) ->
       markdownString = '''
 Lorem ipsum dolor isamet.
 
@@ -146,11 +158,13 @@ Lorem ipsum dolor isamet.
 
       '''
 
-      markdown.toHtml markdownString, (error, html) ->
-        assert.strictEqual html, expectedHtml
-        done error
+      markdown.toHtml(markdownString, (error, html) ->
+        assert.strictEqual(html, expectedHtml)
+        done(error)
+      )
+    )
 
-    it 'Parse a fenced code block', (done) ->
+    it('Parse a fenced code block', (done) ->
       markdownString = '''
       ```
       alert('Hello!');
@@ -163,11 +177,13 @@ Lorem ipsum dolor isamet.
 
       '''
 
-      markdown.toHtml markdownString, (error, html) ->
-        assert.strictEqual html, expectedHtml
-        done error
+      markdown.toHtml(markdownString, (error, html) ->
+        assert.strictEqual(html, expectedHtml)
+        done(error)
+      )
+    )
 
-    it 'Parse a Markdown table', (done) ->
+    it('Parse a Markdown table', (done) ->
       markdownString = '''
       | First Header  | Second Header | Third Header         |
       | :------------ | :-----------: | -------------------: |
@@ -203,12 +219,14 @@ Lorem ipsum dolor isamet.
 
       '''
 
-      markdown.toHtml markdownString, (error, html) ->
-        assert.strictEqual html, expectedHtml
-        done error
+      markdown.toHtml(markdownString, (error, html) ->
+        assert.strictEqual(html, expectedHtml)
+        done(error)
+      )
+    )
 
-    describe 'when sanitize is true', ->
-      it 'Parse out script tags', (done) ->
+    describe('when sanitize is true', ->
+      it('Parse out script tags', (done) ->
         markdownString = '''
         <div><script>HTML tag</script></div>
         '''
@@ -218,11 +236,13 @@ Lorem ipsum dolor isamet.
 
         '''
 
-        markdown.toHtml markdownString, (error, html) ->
-          assert.strictEqual html, expectedHtml
-          done error
+        markdown.toHtml(markdownString, (error, html) ->
+          assert.strictEqual(html, expectedHtml)
+          done(error)
+        )
+      )
 
-      it 'Parse out custom tags and preserve contents', (done) ->
+      it('Parse out custom tags and preserve contents', (done) ->
         markdownString = '''
         <p><custom>HTML tag</custom></p>
         '''
@@ -232,11 +252,13 @@ Lorem ipsum dolor isamet.
 
         '''
 
-        markdown.toHtml markdownString, (error, html) ->
-          assert.strictEqual html, expectedHtml
-          done error
+        markdown.toHtml(markdownString, (error, html) ->
+          assert.strictEqual(html, expectedHtml)
+          done(error)
+        )
+      )
 
-      it 'Parse out custom attributes', (done) ->
+      it('Parse out custom attributes', (done) ->
         markdownString = '''
         <p custom="test">HTML tag</p>
         '''
@@ -246,11 +268,13 @@ Lorem ipsum dolor isamet.
 
         '''
 
-        markdown.toHtml markdownString, (error, html) ->
-          assert.strictEqual html, expectedHtml
-          done error
+        markdown.toHtml(markdownString, (error, html) ->
+          assert.strictEqual(html, expectedHtml)
+          done(error)
+        )
+      )
 
-      it 'Parse preseves code block tags', (done) ->
+      it('Parse preseves code block tags', (done) ->
         markdownString = '''
         ```xml
         <xml>Hello World</xml>
@@ -262,11 +286,13 @@ Lorem ipsum dolor isamet.
 
         '''
 
-        markdown.toHtml markdownString, (error, html) ->
-          assert.strictEqual html, expectedHtml
-          done error
+        markdown.toHtml(markdownString, (error, html) ->
+          assert.strictEqual(html, expectedHtml)
+          done(error)
+        )
+      )
 
-      it 'Parse and sanitize images', (done) ->
+      it('Parse and sanitize images', (done) ->
         markdownString = '''
         <img src="/image.jpg" onerror="alert('XSS')" />
         '''
@@ -276,12 +302,15 @@ Lorem ipsum dolor isamet.
 
         '''
 
-        markdown.toHtml markdownString, (error, html) ->
-          assert.strictEqual html, expectedHtml
-          done error
+        markdown.toHtml(markdownString, (error, html) ->
+          assert.strictEqual(html, expectedHtml)
+          done(error)
+        )
+      )
+    )
 
-    describe 'when sanitizing is false', ->
-      it 'Parse and leave script tags', (done) ->
+    describe('when sanitizing is false', ->
+      it('Parse and leave script tags', (done) ->
         markdownString = '''
         <div><script>HTML tag</script></div>
         '''
@@ -291,11 +320,13 @@ Lorem ipsum dolor isamet.
 
         '''
 
-        markdown.toHtml markdownString, sanitize: false, (error, html) ->
-          assert.strictEqual html, expectedHtml
-          done error
+        markdown.toHtml(markdownString, {sanitize: false}, (error, html) ->
+          assert.strictEqual(html, expectedHtml)
+          done(error)
+        )
+      )
 
-      it 'Parse and leave custom tags and preserve contents', (done) ->
+      it('Parse and leave custom tags and preserve contents', (done) ->
         markdownString = '''
         <p><custom>HTML tag</custom></p>
         '''
@@ -305,6 +336,11 @@ Lorem ipsum dolor isamet.
 
         '''
 
-        markdown.toHtml markdownString, sanitize: false, (error, html) ->
-          assert.strictEqual html, expectedHtml
-          done error
+        markdown.toHtml(markdownString, {sanitize: false}, (error, html) ->
+          assert.strictEqual(html, expectedHtml)
+          done(error)
+        )
+      )
+    )
+  )
+)

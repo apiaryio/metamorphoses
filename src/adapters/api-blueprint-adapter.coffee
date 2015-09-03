@@ -1,3 +1,4 @@
+
 blueprintApi = require('../blueprint-api')
 markdown = require('./markdown')
 
@@ -46,7 +47,7 @@ legacyHeadersCombinedFrom1A = (resOrReq, action, resource) ->
   cascade = [resource.headers, action.headers, resOrReq?.headers]
   for someHeaders in cascade
     if someHeaders
-      for own key, header of legacyHeadersFrom1AHeaders someHeaders
+      for own key, header of legacyHeadersFrom1AHeaders(someHeaders)
         headers[key] = header
   headers
 
@@ -55,14 +56,16 @@ legacyHeadersCombinedFrom1A = (resOrReq, action, resource) ->
 # @param elementContent [Array] Element's content
 # @return [Object] Hash of `attributes` and `resolvedAttributes` elements
 getAttributesElements = (elementContent) ->
-  elements = { attributes: undefined, resolvedAttributes: undefined }
-  return elements if !elementContent or elementContent.length == 0
+  elements = {attributes: undefined, resolvedAttributes: undefined}
+  return elements if not elementContent or elementContent.length is 0
 
-  dataStructures = elementContent.filter (item) ->
+  dataStructures = elementContent.filter((item) ->
     item.element is 'dataStructure'
+  )
 
-  resolvedDataStructure = elementContent.filter (item) ->
+  resolvedDataStructure = elementContent.filter((item) ->
     item.element is 'resolvedDataStructure'
+  )
 
   elements.attributes = dataStructures.shift()
   elements.resolvedAttributes = resolvedDataStructure.shift()
@@ -73,10 +76,10 @@ legacyRequestsFrom1AExamples = (action, resource) ->
   requests = []
   for example, exampleIndex in action.examples or []
     for req in example.requests or []
-      requests.push legacyRequestFrom1ARequest req, action, resource, exampleId = exampleIndex
+      requests.push(legacyRequestFrom1ARequest(req, action, resource, exampleId = exampleIndex))
 
   if requests.length < 1
-    return [legacyRequestFrom1ARequest {}, action, resource, exampleId = 0]
+    return [legacyRequestFrom1ARequest({}, action, resource, exampleId = 0)]
   requests
 
 
@@ -90,8 +93,8 @@ legacyRequestFrom1ARequest = (request, action, resource, exampleId = undefined) 
   )
 
   if request.description
-    legacyRequest.description     = trimLastNewline request.description
-    legacyRequest.htmlDescription = trimLastNewline markdown.toHtmlSync request.description
+    legacyRequest.description     = trimLastNewline(request.description)
+    legacyRequest.htmlDescription = trimLastNewline(markdown.toHtmlSync(request.description))
   else
     legacyRequest.description     = ''
     legacyRequest.htmlDescription = ''
@@ -114,7 +117,7 @@ legacyResponsesFrom1AExamples = (action, resource) ->
   responses = []
   for example, exampleIndex in action.examples or []
     for resp in example.responses or []
-      responses.push legacyResponseFrom1AResponse resp, action, resource, exampleId = exampleIndex
+      responses.push(legacyResponseFrom1AResponse(resp, action, resource, exampleId = exampleIndex))
   responses
 
 
@@ -128,8 +131,8 @@ legacyResponseFrom1AResponse = (response, action, resource, exampleId = undefine
   )
 
   if response.description
-    legacyResponse.description     = trimLastNewline response.description
-    legacyResponse.htmlDescription = trimLastNewline markdown.toHtmlSync response.description
+    legacyResponse.description     = trimLastNewline(response.description)
+    legacyResponse.htmlDescription = trimLastNewline(markdown.toHtmlSync(response.description))
   else
     legacyResponse.description     = ''
     legacyResponse.htmlDescription = ''
@@ -160,14 +163,14 @@ getParametersOf = (obj) ->
     return undefined
 
   params = []
-  paramsObj = ensureObjectOfObjects obj.parameters
+  paramsObj = ensureObjectOfObjects(obj.parameters)
 
   for own key, param of paramsObj
     param.key = key
     if param.description
-      param.description = markdown.toHtmlSync param.description
+      param.description = markdown.toHtmlSync(param.description)
     param.values = ((if typeof item is 'string' then item else item.value) for item in param.values)
-    params.push param
+    params.push(param)
 
   if not params.length
     undefined
@@ -183,26 +186,26 @@ legacyResourcesFrom1AResource = (legacyUrlConverterFn, resource) ->
   legacyResources = []
 
   # resource-wide parameters
-  resourceParameters = getParametersOf resource
+  resourceParameters = getParametersOf(resource)
 
   for action, actionIndex in resource.actions or []
     # Combine resource & action section, preferring action
     legacyResource = new blueprintApi.Resource({blueprint-api, requests: []})
 
-    legacyResource.url         = legacyUrlConverterFn action.attributes?.uriTemplate or resource.uriTemplate
+    legacyResource.url         = legacyUrlConverterFn(action.attributes?.uriTemplate or resource.uriTemplate)
     legacyResource.uriTemplate = resource.uriTemplate
 
     legacyResource.method = action.method
     legacyResource.name   = resource.name?.trim() or ''
 
-    legacyResource.headers       = legacyHeadersFrom1AHeaders resource.headers
-    legacyResource.actionHeaders = legacyHeadersFrom1AHeaders action.headers
+    legacyResource.headers       = legacyHeadersFrom1AHeaders(resource.headers)
+    legacyResource.actionHeaders = legacyHeadersFrom1AHeaders(action.headers)
 
 
-    legacyResource.description = trimLastNewline resource.description
+    legacyResource.description = trimLastNewline(resource.description)
 
     if resource.description?.length
-      legacyResource.htmlDescription = trimLastNewline markdown.toHtmlSync resource.description.trim()
+      legacyResource.htmlDescription = trimLastNewline(markdown.toHtmlSync(resource.description.trim()))
     else
       legacyResource.htmlDescription = ''
 
@@ -213,37 +216,37 @@ legacyResourcesFrom1AResource = (legacyUrlConverterFn, resource) ->
       legacyResource.actionName = ''
 
 
-    unless !resource.model
+    unless not resource.model
       legacyResource.model = resource.model
 
-      if resource.model.description && resource.model.description.length
-        legacyResource.model.description = markdown.toHtmlSync resource.model.description
+      if resource.model.description and resource.model.description.length
+        legacyResource.model.description = markdown.toHtmlSync(resource.model.description)
 
-      if resource.model.headers && resource.model.headers.length
-        legacyResource.model.headers = legacyHeadersFrom1AHeaders resource.model.headers
+      if resource.model.headers and resource.model.headers.length
+        legacyResource.model.headers = legacyHeadersFrom1AHeaders(resource.model.headers)
 
     else
       legacyResource.model = {}
 
     legacyResource.resourceParameters = resourceParameters
-    legacyResource.actionParameters   = getParametersOf action
+    legacyResource.actionParameters   = getParametersOf(action)
 
     legacyResource.parameters = legacyResource.actionParameters or resourceParameters or undefined
 
     if action.description
-      legacyResource.actionDescription     = trimLastNewline action.description
-      legacyResource.actionHtmlDescription = trimLastNewline markdown.toHtmlSync action.description
+      legacyResource.actionDescription     = trimLastNewline(action.description)
+      legacyResource.actionHtmlDescription = trimLastNewline(markdown.toHtmlSync(action.description))
     else
       legacyResource.actionDescription     = ''
       legacyResource.actionHtmlDescription = ''
 
     # Requests - for legacy usage, please, save '.request' too
-    requests = legacyRequestsFrom1AExamples action, resource
+    requests = legacyRequestsFrom1AExamples(action, resource)
     legacyResource.requests = requests
     legacyResource.request = requests[0]
 
     # Responses
-    legacyResource.responses = legacyResponsesFrom1AExamples action, resource
+    legacyResource.responses = legacyResponsesFrom1AExamples(action, resource)
 
     # Resource Attributes
     attributesElements = getAttributesElements(resource.content)
@@ -259,7 +262,7 @@ legacyResourcesFrom1AResource = (legacyUrlConverterFn, resource) ->
       legacyResource.actionRelation = action.attributes.relation
       legacyResource.actionUriTemplate = action.attributes.uriTemplate
 
-    legacyResources.push legacyResource
+    legacyResources.push(legacyResource)
   legacyResources
 
 # ## `legacyASTfrom1AAST`
@@ -275,17 +278,18 @@ legacyASTfrom1AAST = (ast, warnings, cb) ->
   )
 
   legacyAST.description = "#{ast.description}".trim() or ''
-  legacyAST.htmlDescription = trimLastNewline markdown.toHtmlSync ast.description
+  legacyAST.htmlDescription = trimLastNewline(markdown.toHtmlSync(ast.description))
 
   # Metadata
   metadata = []
-  for own metaKey, metaVal of ensureObjectOfObjects ast.metadata
+  for own metaKey, metaVal of ensureObjectOfObjects(ast.metadata)
     if metaKey is 'HOST'
       legacyAST.location = metaVal.value
       continue
-    metadata.push
-      name:  metaKey
+    metadata.push(
+      name: metaKey
       value: metaVal.value
+    )
 
   if metadata.length > 0
     legacyAST.metadata = metadata
@@ -314,27 +318,27 @@ legacyASTfrom1AAST = (ast, warnings, cb) ->
     resourceGroupDescription = resourceGroup.description?.trim()
 
     if resourceGroupDescription
-      legacySection.description =     trimLastNewline resourceGroupDescription
-      legacySection.htmlDescription = trimLastNewline markdown.toHtmlSync resourceGroupDescription
+      legacySection.description =     trimLastNewline(resourceGroupDescription)
+      legacySection.htmlDescription = trimLastNewline(markdown.toHtmlSync(resourceGroupDescription))
     else
       legacySection.description     = ''
       legacySection.htmlDescription = ''
 
     # Resources
     for resource in resourceGroup.resources
-      resources = legacyResourcesFrom1AResource legacyUrlConverter, resource
-      legacySection.resources = legacySection.resources.concat resources
+      resources = legacyResourcesFrom1AResource(legacyUrlConverter, resource)
+      legacySection.resources = legacySection.resources.concat(resources)
 
-    legacyAST.sections.push legacySection
+    legacyAST.sections.push(legacySection)
 
   # Data Structures
   if ast.content and ast.content.length
-    legacyAST.dataStructures = (item.content[0] for item in ast.content when item.element is 'category'\
-                                                                              and item.content\
-                                                                              and item.content.length\
+    legacyAST.dataStructures = (item.content[0] for item in ast.content when item.element is 'category' \
+                                                                              and item.content \
+                                                                              and item.content.length \
                                                                               and item.content[0].element is 'dataStructure')
 
-  cb null, legacyAST, warnings
+  cb(null, legacyAST, warnings)
 
 
 
@@ -361,7 +365,7 @@ legacyASTfrom1AAST = (ast, warnings, cb) ->
 ensureObjectOfObjects = (data, key = 'name') ->
   if not data
     {}
-  else if Array.isArray data
+  else if Array.isArray(data)
     obj = {}
     for arrayItem in data
       values = {}

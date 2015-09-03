@@ -4,11 +4,15 @@
   "description": "Transforms API Blueprint AST or legacy Apiary Blueprint AST into Apiary Application AST",
   "main": "./lib/metamorphoses",
   "scripts": {
-    "compile": "npm run lint && coffee -b -c -o lib/ src/",
-    "lint": "coffeelint .",
+    "lint": "coffeelint src test",
     "lint-update": "curl 'https://raw.githubusercontent.com/apiaryio/coffeescript-style-guide/master/coffeelint.json' > coffeelint.json",
-    "pretest": "npm run compile",
-    "test": "mocha --compilers coffee:coffee-script/register -R spec --recursive",
+    "precompile": "npm run lint",
+    "compile": "coffee -b -c -o lib/ src/",
+    "preserver-test": "npm run compile",
+    "prebrowser-test": "npm run compile",
+    "server-test": "mocha --compilers coffee:coffee-script/register -R spec --recursive",
+    "browser-test": "karma start",
+    "test": "npm run server-test && npm run browser-test",
     "prepublish": "npm run compile"
   },
   "repository": {

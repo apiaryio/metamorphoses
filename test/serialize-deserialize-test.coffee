@@ -9,10 +9,15 @@ describe('Blueprint de/serialization Tests', ->
     emptyResource = new blueprintApi.Resource()
     deserializedResource = blueprintApi.Resource.fromJSON(emptyResource.toJSON())
 
-    it 'empty resource should same as deserialized', ->  assert.deepEqual deserializedResource, emptyResource
-    it 'serialization request should be same for both resources', ->  assert.deepEqual emptyResource.toJSON(), deserializedResource.toJSON()
+    it('empty resource should same as deserialized', ->
+      assert.deepEqual(deserializedResource, emptyResource)
+    )
+    it('serialization request should be same for both resources', ->
+      assert.deepEqual(emptyResource.toJSON(), deserializedResource.toJSON())
+    )
+  )
 
-  describe 'Try de/serialize empty resource class', ->
+  describe('Try de/serialize empty resource class', ->
     json =
       method: 'POST'
       uriTemplate: '/user/save'

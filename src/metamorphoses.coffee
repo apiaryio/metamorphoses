@@ -25,10 +25,11 @@ createAdapter = (mimeType) ->
       return apiaryBlueprintAdapter
     return
 
-  # API Blueprint, http://github.com/apiaryio/api-blueprint-ast#serialization-formats
+  # API Blueprint
+  # http://github.com/apiaryio/api-blueprint-ast#serialization-formats
   if parsedMimeType.subtype is 'vnd.apiblueprint.ast' or
      parsedMimeType.subtype is 'vnd.apiblueprint.ast.raw'
-    if !parsedMimeType.suffix or parsedMimeType.suffix is 'json'
+    if not parsedMimeType.suffix or parsedMimeType.suffix is 'json'
       return apiBlueprintAdapter
     return
 

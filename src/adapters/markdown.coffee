@@ -1,8 +1,8 @@
 # This is our Markdown parser implementation
 # Uses Robotskirt, which is a node binding for a C markdown parser Sundown (also used by Github)
-_ = require 'underscore'
-rs = require 'robotskirt'
-sanitizer = require 'sanitizer'
+_ = require('underscore')
+rs = require('robotskirt')
+sanitizer = require('sanitizer')
 
 renderer = new rs.HtmlRenderer()
 
@@ -67,7 +67,7 @@ parserSync = new rs.Markdown(renderer, flags)
 uriPolicy = (value) -> value
 
 
-parseMarkdown = (markdown, options={}) ->
+parseMarkdown = (markdown, options = {}) ->
   unless markdown
     return ''
 
@@ -81,26 +81,26 @@ parseMarkdown = (markdown, options={}) ->
 
   # Return <span> if the results are empty. This way other code
   # that renders knows this code has been parsed.
-  return results unless results.trim() == ''
+  return results unless results.trim() is ''
   return '<span></span>'
 
 
-toHtml = (markdown, options={}, cb) ->
+toHtml = (markdown, options = {}, cb) ->
   # Allow for second arg to be the callback
-  if _.isFunction options
+  if _.isFunction(options)
     [cb, options] = [options, {}]
 
   unless cb
     return parseMarkdown(markdown, options)
 
   unless markdown
-    return cb null, ''
+    return cb(null, '')
 
-  cb null, parseMarkdown(markdown, options)
+  cb(null, parseMarkdown(markdown, options))
 
 
-toHtmlSync = (markdown, options={}) ->
-  parseMarkdown markdown, options
+toHtmlSync = (markdown, options = {}) ->
+  parseMarkdown(markdown, options)
 
 module.exports = {
   toHtml
