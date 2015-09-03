@@ -15,6 +15,8 @@ applymarkdownHtml = (obj, targetHtmlProperty) ->
 # Go through the AST object and render
 # markdown descriptions.
 apiaryAstToApplicationAst = (ast) ->
+  return null unless ast
+
   plainJsObject = applymarkdownHtml(ast.toJSON(), 'htmlDescription')
 
   for section, sectionKey in plainJsObject.sections or [] when section.resources?.length
@@ -29,5 +31,6 @@ apiaryAstToApplicationAst = (ast) ->
 
 
 module.exports = {
-  transform: apiaryAstToApplicationAst
+  transformAst: apiaryAstToApplicationAst
+  transformError: (source, err) -> err
 }

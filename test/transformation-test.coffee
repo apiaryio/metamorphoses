@@ -7,24 +7,22 @@ apiaryBlueprintAdapter = require('../lib/adapters/apiary-blueprint-adapter')
 
 
 parseApiaryBlueprint = (source, cb) ->
+  adapter = apiaryBlueprintAdapter
   try
     ast = ApiaryBlueprintParser.parse(source)
   catch err
+    err = adapter.transformError(source, err)
     return cb(err)
-
-  applicationAst = apiaryBlueprintAdapter.transform(ast)
-  cb(null, applicationAst)
+  cb(null, adapter.transformAst(ast), [])
 
 
 parseApiBlueprint = (source, cb) ->
+  adapter = apiBlueprintAdapter
   drafter = new Drafter({requireBlueprintName: true})
   drafter.make(source, (err, result) ->
-    if err
-      err.line = apiBlueprintAdapter.countLines(source, err.location[0]?.index)
-      return cb(err)
-
-    applicationAst = apiBlueprintAdapter.transform(result.ast)
-    cb(err, applicationAst, result.warnings or [])
+    err = adapter.transformError(source, err)
+    ast = adapter.transformAst(result?.ast)
+    cb(err, ast, result?.warnings or [])
   )
 
 
@@ -374,7 +372,7 @@ describe('Blueprint Tests', ->
       describe("When I transform an AST from Protagonist v#{version}", ->
         ast = undefined
         before( ->
-          ast = apiBlueprintAdapter.transform(astCache)
+          ast = apiBlueprintAdapter.transformAst(astCache)
         )
 
         it("I got metadata right, with location is aside", ->

@@ -5,11 +5,6 @@ apiBlueprintAdapter = require('./adapters/api-blueprint-adapter')
 apiaryBlueprintAdapter = require('./adapters/apiary-blueprint-adapter')
 
 
-transform = (ast, mimeType, cb) ->
-  adapter = createAdapter(mimeType)
-  adapter.transform(ast, cb)
-
-
 createAdapter = (mimeType) ->
   try
     parsedMimeType = typer.parse(mimeType)
@@ -34,4 +29,8 @@ createAdapter = (mimeType) ->
     return
 
 
-exports = {transform}
+module.exports = {
+  createAdapter
+  apiBlueprintAdapter
+  apiaryBlueprintAdapter
+}

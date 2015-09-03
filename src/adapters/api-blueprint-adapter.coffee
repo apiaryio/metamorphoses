@@ -96,6 +96,7 @@ legacyHeadersCombinedFrom1A = (resOrReq, action, resource) ->
         headers[key] = header
   headers
 
+
 # Retrieves attributes elements from an element content
 #
 # @param elementContent [Array] Element's content
@@ -116,6 +117,7 @@ getAttributesElements = (elementContent) ->
   elements.resolvedAttributes = resolvedDataStructure.shift()
 
   elements
+
 
 legacyRequestsFrom1AExamples = (action, resource) ->
   requests = []
@@ -157,6 +159,7 @@ legacyRequestFrom1ARequest = (request, action, resource, exampleId = undefined) 
 
 
   legacyRequest
+
 
 legacyResponsesFrom1AExamples = (action, resource) ->
   responses = []
@@ -310,11 +313,14 @@ legacyResourcesFrom1AResource = (legacyUrlConverterFn, resource) ->
     legacyResources.push(legacyResource)
   legacyResources
 
+
 # ## `legacyASTfrom1AAST`
 #
 # This method will hopefully be superseeded by transformOldAstToProtagonist
 # once we'll be comfortable with new format and it'll be our default.
 legacyASTfrom1AAST = (ast) ->
+  return null unless ast
+
   # Blueprint
   legacyAST = new blueprintApi.Blueprint(
     name: ast.name
@@ -386,9 +392,14 @@ legacyASTfrom1AAST = (ast) ->
   return legacyAST
 
 
+transformError = (source, err) ->
+  err.line = countLines(source, err.location[0]?.index) if err
+  return err
+
+
 module.exports = {
-  transform: legacyASTfrom1AAST
-  countLines
+  transformAst: legacyASTfrom1AAST
+  transformError
 
   ensureObjectOfObjects # for testing purposes
 }
