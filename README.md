@@ -45,15 +45,11 @@ metamorphoses = require('metamorphoses');
 
 // Turning API Blueprint AST into the Apiary Application AST
 var apiBlueprintAst = {...};
-metamorphoses.transform(apiBlueprintAst, 'application/vnd.apiblueprint.ast', function (err, applicationAst) {
-  ...
-});
+applicationAst = metamorphoses.transform(apiBlueprintAst, 'application/vnd.apiblueprint.ast');
 
 // Turning legacy Apiary Blueprint AST into the Apiary Application AST
 var apiaryBlueprintAst = {...};
-metamorphoses.transform(apiaryBlueprintAst, 'application/vnd.legacyblueprint.ast', function (err, applicationAst) {
-  ...
-});
+applicationAst = metamorphoses.transform(apiaryBlueprintAst, 'application/vnd.legacyblueprint.ast');
 ```
 
 ## Name
