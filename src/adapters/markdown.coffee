@@ -1,6 +1,5 @@
 # This is our Markdown parser implementation
 # Uses Robotskirt, which is a node binding for a C markdown parser Sundown (also used by Github)
-_ = require('underscore')
 rs = require('robotskirt')
 sanitizer = require('sanitizer')
 
@@ -87,7 +86,7 @@ parseMarkdown = (markdown, options = {}) ->
 
 toHtml = (markdown, options = {}, cb) ->
   # Allow for second arg to be the callback
-  if _.isFunction(options)
+  if typeof options is 'function'
     [cb, options] = [options, {}]
 
   unless cb
