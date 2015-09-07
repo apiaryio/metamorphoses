@@ -61,6 +61,9 @@ var adapter = metamorphoses.createAdapter(mimeType);
 var adapter = metamorphoses.apiBlueprintAdapter;
 
 
+// Pseudo-code parse function. It is a placeholder for parser
+// interface of either Drafter (https://github.com/apiaryio/drafter)
+// or the legacy Blueprint Parser (https://github.com/apiaryio/blueprint-parser)
 parse(source, ..., function (err, result) {
 
   // transform the error object
