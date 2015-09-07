@@ -1,4 +1,0 @@
-// See https://github.com/1hella/eslint-config-airbnb-es5
-{
-  "extends": "eslint-config-airbnb-es5"
-}
