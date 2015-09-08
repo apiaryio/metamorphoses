@@ -1,0 +1,48 @@
+{
+  "name": "metamorphoses",
+  "version": "0.1.0",
+  "description": "Transforms API Blueprint AST or legacy Apiary Blueprint AST into Apiary Application AST",
+  "main": "./lib/metamorphoses",
+  "scripts": {
+    "lint": "coffeelint src test",
+    "lint-update": "curl 'https://raw.githubusercontent.com/apiaryio/coffeescript-style-guide/master/coffeelint.json' > coffeelint.json",
+    "precompile": "npm run lint",
+    "compile": "coffee -b -c -o lib/ src/",
+    "preserver-test": "npm run compile",
+    "prebrowser-test": "npm run compile",
+    "server-test": "mocha --compilers coffee:coffee-script/register -R spec --recursive --timeout 5000",
+    "browser-test": "echo 'Skipping `karma start` because robotskirt does not run in browser - we can turn on browser tests only when we migrate to something else...'",
+    "test": "npm run server-test && npm run browser-test",
+    "prepublish": "npm run compile"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:apiaryio/metamorphoses.git"
+  },
+  "author": "Apiary Inc <support@apiary.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/apiaryio/metamorphoses/issues"
+  },
+  "homepage": "https://github.com/apiaryio/metamorphoses",
+  "dependencies": {
+    "media-typer": "^0.3.0",
+    "robotskirt": "^2.7.1",
+    "sanitizer": "^0.1.2"
+  },
+  "devDependencies": {
+    "apiary-blueprint-parser": "^0.5.3",
+    "chai": "^3.2.0",
+    "coffee-script": "~1.9",
+    "coffeeify": "^1.1.0",
+    "coffeelint": "^1.11.1",
+    "drafter": "^0.2.8",
+    "karma": "^0.13.9",
+    "karma-browserify": "^4.3.0",
+    "karma-chai": "^0.1.0",
+    "karma-firefox-launcher": "^0.1.6",
+    "karma-mocha": "^0.2.0",
+    "karma-mocha-reporter": "^1.1.1",
+    "mocha": "^2.3.0"
+  }
+}
