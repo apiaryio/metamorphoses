@@ -1,5 +1,5 @@
 {
-  "name": "metamorphoses",
+  "name": "@apiaryio/metamorphoses",
   "version": "0.1.0",
   "description": "Transforms API Blueprint AST or legacy Apiary Blueprint AST into Apiary Application AST",
   "main": "./lib/metamorphoses",
