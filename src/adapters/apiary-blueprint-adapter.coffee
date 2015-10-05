@@ -17,7 +17,7 @@ applymarkdownHtml = (obj, targetHtmlProperty) ->
 apiaryAstToApplicationAst = (ast) ->
   return null unless ast
 
-  plainJsObject = applymarkdownHtml(ast.toJSON(), 'htmlDescription')
+  plainJsObject = applymarkdownHtml(ast, 'htmlDescription')
 
   for section, sectionKey in plainJsObject.sections or [] when section.resources?.length
     for resource, resourceKey in section.resources
