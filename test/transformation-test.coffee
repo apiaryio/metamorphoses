@@ -13,7 +13,7 @@ parseApiaryBlueprint = (source, cb) ->
   catch err
     err = adapter.transformError(source, err)
     return cb(err)
-  cb(null, adapter.transformAst(ast), [])
+  cb(null, adapter.transformAst(ast.toJSON()), [])
 
 
 parseApiBlueprint = (source, cb) ->
