@@ -262,106 +262,106 @@ describe('Blueprint Tests', ->
     )
   )
 
-  describe("Transformation to application AST from Protagonist AST", ->
+  describe('Transformation to application AST from API Blueprint AST', ->
     astCaches =
-      "0.8":
-        _version: "2.0"
+      '0.8':
+        _version: '2.0'
         metadata:
-          FORMAT: {value: "1A"}
-          HOST: {value: "http://www.example.com"}
-        name: ""
-        description: ""
+          FORMAT: {value: '1A'}
+          HOST: {value: 'http://www.example.com'}
+        name: ''
+        description: ''
         resourceGroups: [
-          name: ""
-          description: ""
+          name: ''
+          description: ''
           resources: [
-            name: "Note"
-            description: ""
-            uriTemplate: "/notes/{id}"
+            name: 'Note'
+            description: ''
+            uriTemplate: '/notes/{id}'
             model: {}
             headers: {}
             parameters:
               id:
-                description: "Numeric `id` of the Note to perform action with. Has example value.\n"
-                type: "number"
+                description: 'Numeric `id` of the Note to perform action with. Has example value.\n'
+                type: 'number'
                 required: true
-                default: ""
-                example: ""
-                values: ["A", "B", "C"]
+                default: ''
+                example: ''
+                values: ['A', 'B', 'C']
             actions: [
-              name: "Retrieve a Note"
-              description: ""
-              method: "GET"
+              name: 'Retrieve a Note'
+              description: ''
+              method: 'GET'
               parameters: []
               headers: {}
               examples: [
-                name: ""
-                description: ""
+                name: ''
+                description: ''
                 requests: []
                 responses: [
-                  name: "200"
-                  description: ""
+                  name: '200'
+                  description: ''
                   headers:
-                    "Content-Type": {value: "application/json"}
-                    "X-My-Header": {value: "The Value"}
-                    "Set-Cookie": {value: "efgh"}
-                  body: "{ \"id\": 2, \"title\": \"Pick-up posters from post-office\" }\n"
-                  schema: ""
+                    'Content-Type': {value: 'application/json'}
+                    'X-My-Header': {value: 'The Value'}
+                    'Set-Cookie': {value: 'efgh'}
+                  body: '{ "id": 2, "title": "Pick-up posters from post-office" }\n'
+                  schema: ''
                 ]
               ]
             ]
           ]
         ]
 
-      "0.11":
-        _version: "2.0"
+      '0.11':
+        _version: '2.0'
         metadata: [
-          {name: "FORMAT", value: "1A"}
-          {name: "HOST", value: "http://www.example.com"}
+          {name: 'FORMAT', value: '1A'}
+          {name: 'HOST', value: 'http://www.example.com'}
         ]
-        name: ""
-        description: ""
+        name: ''
+        description: ''
         resourceGroups: [
-          name: ""
-          description: ""
+          name: ''
+          description: ''
           resources: [
-            name: "Note"
-            description: ""
-            uriTemplate: "/notes/{id}"
+            name: 'Note'
+            description: ''
+            uriTemplate: '/notes/{id}'
             model: {}
             parameters: [
-              name: "id"
-              description: "Numeric `id` of the Note to perform action with. Has example value.\n"
-              type: "number"
+              name: 'id'
+              description: 'Numeric `id` of the Note to perform action with. Has example value.\n'
+              type: 'number'
               required: true
-              default: ""
-              example: ""
+              default: ''
+              example: ''
               values: [
-                {value: "A"}
-                {value: "B"}
-                {value: "C"}
+                {value: 'A'}
+                {value: 'B'}
+                {value: 'C'}
               ]
             ]
             actions: [
-              name: "Retrieve a Note"
-              description: ""
-              method: "GET"
+              name: 'Retrieve a Note'
+              description: ''
+              method: 'GET'
               parameters: []
               examples: [
-                name: ""
-                description: ""
+                name: ''
+                description: ''
                 requests: []
                 responses: [
-                  name: "200"
-                  description: ""
+                  name: '200'
+                  description: ''
                   headers: [
-                    {name: "Content-Type", value: "application/json"}
-                    {name: "X-My-Header", value: "The Value"}
-                    {name: "Set-Cookie", value: "abcd"}
-                    {name: "Set-Cookie", value: "efgh"}
+                    {name: 'Content-Type', value: 'application/json'}
+                    {name: 'X-My-Header', value: 'The Value'}
+                    {name: 'Set-Cookie', value: 'abcd'}
+                    {name: 'Set-Cookie', value: 'efgh'}
                   ]
-                  body: "{ \"id\": 2, \"title\": \"Pick-up posters from post-office\" }\n"
-                  schema: ""
+                  body: '{ "id": 2, "title": "Pick-up posters from post-office" }\n'
+                  schema: ''
                 ]
               ]
             ]
@@ -369,32 +369,32 @@ describe('Blueprint Tests', ->
         ]
 
     for version, astCache of astCaches
-      describe("When I transform an AST from Protagonist v#{version}", ->
+      describe('When I transform an AST from Protagonist v#{version}', ->
         ast = undefined
         before( ->
           ast = apiBlueprintAdapter.transformAst(astCache)
         )
 
-        it("I got metadata right, with location is aside", ->
+        it('I got metadata right, with location is aside', ->
           assert.equal(ast.location, 'http://www.example.com')
           assert.equal(ast.metadata.length, 1)
           assert.equal(ast.metadata[0].name, 'FORMAT')
           assert.equal(ast.metadata[0].value, '1A')
         )
 
-        it("I got headers right", ->
+        it('I got headers right', ->
           headers = ast.sections[0].resources[0].responses[0].headers
           assert.equal(headers['Content-Type'], 'application/json')
           assert.equal(headers['X-My-Header'], 'The Value')
           assert.equal(headers['Set-Cookie'], 'efgh')
         )
 
-        it("I got parameters right", ->
+        it('I got parameters right', ->
           param = ast.sections[0].resources[0].parameters[0]
           assert.equal(param.key, 'id')
         )
 
-        it("I got parameter values right", ->
+        it('I got parameter values right', ->
           values = ast.sections[0].resources[0].parameters[0].values
           assert.equal(values[0], 'A')
           assert.equal(values[1], 'B')
