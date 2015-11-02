@@ -321,12 +321,22 @@ legacyResourcesFrom1AResource = (legacyUrlConverterFn, resource) ->
 legacyASTfrom1AAST = (ast) ->
   return null unless ast
 
+  # Using current Application AST version only for API Blueprint ASTs
+  # with version 4.0 and higher. All other ASTs are fixed to version 18.
+  if parseInt(ast._version, 10) >= 4
+    # Current version. Guarantees to have MSON in form of
+    # Data Structure Namespace (Refract).
+    version = blueprintApi.Version
+  else
+    # Has MSON in form of MSON AST.
+    version = 18
+
   # Blueprint
-  legacyAST = new blueprintApi.Blueprint(
+  legacyAST = new blueprintApi.Blueprint({
     name: ast.name
-    version: blueprintApi.Version
+    version
     metadata: []
-  )
+  })
 
   legacyAST.description = "#{ast.description}".trim() or ''
   legacyAST.htmlDescription = trimLastNewline(markdown.toHtmlSync(ast.description))

@@ -1,7 +1,9 @@
 {assert} = require('chai')
 ApiaryBlueprintParser = require('apiary-blueprint-parser')
+protagonist = require('protagonist')
 Drafter = require('drafter')
 
+CURRENT_APPLICATION_AST_VERSION = require('../lib/blueprint-api').Version
 apiBlueprintAdapter = require('../lib/adapters/api-blueprint-adapter')
 apiaryBlueprintAdapter = require('../lib/adapters/apiary-blueprint-adapter')
 
@@ -16,14 +18,33 @@ parseApiaryBlueprint = (source, cb) ->
   cb(null, adapter.transformAst(ast.toJSON()), [])
 
 
-parseApiBlueprint = (source, cb) ->
+# Supported types:
+#
+# - 'refract'
+#   Uses Protagonist v1.1 and returns everything as Refract.
+#
+# - 'ast' (default)
+#   Uses Protagonist v1.1 and returns API Blueprint AST, which includes MSON
+#   returned as Refract.
+#
+# - 'ast-drafter'
+#   Uses Drafter.js and returns API Blueprint AST, which includes MSON returned
+#   as MSON AST.
+parseApiBlueprint = (source, type, cb) ->
   adapter = apiBlueprintAdapter
-  drafter = new Drafter({requireBlueprintName: true})
-  drafter.make(source, (err, result) ->
+  [cb, type] = [type, 'ast'] if typeof type is 'function'
+
+  transform = (err, result) ->
     err = adapter.transformError(source, err)
     ast = adapter.transformAst(result?.ast)
     cb(err, ast, result?.warnings or [])
-  )
+
+  if type is 'ast-drafter'
+    drafter = new Drafter({requireBlueprintName: true})
+    drafter.make(source, transform)
+  else
+    options = {requireBlueprintName: true, type}
+    protagonist.parse(source, options, transform)
 
 
 describe('Blueprint Tests', ->
@@ -262,145 +283,251 @@ describe('Blueprint Tests', ->
     )
   )
 
-  describe('Transformation to application AST from API Blueprint AST', ->
-    astCaches =
-      '0.8':
-        _version: '2.0'
-        metadata:
-          FORMAT: {value: '1A'}
-          HOST: {value: 'http://www.example.com'}
-        name: ''
-        description: ''
-        resourceGroups: [
+  describe('Transformation from API Blueprint AST to Application AST', ->
+    describe('Upgrade of Protagonist from 0.8 to 0.11', ->
+      astCaches =
+        '0.8':
+          _version: '2.0'
+          metadata:
+            FORMAT: {value: '1A'}
+            HOST: {value: 'http://www.example.com'}
           name: ''
           description: ''
-          resources: [
-            name: 'Note'
+          resourceGroups: [
+            name: ''
             description: ''
-            uriTemplate: '/notes/{id}'
-            model: {}
-            headers: {}
-            parameters:
-              id:
+            resources: [
+              name: 'Note'
+              description: ''
+              uriTemplate: '/notes/{id}'
+              model: {}
+              headers: {}
+              parameters:
+                id:
+                  description: 'Numeric `id` of the Note to perform action with. Has example value.\n'
+                  type: 'number'
+                  required: true
+                  default: ''
+                  example: ''
+                  values: ['A', 'B', 'C']
+              actions: [
+                name: 'Retrieve a Note'
+                description: ''
+                method: 'GET'
+                parameters: []
+                headers: {}
+                examples: [
+                  name: ''
+                  description: ''
+                  requests: []
+                  responses: [
+                    name: '200'
+                    description: ''
+                    headers:
+                      'Content-Type': {value: 'application/json'}
+                      'X-My-Header': {value: 'The Value'}
+                      'Set-Cookie': {value: 'efgh'}
+                    body: '{ "id": 2, "title": "Pick-up posters from post-office" }\n'
+                    schema: ''
+                  ]
+                ]
+              ]
+            ]
+          ]
+
+        '0.11':
+          _version: '2.0'
+          metadata: [
+            {name: 'FORMAT', value: '1A'}
+            {name: 'HOST', value: 'http://www.example.com'}
+          ]
+          name: ''
+          description: ''
+          resourceGroups: [
+            name: ''
+            description: ''
+            resources: [
+              name: 'Note'
+              description: ''
+              uriTemplate: '/notes/{id}'
+              model: {}
+              parameters: [
+                name: 'id'
                 description: 'Numeric `id` of the Note to perform action with. Has example value.\n'
                 type: 'number'
                 required: true
                 default: ''
                 example: ''
-                values: ['A', 'B', 'C']
-            actions: [
-              name: 'Retrieve a Note'
-              description: ''
-              method: 'GET'
-              parameters: []
-              headers: {}
-              examples: [
-                name: ''
-                description: ''
-                requests: []
-                responses: [
-                  name: '200'
-                  description: ''
-                  headers:
-                    'Content-Type': {value: 'application/json'}
-                    'X-My-Header': {value: 'The Value'}
-                    'Set-Cookie': {value: 'efgh'}
-                  body: '{ "id": 2, "title": "Pick-up posters from post-office" }\n'
-                  schema: ''
+                values: [
+                  {value: 'A'}
+                  {value: 'B'}
+                  {value: 'C'}
                 ]
               ]
-            ]
-          ]
-        ]
-
-      '0.11':
-        _version: '2.0'
-        metadata: [
-          {name: 'FORMAT', value: '1A'}
-          {name: 'HOST', value: 'http://www.example.com'}
-        ]
-        name: ''
-        description: ''
-        resourceGroups: [
-          name: ''
-          description: ''
-          resources: [
-            name: 'Note'
-            description: ''
-            uriTemplate: '/notes/{id}'
-            model: {}
-            parameters: [
-              name: 'id'
-              description: 'Numeric `id` of the Note to perform action with. Has example value.\n'
-              type: 'number'
-              required: true
-              default: ''
-              example: ''
-              values: [
-                {value: 'A'}
-                {value: 'B'}
-                {value: 'C'}
-              ]
-            ]
-            actions: [
-              name: 'Retrieve a Note'
-              description: ''
-              method: 'GET'
-              parameters: []
-              examples: [
-                name: ''
+              actions: [
+                name: 'Retrieve a Note'
                 description: ''
-                requests: []
-                responses: [
-                  name: '200'
+                method: 'GET'
+                parameters: []
+                examples: [
+                  name: ''
                   description: ''
-                  headers: [
-                    {name: 'Content-Type', value: 'application/json'}
-                    {name: 'X-My-Header', value: 'The Value'}
-                    {name: 'Set-Cookie', value: 'abcd'}
-                    {name: 'Set-Cookie', value: 'efgh'}
+                  requests: []
+                  responses: [
+                    name: '200'
+                    description: ''
+                    headers: [
+                      {name: 'Content-Type', value: 'application/json'}
+                      {name: 'X-My-Header', value: 'The Value'}
+                      {name: 'Set-Cookie', value: 'abcd'}
+                      {name: 'Set-Cookie', value: 'efgh'}
+                    ]
+                    body: '{ "id": 2, "title": "Pick-up posters from post-office" }\n'
+                    schema: ''
                   ]
-                  body: '{ "id": 2, "title": "Pick-up posters from post-office" }\n'
-                  schema: ''
                 ]
               ]
             ]
           ]
-        ]
 
-    for version, astCache of astCaches
-      describe('When I transform an AST from Protagonist v#{version}', ->
-        ast = undefined
-        before( ->
-          ast = apiBlueprintAdapter.transformAst(astCache)
+      for version, astCache of astCaches
+        describe("When I transform an AST produced by Protagonist v#{version}", ->
+          ast = undefined
+          before( ->
+            ast = apiBlueprintAdapter.transformAst(astCache)
+          )
+
+          it('I got metadata right, with location is aside', ->
+            assert.equal(ast.location, 'http://www.example.com')
+            assert.equal(ast.metadata.length, 1)
+            assert.equal(ast.metadata[0].name, 'FORMAT')
+            assert.equal(ast.metadata[0].value, '1A')
+          )
+
+          it('I got headers right', ->
+            headers = ast.sections[0].resources[0].responses[0].headers
+            assert.equal(headers['Content-Type'], 'application/json')
+            assert.equal(headers['X-My-Header'], 'The Value')
+            assert.equal(headers['Set-Cookie'], 'efgh')
+          )
+
+          it('I got parameters right', ->
+            param = ast.sections[0].resources[0].parameters[0]
+            assert.equal(param.key, 'id')
+          )
+
+          it('I got parameter values right', ->
+            values = ast.sections[0].resources[0].parameters[0].values
+            assert.equal(values[0], 'A')
+            assert.equal(values[1], 'B')
+            assert.equal(values[2], 'C')
+          )
+        )
+    )
+
+    describe('Replacement of Drafter.js by Protagonist v1.1 (upgrade from MSON AST to Data Structure Namespace)', ->
+      source = '''
+        FORMAT: 1A
+
+        # Attributes API
+
+        # Group Coupons
+
+        ## Coupon [/coupons/{id}]
+        A coupon contains information about a percent-off or amount-off
+        discount you might want to apply to a customer.
+
+        ### Retrieve a Coupon [GET]
+        Retrieves the coupon with the given ID.
+
+        + Response 200 (application/json)
+
+            + Attributes (object)
+                + id: 250FF (string)
+                + created: 1415203908 (number) - Time stamp
+                + percent_off: 25 (number)
+
+                    A positive integer between 1 and 100 that represents the discount the coupon will apply.
+
+                + redeem_by (number) - Date after which the coupon can no longer be redeemed
+
+            + Body
+
+                    {
+                        "id": "250FF",
+                        "created": 1415203908,
+                        "percent_off": 25,
+                        "redeem_by:" null
+                    }
+      '''
+      astCaches = []
+
+      describe('When I transform API Blueprint AST produced by Drafter.js', ->
+        version = undefined
+        attributes = undefined
+
+        before((done) ->
+          parseApiBlueprint(source, 'ast-drafter', (err, ast) ->
+            version = ast.version
+            attributes = ast.sections[0].resources[0].responses[0].attributes
+            astCaches.push(ast)
+            done(err)
+          )
         )
 
-        it('I got metadata right, with location is aside', ->
-          assert.equal(ast.location, 'http://www.example.com')
-          assert.equal(ast.metadata.length, 1)
-          assert.equal(ast.metadata[0].name, 'FORMAT')
-          assert.equal(ast.metadata[0].value, '1A')
+        it('version of the Application AST is 18', ->
+          assert.equal(version, 18)
         )
 
-        it('I got headers right', ->
-          headers = ast.sections[0].resources[0].responses[0].headers
-          assert.equal(headers['Content-Type'], 'application/json')
-          assert.equal(headers['X-My-Header'], 'The Value')
-          assert.equal(headers['Set-Cookie'], 'efgh')
-        )
-
-        it('I got parameters right', ->
-          param = ast.sections[0].resources[0].parameters[0]
-          assert.equal(param.key, 'id')
-        )
-
-        it('I got parameter values right', ->
-          values = ast.sections[0].resources[0].parameters[0].values
-          assert.equal(values[0], 'A')
-          assert.equal(values[1], 'B')
-          assert.equal(values[2], 'C')
+        it('Application AST contains MSON AST', ->
+          assert.ok(attributes.element)
+          assert.ok(attributes.sections)
+          assert.ok(attributes.sections[0].class)
         )
       )
+
+      describe('When I transform API Blueprint AST produced by Protagonist v1.1', ->
+        version = undefined
+        attributes = undefined
+
+        before((done) ->
+          parseApiBlueprint(source, 'ast', (err, ast) ->
+            version = ast.version
+            attributes = ast.sections[0].resources[0].responses[0].attributes
+            astCaches.push(ast)
+            done(err)
+          )
+        )
+
+        it("version of the Application AST is #{CURRENT_APPLICATION_AST_VERSION}", ->
+          assert.equal(version, CURRENT_APPLICATION_AST_VERSION)
+        )
+
+        it('Application AST contains Data Structure Namespace (Refract)', ->
+          assert.ok(attributes.content)
+          assert.ok(attributes.content[0].content)
+          assert.ok(attributes.content[0].content[0].content)
+        )
+      )
+
+      describe('When I compare those two ASTs without version, attributes and schema', ->
+        before( ->
+          astCaches.forEach((astCache) ->
+            delete astCache.version
+            delete astCache.sections[0].resources[0].responses[0].attributes
+
+            # Missing Schema is a known regression bug! The Schema should
+            # be there in the future and the test should be corrected
+            # (following line removed) once we have it back!
+            delete astCache.sections[0].resources[0].responses[0].schema
+          )
+        )
+
+        it('they are the same', ->
+          assert.deepEqual(astCaches[0], astCaches[1])
+        )
+      )
+    )
   )
 
   describe('Coercing to object of objects from', ->
