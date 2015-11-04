@@ -1,4 +1,10 @@
-CURRENT_AST_VERSION = 18
+# Current Application AST version
+#
+# Beware! Since November 2015 this version number isn't applied automatically
+# to any Application AST which is created by metamorphoses. When transforming
+# API Blueprint AST, certain older ASTs get fixed to 18. See
+# api-blueprint-adapter.coffee for details.
+CURRENT_AST_VERSION = 19
 
 fillProps = (object, props, defaults) ->
   for key of defaults
