@@ -148,6 +148,53 @@ describe('Transformations', ->
       )
     )
 
+    describe('Blueprint with HOST suffix', ->
+      resource = undefined
+      resourceJSON = undefined
+
+      before((done) ->
+        code = '''
+          HOST: http://localhost:8002/v1/
+
+          # Testing
+
+          ## /resource
+          Lorem ipsum 3
+
+          ### GET
+          Lorem ipsum 4
+
+          + Response 200 (text/plain)
+              + Body
+                  Hello World
+        '''
+
+        parseApiBlueprint(code, (err, ast) ->
+          resource = ast.sections[0].resources[0]
+          resourceJSON = ast.toJSON().sections[0].resources[0]
+          done(err)
+        )
+      )
+
+      describe('In the Application AST interface', ->
+        it('Resource has URL prefixed with path from HOST URL', ->
+          assert.equal(resource.url, '/v1/resource')
+        )
+        it('Resource has URI Template without prefix', ->
+          assert.equal(resource.uriTemplate, '/resource')
+        )
+      )
+
+      describe('In the JSON serialization', ->
+        it('Resource has URL prefixed with path from HOST URL', ->
+          assert.equal(resourceJSON.url, '/v1/resource')
+        )
+        it('Resource has URI Template without prefix', ->
+          assert.equal(resourceJSON.uriTemplate, '/resource')
+        )
+      )
+    )
+
     describe('Upgrade of Protagonist from 0.8 to 0.11', ->
       astCaches =
         '0.8':
@@ -523,6 +570,50 @@ describe('Transformations', ->
           assert.strictEqual(ast.sections.length, 20)
           assert(Date.now() - parseTimestamp < 2000, 'parsing not under 2000ms')
           done(err)
+        )
+      )
+    )
+
+    describe('Blueprint with HOST suffix', ->
+      resource = undefined
+      resourceJSON = undefined
+
+      before((done) ->
+        code = '''
+          HOST: http://localhost:8002/v1/
+
+          --- Testing ---
+
+          -- basic methods --
+          GET /resource
+          < 200
+          { "items": [
+            { "url": "/shopping-cart/1", "product":"2ZY48XPZ", "quantity": 1, "name": "New socks", "price": 1.25 }
+          ] }
+        '''
+
+        parseApiaryBlueprint(code, (err, ast) ->
+          resource = ast.sections[0].resources[0]
+          resourceJSON = ast.toJSON().sections[0].resources[0]
+          done(err)
+        )
+      )
+
+      describe('In the Application AST interface', ->
+        it('Resource has URL prefixed with path from HOST URL', ->
+          assert.equal(resource.url, '/v1/resource')
+        )
+        it('Resource has URI Template without prefix', ->
+          assert.equal(resource.uriTemplate, '/resource')
+        )
+      )
+
+      describe('In the JSON serialization', ->
+        it('Resource has URL prefixed with path from HOST URL', ->
+          assert.equal(resourceJSON.url, '/v1/resource')
+        )
+        it('Resource has URI Template without prefix', ->
+          assert.equal(resourceJSON.uriTemplate, '/resource')
         )
       )
     )

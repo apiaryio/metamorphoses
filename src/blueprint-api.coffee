@@ -280,7 +280,7 @@ class Resource
   toBlueprint: ->
     combineParts("\n", (parts) =>
       parts.push("#{@description}".trim()) if @description
-      parts.push("#{@method} #{@url}")
+      parts.push("#{@method} #{@uriTemplate}")
 
       requestBlueprint = @request?.toBlueprint()
       parts.push(requestBlueprint) if requestBlueprint
@@ -429,7 +429,7 @@ class JsonSchemaValidation
   # Legacy Blueprint Format.
   toBlueprint: ->
     combineParts("\n", (parts) =>
-      parts.push("#{@method} #{@url}")
+      parts.push("#{@method} #{@uriTemplate}")
       parts.push(escapeBody(@body)) if @body
     )
 

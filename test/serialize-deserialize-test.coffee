@@ -25,21 +25,16 @@ getTransformedAst = (apiaryBlueprint) ->
 
 describe('Serialization of the Blueprint interface (Application AST)', ->
   describe('Blueprint object', ->
-    transformedAst = getTransformedAst('''
+    blueprint = '''
       HOST: http://localhost:8002/v1/
 
-      --- Testing snippets in old format ---
-
-      -- basic methods --
-      GET /resource
-      < 200
-      { "items": [
-        { "url": "/shopping-cart/1", "product":"2ZY48XPZ", "quantity": 1, "name": "New socks", "price": 1.25 }
-      ] }
+      --- Testing ---
 
       HEAD /resource
       < 200
-    ''')
+
+    '''
+    transformedAst = getTransformedAst(blueprint)
     obj = blueprintApi.Blueprint.fromJSON(transformedAst)
     deserializedObj = blueprintApi.Blueprint.fromJSON(obj.toJSON())
 
@@ -48,6 +43,12 @@ describe('Serialization of the Blueprint interface (Application AST)', ->
     )
     it('JSON made from instance should equal to JSON made from deserialized instance', ->
       assert.deepEqual(obj.toJSON(), deserializedObj.toJSON())
+    )
+    it('Blueprint made from instance should equal to Blueprint made from deserialized instance', ->
+      assert.equal(obj.toBlueprint(), deserializedObj.toBlueprint())
+    )
+    it('Blueprint made from instance should equal to original Blueprint', ->
+      assert.equal(obj.toBlueprint(), blueprint)
     )
   )
 
