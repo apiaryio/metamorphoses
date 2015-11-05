@@ -78,7 +78,6 @@ class Blueprint
     return resources
 
   getUrlPrefixPosition: ->
-
     urlPrefixPosition = 0
 
     if @location

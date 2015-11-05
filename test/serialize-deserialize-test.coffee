@@ -4,50 +4,113 @@
 blueprintApi = require('../lib/blueprint-api')
 
 
-describe('Blueprint de/serialization Tests', ->
-  describe('Try de/serialize empty resource class', ->
-    emptyResource = new blueprintApi.Resource()
-    deserializedResource = blueprintApi.Resource.fromJSON(emptyResource.toJSON())
+describe('Serialization of the Blueprint interface (Application AST)', ->
+  describe('Resource object', ->
+    describe('Empty instance', ->
+      obj = new blueprintApi.Resource()
+      deserializedObj = blueprintApi.Resource.fromJSON(obj.toJSON())
 
-    it('empty resource should same as deserialized', ->
-      assert.deepEqual(deserializedResource, emptyResource)
+      it('Instance should equal to deserialized instance', ->
+        assert.deepEqual(obj, deserializedObj)
+      )
+      it('JSON made from instance should equal to JSON made from deserialized instance', ->
+        assert.deepEqual(obj.toJSON(), deserializedObj.toJSON())
+      )
+
+      describe('Default properties', ->
+        tests = [
+          {property: 'method', expected: 'GET'}
+          {property: 'uriTemplate', expected: ''}
+          {property: 'nameMethod'}
+          {property: 'actionRelation'}
+          {property: 'request'}
+          {property: 'url', expected: '/'}
+          {property: 'name'}
+          {property: 'actionName'}
+          {property: 'actionDescription'}
+          {property: 'actionHtmlDescription'}
+          {property: 'description'}
+          {property: 'htmlDescription'}
+          {property: 'descriptionMethod'}
+          {property: 'resourceDescription'}
+          {property: 'model'}
+          {property: 'headers'}
+          {property: 'actionHeaders'}
+          {property: 'parameters'}
+          {property: 'resourceParameters'}
+          {property: 'actionParameters'}
+          {property: 'requests', expected: []}
+          {property: 'responses', expected: []}
+          {property: 'attributes'}
+          {property: 'resolvedAttributes'}
+          {property: 'actionAttributes'}
+          {property: 'resolvedActionAttributes'}
+          {property: 'actionUriTemplate'}
+        ]
+
+        tests.forEach(({property, expected}) ->
+          it("Property '#{property}' is set to '#{expected}'", ->
+            assert.deepEqual(obj[property], expected)
+          )
+        )
+
+        it('Instance does not include any other properties', ->
+          properties = (property for own property of (new blueprintApi.Resource()))
+          untestedProperties = (property for {property} in tests when property not in properties)
+
+          assert.deepEqual(untestedProperties, [])
+        )
+      )
     )
-    it('serialization request should be same for both resources', ->
-      assert.deepEqual(emptyResource.toJSON(), deserializedResource.toJSON())
-    )
-  )
 
-  describe('Try de/serialize empty resource class', ->
-    json =
-      method: 'POST'
-      uriTemplate: '/user/save'
-      nameMethod: 'Create user'
-      actionRelation: 'save'
-      request:
-        name: 'request'
-        reference: 'refer'
+    describe('Individual properties', ->
+      tests = [
+        property: 'method'
+        value: 'POST'
+      ,
+        property: 'uriTemplate'
+        value: '/user/save'
+      ,
+        property: 'nameMethod'
+        value: 'Create user'
+      ,
+        property: 'actionRelation'
+        value: 'save'
+      ,
+        property: 'request'
+        value:
+          name: 'request'
+          reference: 'reference'
+        expected: blueprintApi.Request.fromJSON(
+          name: 'request'
+          reference: 'reference'
+        )
+      ,
+        property: 'url'
+        value: '/path/to/something'
+      ]
 
-    resource = blueprintApi.Resource.fromJSON(json)
+      tests.forEach(({property, value, expected}) ->
+        describe("With \"#{property}\" set to #{JSON.stringify(value)}", ->
+          expected ?= value
 
-    it('should have setted values from json', ->
-      assert.equal(resource.method, 'POST')
-      assert.equal(resource.uriTemplate, '/user/save')
-      assert.equal(resource.nameMethod, 'Create user')
-      assert.equal(resource.actionRelation, 'save')
-      assert.deepEqual(resource.request, blueprintApi.Request.fromJSON(json.request))
-    )
+          data = {}
+          data[property] = value
 
-    it('have other values undefined or empty array', ->
-      assert.isUndefined(resource.actionUriTemplate)
-      assert.isUndefined(resource.resolvedAttributes)
-      assert.isUndefined(resource.model)
-      assert.deepEqual(resource.requests, [])
-    )
+          obj = blueprintApi.Resource.fromJSON(data)
+          deserializedObj = blueprintApi.Resource.fromJSON(obj.toJSON())
 
-    it('should be equal serialized and deserialized object', ->
-      copy = blueprintApi.Resource.fromJSON(resource.toJSON())
-      assert.deepEqual(resource, copy)
-      assert.deepEqual(resource.toJSON(), copy.toJSON())
+          it('instance should equal to deserialized instance', ->
+            assert.deepEqual(obj, deserializedObj)
+          )
+          it('JSON made from instance should equal to JSON made from deserialized instance', ->
+            assert.deepEqual(obj.toJSON(), deserializedObj.toJSON())
+          )
+          it("value of \"#{property}\" is #{JSON.stringify(expected)}", ->
+            assert.deepEqual(obj[property], expected)
+          )
+        )
+      )
     )
   )
 )
