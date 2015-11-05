@@ -1,6 +1,6 @@
 {
   "name": "@apiaryio/metamorphoses",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Transforms API Blueprint AST or legacy Apiary Blueprint AST into Apiary Application AST",
   "main": "./lib/metamorphoses",
   "scripts": {
@@ -44,6 +44,7 @@
     "karma-mocha": "^0.2.0",
     "karma-mocha-reporter": "^1.1.1",
     "mocha": "^2.3.0",
-    "protagonist": "^1.1.1"
+    "protagonist": "^1.1.1",
+    "sinon": "^1.17.2"
   }
 }
