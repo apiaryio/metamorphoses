@@ -77,20 +77,7 @@ class Blueprint
       resources.push(r)
     return resources
 
-  getUrlPrefixPosition: ->
-    urlPrefixPosition = 0
-
-    if @location
-      urlWithoutProtocol = @location.replace(/^https?:\/\//, '')
-      slashIndex         = urlWithoutProtocol.indexOf('/')
-
-      if slashIndex > 0
-        urlPrefixPosition = urlWithoutProtocol.slice(slashIndex + 1).length
-
-    return urlPrefixPosition
-
   toJSON: ->
-    urlPrefixPosition = @getUrlPrefixPosition()
     return {
       @location
       @name
@@ -98,8 +85,8 @@ class Blueprint
       @version
       @description
       @htmlDescription
-      sections: s.toJSON(urlPrefixPosition) for s in @sections
-      validations: v.toJSON(urlPrefixPosition) for v in @validations
+      sections: s.toJSON() for s in @sections
+      validations: v.toJSON() for v in @validations
       @dataStructures
     }
 
@@ -108,17 +95,15 @@ class Blueprint
   # Turns the AST into a blueprint. Outputs
   # Legacy Blueprint Format.
   toBlueprint: ->
-    urlPrefixPosition = @getUrlPrefixPosition()
-
     combineParts("\n\n", (parts) =>
       parts.push("HOST: #{@location}") if @location
       parts.push("--- #{@name} ---") if @name
       parts.push("---\n#{"#{@description}".trim()}\n---") if @description
 
-      parts.push(s.toBlueprint(urlPrefixPosition)) for s in @sections
+      parts.push(s.toBlueprint()) for s in @sections
 
       parts.push("-- JSON Schema Validations --") if @validations.length > 0
-      parts.push(v.toBlueprint(urlPrefixPosition)) for v in @validations
+      parts.push(v.toBlueprint()) for v in @validations
     )
 
 # ## `Section`
@@ -141,18 +126,18 @@ class Section
       resources: []
     )
 
-  toJSON: (urlPrefixPosition) -> return {
+  toJSON: -> return {
     @name
     @description
     @htmlDescription
-    resources: r.toJSON(urlPrefixPosition) for r in @resources or []
+    resources: r.toJSON() for r in @resources or []
   }
 
   # ### `toBlueprint`
   #
   # Turns the AST into a blueprint. Outputs
   # Legacy Blueprint Format.
-  toBlueprint: (urlPrefixPosition) ->
+  toBlueprint: ->
     combineParts("\n\n", (parts) =>
       if @name
         if @description
@@ -160,7 +145,7 @@ class Section
         else
           parts.push("-- #{@name} --")
 
-      parts.push("#{r.toBlueprint(urlPrefixPosition)}\n") for r in @resources or []
+      parts.push("#{r.toBlueprint()}\n") for r in @resources or []
     )
 
 
@@ -258,10 +243,10 @@ class Resource
 
     return examples
 
-  toJSON: (urlPrefixPosition) -> return {
+  toJSON: -> return {
     @method
     @url
-    uriTemplate: @uriTemplate or (if urlPrefixPosition then @url.slice(urlPrefixPosition) else '')
+    @uriTemplate
     @name
     @nameMethod # deprecated
     @actionName
@@ -292,10 +277,10 @@ class Resource
   #
   # Turns the AST into a blueprint. Outputs
   # Legacy Blueprint Format.
-  toBlueprint: (urlPrefixPosition = 0) ->
+  toBlueprint: ->
     combineParts("\n", (parts) =>
       parts.push("#{@description}".trim()) if @description
-      parts.push("#{@method} #{@url.slice(urlPrefixPosition)}")
+      parts.push("#{@method} #{@url}")
 
       requestBlueprint = @request?.toBlueprint()
       parts.push(requestBlueprint) if requestBlueprint
@@ -442,9 +427,9 @@ class JsonSchemaValidation
   #
   # Turns the AST into a blueprint. Outputs
   # Legacy Blueprint Format.
-  toBlueprint: (urlPrefixPosition = 0) ->
+  toBlueprint: ->
     combineParts("\n", (parts) =>
-      parts.push("#{@method} #{@url.slice(urlPrefixPosition)}")
+      parts.push("#{@method} #{@url}")
       parts.push(escapeBody(@body)) if @body
     )
 
