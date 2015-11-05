@@ -1,10 +1,57 @@
 
 {assert} = require('chai')
+sinon = require('sinon')
+ApiaryBlueprintParser = require('apiary-blueprint-parser')
 
 blueprintApi = require('../lib/blueprint-api')
+apiaryBlueprintAdapter = require('../lib/adapters/apiary-blueprint-adapter')
+
+
+getTransformedAst = (apiaryBlueprint) ->
+  transformedAst = undefined
+  stub = sinon.stub(blueprintApi.Blueprint, 'fromJSON', (json) ->
+    # We need to catch the plain JS object after it is transformed, but
+    # before it is used for deserialization. The
+    # `apiaryBlueprintAdapter.transformAst` function calls
+    # `blueprintApi.Blueprint.fromJSON` as the very last thing, so here we
+    # should get exactly what we need.
+    transformedAst = json
+  )
+  parserAst = ApiaryBlueprintParser.parse(apiaryBlueprint)
+  apiaryBlueprintAdapter.transformAst(parserAst.toJSON())
+  stub.restore()
+  return transformedAst
 
 
 describe('Serialization of the Blueprint interface (Application AST)', ->
+  describe('Blueprint object', ->
+    transformedAst = getTransformedAst('''
+      HOST: http://localhost:8002/v1/
+
+      --- Testing snippets in old format ---
+
+      -- basic methods --
+      GET /resource
+      < 200
+      { "items": [
+        { "url": "/shopping-cart/1", "product":"2ZY48XPZ", "quantity": 1, "name": "New socks", "price": 1.25 }
+      ] }
+
+      HEAD /resource
+      < 200
+    ''')
+    obj = blueprintApi.Blueprint.fromJSON(transformedAst)
+    deserializedObj = blueprintApi.Blueprint.fromJSON(obj.toJSON())
+
+    it('Instance should equal to deserialized instance', ->
+      assert.deepEqual(obj, deserializedObj)
+    )
+    it('JSON made from instance should equal to JSON made from deserialized instance', ->
+      assert.deepEqual(obj.toJSON(), deserializedObj.toJSON())
+    )
+  )
+
+
   describe('Resource object', ->
     describe('Empty instance', ->
       obj = new blueprintApi.Resource()
