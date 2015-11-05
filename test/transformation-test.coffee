@@ -47,9 +47,9 @@ parseApiBlueprint = (source, type, cb) ->
     protagonist.parse(source, options, transform)
 
 
-describe('Blueprint Tests', ->
-  describe('Version 2 Tests', ->
-    describe('When I send in simple version 2 blueprint', ->
+describe('Transformations', ->
+  describe('API Blueprint', ->
+    describe('When I send in simple blueprint', ->
       ast = undefined
       before((done) ->
         code = '''VERSION: 2
@@ -67,7 +67,7 @@ describe('Blueprint Tests', ->
       )
     )
 
-    describe('When I send in more complex version 2 blueprint', ->
+    describe('When I send in more complex blueprint', ->
       ast = undefined
       before((done) ->
         code = '''VERSION: 2
@@ -147,143 +147,7 @@ describe('Blueprint Tests', ->
         assert.equal(ast.sections[0].resources[0].responses[0].body, 'Hello World')
       )
     )
-  )
 
-  describe('Transforming text in AST', ->
-    describe('When I send in simple blueprint with one resource', ->
-      ast = undefined
-      before((done) ->
-        code = '''--- Name ---
-
-        GET /resource
-        < 200
-        '''
-
-        parseApiaryBlueprint(code, (err, newAst) ->
-          ast = newAst
-          done(err)
-        )
-      )
-
-      it('I got API name', ->
-        assert.equal('Name', ast.name)
-      )
-      it('I can see my resource url', ->
-        assert.equal('/resource', ast.sections[0].resources[0].url)
-      )
-      it('I can see my resource method', ->
-        assert.equal('GET', ast.sections[0].resources[0].method)
-      )
-      it('I can see my response status', ->
-        assert.equal(200, ast.sections[0].resources[0].responses[0].status)
-      )
-      it('I have send nothing in request body', ->
-        assert.equal(null, ast.sections[0].resources[0].request.body)
-      )
-
-      it('I have send nothing in request headers', ->
-        assert.deepEqual({}, ast.sections[0].resources[0].request.headers)
-      )
-    )
-
-    describe('When I send in simple blueprint with one POST resource and headers', ->
-      ast = undefined
-      before((done) ->
-        code = '''--- Name ---
-
-        POST /resource
-        > Content-Type: application/json
-        { "product":"1AB23ORM", "quantity": 2 }
-        < 201
-        < Content-Type: application/json
-        { "status": "created", "url": "/shopping-cart/2" }
-        '''
-
-        parseApiaryBlueprint(code, (err, newAst) ->
-          ast = newAst
-          done(err)
-        )
-      )
-
-      it('I got API name', ->
-        assert.equal('Name', ast.name)
-      )
-      it('I can see my resource url', ->
-        assert.equal('/resource', ast.sections[0].resources[0].url)
-      )
-      it('I can see my resource method', ->
-        assert.equal('POST', ast.sections[0].resources[0].method)
-      )
-      it('I can see my response status', ->
-        assert.equal(201, ast.sections[0].resources[0].responses[0].status)
-      )
-      it('I have send values in request body', ->
-        assert.equal('{ "product":"1AB23ORM", "quantity": 2 }', ast.sections[0].resources[0].request.body)
-      )
-
-      it('I have send content-type in request headers', ->
-        assert.deepEqual({'Content-Type': 'application/json'}, ast.sections[0].resources[0].request.headers)
-      )
-    )
-
-    describe('When I send in blueprint with many empty sections', ->
-      it('should parse in less than 2000ms', (done) ->
-        code = '''
---- API ---
-
--- S1 --
-
--- S2 --
-
--- S3 --
-
--- S4 --
-
--- S5 --
-
--- S6 --
-
--- S7 --
-
--- S8 --
-
--- S9 --
-
--- S10 --
-
--- S11 --
-
--- S12 --
-
--- S13 --
-
--- S14 --
-
--- S15 --
-
--- S16 --
-
--- S17 --
-
--- S18 --
-
--- S19 --
-
--- S20 --
-'''
-        parseTimestamp = Date.now() # Since parser is blocking result to comparing timestamps
-        parseApiaryBlueprint(code, (err, ast) ->
-          assert.isNull(err)
-          assert.isDefined(ast)
-          assert.strictEqual(ast.sections.length, 20)
-          assert(Date.now() - parseTimestamp < 2000, 'parsing not under 2000ms')
-          done(err)
-        )
-      )
-    )
-  )
-
-  describe('Transformation from API Blueprint AST to Application AST', ->
     describe('Upgrade of Protagonist from 0.8 to 0.11', ->
       astCaches =
         '0.8':
@@ -525,6 +389,140 @@ describe('Blueprint Tests', ->
 
         it('they are the same', ->
           assert.deepEqual(astCaches[0], astCaches[1])
+        )
+      )
+    )
+  )
+
+  describe('Legacy Apiary Blueprint', ->
+    describe('When I send in simple blueprint with one resource', ->
+      ast = undefined
+      before((done) ->
+        code = '''--- Name ---
+
+        GET /resource
+        < 200
+        '''
+
+        parseApiaryBlueprint(code, (err, newAst) ->
+          ast = newAst
+          done(err)
+        )
+      )
+
+      it('I got API name', ->
+        assert.equal('Name', ast.name)
+      )
+      it('I can see my resource url', ->
+        assert.equal('/resource', ast.sections[0].resources[0].url)
+      )
+      it('I can see my resource method', ->
+        assert.equal('GET', ast.sections[0].resources[0].method)
+      )
+      it('I can see my response status', ->
+        assert.equal(200, ast.sections[0].resources[0].responses[0].status)
+      )
+      it('I have send nothing in request body', ->
+        assert.equal(null, ast.sections[0].resources[0].request.body)
+      )
+
+      it('I have send nothing in request headers', ->
+        assert.deepEqual({}, ast.sections[0].resources[0].request.headers)
+      )
+    )
+
+    describe('When I send in simple blueprint with one POST resource and headers', ->
+      ast = undefined
+      before((done) ->
+        code = '''--- Name ---
+
+        POST /resource
+        > Content-Type: application/json
+        { "product":"1AB23ORM", "quantity": 2 }
+        < 201
+        < Content-Type: application/json
+        { "status": "created", "url": "/shopping-cart/2" }
+        '''
+
+        parseApiaryBlueprint(code, (err, newAst) ->
+          ast = newAst
+          done(err)
+        )
+      )
+
+      it('I got API name', ->
+        assert.equal('Name', ast.name)
+      )
+      it('I can see my resource url', ->
+        assert.equal('/resource', ast.sections[0].resources[0].url)
+      )
+      it('I can see my resource method', ->
+        assert.equal('POST', ast.sections[0].resources[0].method)
+      )
+      it('I can see my response status', ->
+        assert.equal(201, ast.sections[0].resources[0].responses[0].status)
+      )
+      it('I have send values in request body', ->
+        assert.equal('{ "product":"1AB23ORM", "quantity": 2 }', ast.sections[0].resources[0].request.body)
+      )
+
+      it('I have send content-type in request headers', ->
+        assert.deepEqual({'Content-Type': 'application/json'}, ast.sections[0].resources[0].request.headers)
+      )
+    )
+
+    describe('When I send in blueprint with many empty sections', ->
+      it('should parse in less than 2000ms', (done) ->
+        code = '''
+--- API ---
+
+-- S1 --
+
+-- S2 --
+
+-- S3 --
+
+-- S4 --
+
+-- S5 --
+
+-- S6 --
+
+-- S7 --
+
+-- S8 --
+
+-- S9 --
+
+-- S10 --
+
+-- S11 --
+
+-- S12 --
+
+-- S13 --
+
+-- S14 --
+
+-- S15 --
+
+-- S16 --
+
+-- S17 --
+
+-- S18 --
+
+-- S19 --
+
+-- S20 --
+'''
+        parseTimestamp = Date.now() # Since parser is blocking result to comparing timestamps
+        parseApiaryBlueprint(code, (err, ast) ->
+          assert.isNull(err)
+          assert.isDefined(ast)
+          assert.strictEqual(ast.sections.length, 20)
+          assert(Date.now() - parseTimestamp < 2000, 'parsing not under 2000ms')
+          done(err)
         )
       )
     )
