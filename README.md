@@ -77,6 +77,12 @@ parse(source, ..., function (err, result) {
   ...
 
 });
+
+
+// Blueprint API (Application AST)
+metamorphoses.blueprintApi.Blueprint.fromJSON({
+  ...
+});
 ```
 
 ## Name

@@ -1,6 +1,7 @@
 
 typer = require('media-typer')
 
+blueprintApi = require('./blueprint-api')
 apiBlueprintAdapter = require('./adapters/api-blueprint-adapter')
 apiaryBlueprintAdapter = require('./adapters/apiary-blueprint-adapter')
 
@@ -30,6 +31,7 @@ createAdapter = (mimeType) ->
 
 
 module.exports = {
+  blueprintApi
   createAdapter
   apiBlueprintAdapter
   apiaryBlueprintAdapter
