@@ -5,6 +5,7 @@ blueprintApi = require('./blueprint-api')
 markdown = require('./adapters/markdown')
 apiBlueprintAdapter = require('./adapters/api-blueprint-adapter')
 apiaryBlueprintAdapter = require('./adapters/apiary-blueprint-adapter')
+refractAdapter = require('./adapters/refract-adapter')
 
 
 createAdapter = (mimeType) ->
@@ -30,6 +31,13 @@ createAdapter = (mimeType) ->
       return apiBlueprintAdapter
     return
 
+  # Refract
+  # https://github.com/refractproject/refract-spec
+  if parsedMimeType.subtype is 'vnd.refract'
+    if not parsedMimeType.suffix or parsedMimeType.suffix is 'json'
+      return refractAdapter
+    return
+
 
 module.exports = {
   # Blueprint API (aka Application AST)
@@ -39,7 +47,7 @@ module.exports = {
   createAdapter
   apiBlueprintAdapter
   apiaryBlueprintAdapter
-
+  refractAdapter
   # Markdown rendering
   markdown
 }

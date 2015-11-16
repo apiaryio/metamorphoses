@@ -3,6 +3,7 @@
 {createAdapter} = require('../lib/metamorphoses')
 apiBlueprintAdapter = require('../lib/adapters/api-blueprint-adapter')
 apiaryBlueprintAdapter = require('../lib/adapters/apiary-blueprint-adapter')
+refractAdapter = require('../lib/adapters/refract-adapter')
 
 
 describe('#createAdapter', ->
@@ -62,5 +63,23 @@ describe('#createAdapter', ->
 
   it('does not recognize mime type with wrong base type', ->
     assert.notOk(createAdapter('text/vnd.legacyblueprint.ast'))
+  )
+
+  it('recognizes JSON serialization of refract with json suffix', ->
+    assert.equal(
+      createAdapter('application/vnd.refract+json'),
+      refractAdapter
+    )
+  )
+
+  it('recognizes JSON serialization of refract without suffix', ->
+    assert.equal(
+      createAdapter('application/vnd.refract'),
+      refractAdapter
+    )
+  )
+
+  it('recognizes JSON serialization of refract with yaml suffix', ->
+    assert.equal(createAdapter('application/vnd.refract+yaml'))
   )
 )
