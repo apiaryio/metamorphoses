@@ -20,4 +20,38 @@ describe('Transformation • Refract' , ->
       assert.equal(ast.name, 'Swagger Sample App')
     )
   )
+
+  describe('#getDescription', ->
+    getDescription = require('../lib/adapters/refract/getDescription')
+
+    [
+      {
+        input:
+          element: 'resource'
+          meta:
+            title: 'Question'
+            description: 'A __Question__ object has the following attributes.'
+          attributes: {}
+          content: [{element: 'dataStructure'}]
+        result:
+          description: 'A __Question__ object has the following attributes.'
+          htmlDescription: '<p>A <strong>Question</strong> object has the following attributes.</p>\n'
+      }
+      {
+        input:
+          element: 'resource'
+          meta:
+            title: 'Question'
+          attributes: {}
+          content: [{element: 'dataStructure'}]
+        result:
+          description: null
+          htmlDescription: null
+      }
+    ].forEach(({input, result}) ->
+      it("returns `#{result}`", ->
+        assert.deepEqual(getDescription(input), result)
+      )
+    )
+  )
 )

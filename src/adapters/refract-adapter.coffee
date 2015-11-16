@@ -3,7 +3,8 @@ markdown = require('./markdown')
 _ = require('lodash-api-description')
 
 
-transformResource = () ->
+transformResource = ->
+  return
   # url
   # uriTemplate
   # method
