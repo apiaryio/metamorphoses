@@ -1,7 +1,6 @@
 blueprintApi = require('../blueprint-api')
 markdown = require('./markdown')
-_ = require('lodash')
-
+_ = require('lodash-api-description')
 
 
 transformResource = () ->
@@ -28,7 +27,8 @@ transformResource = () ->
 
 
 transformResources = (refractObject) ->
-  _.map()
+  console.log(_.resources(refractObject))
+  _.resources(refractObject)
 
 
 transformSections = (refractObject) ->
