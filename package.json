@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/apiaryio/metamorphoses",
   "dependencies": {
+    "lodash-api-description": "apiaryio/lodash-api-description#smizell/first-iteration",
     "media-typer": "^0.3.0",
     "robotskirt": "^2.7.1",
     "sanitizer": "^0.1.2"
