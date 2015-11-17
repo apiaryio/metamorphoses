@@ -1,0 +1,125 @@
+{
+  "location": null,
+  "name": "sample",
+  "metadata": [
+    {
+      "name": "FORMAT",
+      "value": "1AHOST: http://polls.apiblueprint.org/"
+    }
+  ],
+  "version": 18,
+  "description": "Polls is a simple API allowing consumers to view polls and vote in them.",
+  "htmlDescription": "<p>Polls is a simple API allowing consumers to view polls and vote in them.</p>",
+  "sections": [
+    {
+      "name": "",
+      "description": "",
+      "htmlDescription": "",
+      "resources": [
+        {
+          "method": "GET",
+          "url": "/questions",
+          "uriTemplate": "/questions",
+          "name": "Questions Collection",
+          "actionName": "List All Questions",
+          "actionDescription": "",
+          "actionHtmlDescription": "",
+          "htmlDescription": "",
+          "model": {},
+          "headers": {},
+          "actionHeaders": {},
+          "request": {
+            "name": "",
+            "description": "",
+            "htmlDescription": "",
+            "headers": {},
+            "body": "",
+            "schema": "",
+            "exampleId": 0
+          },
+          "requests": [
+            {
+              "name": "",
+              "description": "",
+              "htmlDescription": "",
+              "headers": {},
+              "body": "",
+              "schema": "",
+              "exampleId": 0
+            }
+          ],
+          "responses": [
+            {
+              "status": "200",
+              "description": "",
+              "htmlDescription": "",
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "body": "[\n    {\n        \"question\": \"Favourite programming language?\",\n        \"published_at\": \"2015-08-05T08:40:51.620Z\",\n        \"choices\": [\n            {\n                \"choice\": \"Swift\",\n                \"votes\": 2048\n            }, {\n                \"choice\": \"Python\",\n                \"votes\": 1024\n            }, {\n                \"choice\": \"Objective-C\",\n                \"votes\": 512\n            }, {\n                \"choice\": \"Ruby\",\n                \"votes\": 256\n            }\n        ]\n    }\n]",
+              "schema": "",
+              "exampleId": 0
+            }
+          ],
+          "actionRelation": "",
+          "actionUriTemplate": ""
+        },
+        {
+          "method": "POST",
+          "url": "/questions",
+          "uriTemplate": "/questions",
+          "name": "Questions Collection",
+          "actionName": "Create a New Question",
+          "actionDescription": "You may create your own question using this action. It takes a JSON\nobject containing a question and a collection of answers in the\nform of choices.\n",
+          "actionHtmlDescription": "<p>You may create your own question using this action. It takes a JSON\nobject containing a question and a collection of answers in the\nform of choices.</p>",
+          "htmlDescription": "",
+          "model": {},
+          "headers": {},
+          "actionHeaders": {},
+          "request": {
+            "name": "",
+            "description": "",
+            "htmlDescription": "",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": "{\n    \"question\": \"Favourite programming language?\",\n    \"choices\": [\n        \"Swift\",\n        \"Python\",\n        \"Objective-C\",\n        \"Ruby\"\n    ]\n}",
+            "schema": "",
+            "exampleId": 0
+          },
+          "requests": [
+            {
+              "name": "",
+              "description": "",
+              "htmlDescription": "",
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "body": "{\n    \"question\": \"Favourite programming language?\",\n    \"choices\": [\n        \"Swift\",\n        \"Python\",\n        \"Objective-C\",\n        \"Ruby\"\n    ]\n}",
+              "schema": "",
+              "exampleId": 0
+            }
+          ],
+          "responses": [
+            {
+              "status": "201",
+              "description": "",
+              "htmlDescription": "",
+              "headers": {
+                "Content-Type": "application/json",
+                "Location": "/questions/2"
+              },
+              "body": "{\n    \"question\": \"Favourite programming language?\",\n    \"published_at\": \"2015-08-05T08:40:51.620Z\",\n    \"choices\": [\n        {\n            \"choice\": \"Swift\",\n            \"votes\": 0\n        }, {\n            \"choice\": \"Python\",\n            \"votes\": 0\n        }, {\n            \"choice\": \"Objective-C\",\n            \"votes\": 0\n        }, {\n            \"choice\": \"Ruby\",\n            \"votes\": 0\n        }\n    ]\n}",
+              "schema": "",
+              "exampleId": 0
+            }
+          ],
+          "actionRelation": "",
+          "actionUriTemplate": ""
+        }
+      ]
+    }
+  ],
+  "validations": [],
+  "dataStructures": []
+}

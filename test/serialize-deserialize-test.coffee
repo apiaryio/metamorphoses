@@ -3,8 +3,8 @@
 sinon = require('sinon')
 ApiaryBlueprintParser = require('apiary-blueprint-parser')
 
-blueprintApi = require('../lib/blueprint-api')
-apiaryBlueprintAdapter = require('../lib/adapters/apiary-blueprint-adapter')
+blueprintApi = require('../src/blueprint-api')
+apiaryBlueprintAdapter = require('../src/adapters/apiary-blueprint-adapter')
 
 
 getTransformedAst = (apiaryBlueprint) ->

@@ -1,0 +1,223 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": "sample"
+      },
+      "attributes": {
+        "meta": [
+          {
+            "element": "member",
+            "meta": {
+              "classes": [
+                "user"
+              ]
+            },
+            "content": {
+              "key": {
+                "element": "string",
+                "content": "FORMAT"
+              },
+              "value": {
+                "element": "string",
+                "content": "1AHOST: http://polls.apiblueprint.org/"
+              }
+            }
+          }
+        ]
+      },
+      "content": [
+        {
+          "element": "copy",
+          "content": "Polls is a simple API allowing consumers to view polls and vote in them.\n\n"
+        },
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "resourceGroup"
+            ],
+            "title": ""
+          },
+          "content": [
+            {
+              "element": "resource",
+              "meta": {
+                "title": "Questions Collection"
+              },
+              "attributes": {
+                "href": "/questions"
+              },
+              "content": [
+                {
+                  "element": "transition",
+                  "meta": {
+                    "title": "List All Questions"
+                  },
+                  "content": [
+                    {
+                      "element": "httpTransaction",
+                      "content": [
+                        {
+                          "element": "httpRequest",
+                          "attributes": {
+                            "method": "GET"
+                          },
+                          "content": []
+                        },
+                        {
+                          "element": "httpResponse",
+                          "attributes": {
+                            "statusCode": "200",
+                            "headers": {
+                              "element": "httpHeaders",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "Content-Type"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "application/json"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "content": [
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": "messageBody"
+                              },
+                              "attributes": {
+                                "contentType": "application/json"
+                              },
+                              "content": "[\n    {\n        \"question\": \"Favourite programming language?\",\n        \"published_at\": \"2015-08-05T08:40:51.620Z\",\n        \"choices\": [\n            {\n                \"choice\": \"Swift\",\n                \"votes\": 2048\n            }, {\n                \"choice\": \"Python\",\n                \"votes\": 1024\n            }, {\n                \"choice\": \"Objective-C\",\n                \"votes\": 512\n            }, {\n                \"choice\": \"Ruby\",\n                \"votes\": 256\n            }\n        ]\n    }\n]\n"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "element": "transition",
+                  "meta": {
+                    "title": "Create a New Question"
+                  },
+                  "content": [
+                    {
+                      "element": "copy",
+                      "content": "You may create your own question using this action. It takes a JSON\nobject containing a question and a collection of answers in the\nform of choices.\n\n"
+                    },
+                    {
+                      "element": "httpTransaction",
+                      "content": [
+                        {
+                          "element": "httpRequest",
+                          "attributes": {
+                            "method": "POST",
+                            "title": "",
+                            "headers": {
+                              "element": "httpHeaders",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "Content-Type"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "application/json"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "content": [
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": "messageBody"
+                              },
+                              "attributes": {
+                                "contentType": "application/json"
+                              },
+                              "content": "{\n    \"question\": \"Favourite programming language?\",\n    \"choices\": [\n        \"Swift\",\n        \"Python\",\n        \"Objective-C\",\n        \"Ruby\"\n    ]\n}\n"
+                            }
+                          ]
+                        },
+                        {
+                          "element": "httpResponse",
+                          "attributes": {
+                            "statusCode": "201",
+                            "headers": {
+                              "element": "httpHeaders",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "Content-Type"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "application/json"
+                                    }
+                                  }
+                                },
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "Location"
+                                    },
+                                    "value": {
+                                      "element": "string",
+                                      "content": "/questions/2"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "content": [
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": "messageBody"
+                              },
+                              "attributes": {
+                                "contentType": "application/json"
+                              },
+                              "content": "{\n    \"question\": \"Favourite programming language?\",\n    \"published_at\": \"2015-08-05T08:40:51.620Z\",\n    \"choices\": [\n        {\n            \"choice\": \"Swift\",\n            \"votes\": 0\n        }, {\n            \"choice\": \"Python\",\n            \"votes\": 0\n        }, {\n            \"choice\": \"Objective-C\",\n            \"votes\": 0\n        }, {\n            \"choice\": \"Ruby\",\n            \"votes\": 0\n        }\n    ]\n}\n"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

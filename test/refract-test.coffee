@@ -1,28 +1,30 @@
 {assert} = require('chai')
 
-blueprint = require('../lib/blueprint-api')
-refractAdapter = require('../lib/adapters/refract-adapter')
-sampleRefract = require('./fixtures/sampleRefract.json')
+blueprint = require('../src/blueprint-api')
+refractAdapter = require('../src/adapters/refract-adapter')
+
+sampleParseResult = require('./fixtures/sampleParseResult.json')
+sampleAppAst = require('./fixtures/sampleAppAst.json')
 
 describe('Transformation • Refract' , ->
   context('Transforming sample refract without error', ->
     ast = null
 
     before( ->
-      ast = refractAdapter.transformAst(sampleRefract)
+      ast = refractAdapter.transformAst(sampleParseResult)
     )
 
     it('Returns object of instance Blueprint', ->
       assert.instanceOf(ast, blueprint.Blueprint)
     )
 
-    it('Blueprint has name: `Swagger Sample App`', ->
-      assert.equal(ast.name, 'Swagger Sample App')
+    it('Blueprint has name: `Sample`', ->
+      assert.equal(ast.name, 'Sample')
     )
   )
 
   describe('#getDescription', ->
-    getDescription = require('../lib/adapters/refract/getDescription')
+    getDescription = require('../src/adapters/refract/getDescription')
 
     [
       {
@@ -49,7 +51,15 @@ describe('Transformation • Refract' , ->
           htmlDescription: null
       }
     ].forEach(({input, result}) ->
-      it("returns `#{result}`", ->
+      it('returns description', ->
+        assert.isDefined(getDescription(input)['description'])
+      )
+
+      it('returns htmlDescription', ->
+        assert.isDefined(getDescription(input)['htmlDescription'])
+      )
+
+      it('result is equal', ->
         assert.deepEqual(getDescription(input), result)
       )
     )

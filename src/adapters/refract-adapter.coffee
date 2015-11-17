@@ -1,7 +1,6 @@
+_ = require('./refract/helper')
 blueprintApi = require('../blueprint-api')
 markdown = require('./markdown')
-_ = require('lodash-api-description')
-
 
 transformResource = ->
   return
@@ -27,23 +26,24 @@ transformResource = ->
   # actionUriTemplate
 
 
-transformResources = (refractObject) ->
-  console.log(_.resources(refractObject))
-  _.resources(refractObject)
+transformResources = (element) ->
+  _.resources(element)
 
 
-transformSections = (refractObject) ->
+transformSections = (element) ->
   [
     new blueprintApi.Section(
       name: 'Unnamed Section'
-      resources: transformResources(refractObject)
+      resources: transformResources(element)
     )
   ]
 
 
-transformAst = (refractObject) ->
+transformAst = (element) ->
+  categroy = _.content(element)
+
   applicationAst = new blueprintApi.Blueprint({
-    name: ''
+    name: _.get(category, 'meta.title')
     version: ''
     metadata: []
   })
@@ -51,7 +51,7 @@ transformAst = (refractObject) ->
   applicationAst.description = ''
   applicationAst.htmlDescription = ''
 
-  applicationAst.sections = transformSections(refractObject)
+  #applicationAst.sections = transformSections(element)
 
   applicationAst
 

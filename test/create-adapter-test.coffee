@@ -1,9 +1,9 @@
 {assert} = require('chai')
 
-{createAdapter} = require('../lib/metamorphoses')
-apiBlueprintAdapter = require('../lib/adapters/api-blueprint-adapter')
-apiaryBlueprintAdapter = require('../lib/adapters/apiary-blueprint-adapter')
-refractAdapter = require('../lib/adapters/refract-adapter')
+{createAdapter} = require('../src/metamorphoses')
+apiBlueprintAdapter = require('../src/adapters/api-blueprint-adapter')
+apiaryBlueprintAdapter = require('../src/adapters/apiary-blueprint-adapter')
+refractAdapter = require('../src/adapters/refract-adapter')
 
 
 describe('#createAdapter', ->

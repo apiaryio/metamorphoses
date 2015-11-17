@@ -1,8 +1,8 @@
-_ = require('lodash-api-description')
+helper = require('./helper')
 markdown = require('../markdown')
 
 getDescription = (element) ->
-  description = _.get(element, 'meta.description') or null
+  description = helper.get(element, 'meta.description') or null
   {
     description
     htmlDescription: if description then markdown.toHtmlSync(description) else null

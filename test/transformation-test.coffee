@@ -3,9 +3,9 @@ ApiaryBlueprintParser = require('apiary-blueprint-parser')
 protagonist = require('protagonist')
 Drafter = require('drafter')
 
-CURRENT_APPLICATION_AST_VERSION = require('../lib/blueprint-api').Version
-apiBlueprintAdapter = require('../lib/adapters/api-blueprint-adapter')
-apiaryBlueprintAdapter = require('../lib/adapters/apiary-blueprint-adapter')
+CURRENT_APPLICATION_AST_VERSION = require('../src/blueprint-api').Version
+apiBlueprintAdapter = require('../src/adapters/api-blueprint-adapter')
+apiaryBlueprintAdapter = require('../src/adapters/apiary-blueprint-adapter')
 
 
 parseApiaryBlueprint = (source, cb) ->
