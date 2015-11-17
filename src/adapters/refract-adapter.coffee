@@ -2,7 +2,13 @@ _ = require('./refract/helper')
 blueprintApi = require('../blueprint-api')
 markdown = require('./markdown')
 
-getDescription = require('./refract/getDescription')
+
+getDescription = (element) ->
+  raw = _.chain(element).copy().first().content().value() or ''
+  html = if raw then markdown.toHtmlSync(raw) else ''
+
+  return {raw, html}
+
 
 transformResource = ->
   return
@@ -29,16 +35,31 @@ transformResource = ->
 
 
 transformResources = (element) ->
-  _.resources(element)
+  resources = _.resources(element)
+  console.log resources
+  []
 
 
 transformSections = (element) ->
-  [
-    new blueprintApi.Section(
-      name: 'Unnamed Section'
-      resources: transformResources(element)
-    )
-  ]
+  resourceGroups = _.chain(element)
+                    .content()
+                    .filter({element: 'category', meta: {classes: ['resourceGroup']}})
+                    .value()
+
+  resourceGroups.map((resourceGroupElement) ->
+    section = new blueprintApi.Section({
+      name: _.get(resourceGroupElement, 'meta.title')
+    })
+
+    description = getDescription(resourceGroupElement)
+
+    section.description = description.raw
+    section.htmlDescription = description.html
+
+    section.resources = transformResources(resourceGroupElement)
+
+    section
+  )
 
 
 transformAst = (element) ->
@@ -67,13 +88,13 @@ transformAst = (element) ->
   applicationAst.metadata = metadata
 
   # description
-  categoryContent = _.content(category)
-  description = _.chain(category).copy().first().content().value()
+  description = getDescription(category)
 
-  applicationAst.description = description
-  applicationAst.htmlDescription = if description then markdown.toHtmlSync(description) else null
+  applicationAst.description = description.raw
+  applicationAst.htmlDescription = description.html
 
-  #applicationAst.sections = transformSections(element)
+  # Sections
+  applicationAst.sections = transformSections(category)
 
   applicationAst
 
