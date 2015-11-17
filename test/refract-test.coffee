@@ -16,7 +16,7 @@ describe('Transformation • Refract' , ->
 
     it('Returns object of instance Blueprint', ->
       assert.instanceOf(ast, blueprint.Blueprint)
-      console.log ast.toJSON()
+      console.log JSON.stringify(ast.toJSON(), null, 2)
     )
 
     it('json value is equal', ->

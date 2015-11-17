@@ -14,23 +14,26 @@ transformResources = (element) ->
   resources = []
 
   _.resources(element).forEach((resourceElement) ->
+    resourceDescription = getDescription(resourceElement)
+
     _.transitions(resourceElement).forEach((transitionElement) ->
+      description = getDescription(transitionElement)
+
       resource = new blueprintApi.Resource({
-        # url
+        url: _.get(resourceElement, 'attributes.href')
         # uriTemplate
-        # method
-        # name
-        name: _.get(transitionElement, 'meta.title')
+        # method is set when iterating httpTransaction
+        name: _.get(resourceElement, 'meta.title')
         # headers
         # actionHeaders
-        # description
-        # htmlDescription
-        # actionName
+        description: resourceDescription.raw
+        htmlDescription: resourceDescription.html
+        actionName: _.get(transitionElement, 'meta.tite')
         # model
         # resourceParameters
         # actionParameters
-        # actionDescription
-        # actionHtmlDescription
+        actionDescription: description.raw
+        actionHtmlDescription: description.html
         # requests
         # responses
         # attributes
@@ -45,6 +48,9 @@ transformResources = (element) ->
       _.httpTransactions(transitionElement).forEach((httpTransaction) ->
         httpRequest = _.chain(httpTransaction).httpRequests().first().value()
         httpResponse  = _.chain(httpTransaction).httpResponses().first().value()
+
+        # In refract just here we have ,ethod
+        resource.method = _.get(httpRequest, 'attributes.method')
 
         request = new blueprintApi.Request({
           # name
