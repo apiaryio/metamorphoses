@@ -1,10 +1,10 @@
 {
-  "location": null,
-  "name": "sample",
+  "location": "http://polls.apiblueprint.org/",
+  "name": "Sample",
   "metadata": [
     {
       "name": "FORMAT",
-      "value": "1AHOST: http://polls.apiblueprint.org/"
+      "value": "1A"
     }
   ],
   "version": 18,
