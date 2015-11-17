@@ -10,6 +10,23 @@ getDescription = (element) ->
   return {raw, html}
 
 
+getHeaders = (element) ->
+  headers = {}
+
+  httpHeaders = _.get(element, 'attributes.headers')
+
+  return headers if not httpHeaders
+
+  _.content(httpHeaders).forEach((headerElement) ->
+    content = _.content(headerElement)
+    key = _.get(content, 'key.content')
+    value = _.get(content, 'value.content')
+
+    headers[key] = value if key
+  )
+
+  headers
+
 transformResources = (element) ->
   resources = []
 
@@ -49,32 +66,41 @@ transformResources = (element) ->
         httpRequest = _.chain(httpTransaction).httpRequests().first().value()
         httpResponse  = _.chain(httpTransaction).httpResponses().first().value()
 
+        httpRequestBody = _.chain(httpRequest).messageBodies().first().value()
+        httpResponseBody = _.chain(httpResponse).messageBodies().first().value()
+
+        httpRequestBodySchemas = _.chain(httpRequest).messageBodySchemas().first()
+        httpResponseBodySchemas = _.chain(httpResponse).messageBodySchemas().first()
+
+        httpRequestDescription = getDescription(httpRequest)
+        httpResponseDescription = getDescription(httpResponse)
+
         # In refract just here we have ,ethod
         resource.method = _.get(httpRequest, 'attributes.method')
 
         request = new blueprintApi.Request({
-          # name
-          # description
-          # htmlDescription
-          # headers
+          name: _.get(httpRequest, 'meta.title')
+          description: httpRequestDescription.raw
+          htmlDescription: httpRequestDescription.html
+          headers: getHeaders(httpRequest)
           # reference
-          # body
-          # schema
+          body: _.content(httpRequestBody)
+          schema: _.content(httpRequestBodySchemas)
           # exampleId
-          # attributes
+          attributes: _.get(httpRequestBody, 'attributes')
           # resolvedAttributes
         })
 
         response = new blueprintApi.Response({
-          # status
-          # description
-          # htmlDescription
-          # headers
+          status: _.get(httpResponse, 'attributes.statusCode')
+          description: httpResponseDescription.raw
+          htmlDescription: httpResponseDescription.html
+          headers: getHeaders(httpResponse)
           # reference
-          # body
-          # schema
+          body: _.content(httpResponseBody)
+          schema: _.content(httpResponseBodySchemas)
           # exampleId
-          # attributes
+          attributes: _.get(httpResponseBody, 'attributes')
           # resolvedAttributes
         })
 
