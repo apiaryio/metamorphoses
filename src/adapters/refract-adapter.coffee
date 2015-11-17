@@ -10,35 +10,81 @@ getDescription = (element) ->
   return {raw, html}
 
 
-transformResource = ->
-  return
-  # url
-  # uriTemplate
-  # method
-  # name
-  # headers
-  # actionHeaders
-  # description
-  # htmlDescription
-  # actionName
-  # model
-  # resourceParameters
-  # actionParameters
-  # actionDescription
-  # actionHtmlDescription
-  # requests
-  # responses
-  # attributes
-  # resolvedAttributes
-  # actionRelation
-  # actionUriTemplate
-
-
 transformResources = (element) ->
-  resources = _.resources(element)
-  console.log resources
-  []
+  resources = []
 
+  _.resources(element).forEach((resourceElement) ->
+    _.transitions(resourceElement).forEach((transitionElement) ->
+      resource = new blueprintApi.Resource({
+        # url
+        # uriTemplate
+        # method
+        # name
+        name: _.get(transitionElement, 'meta.title')
+        # headers
+        # actionHeaders
+        # description
+        # htmlDescription
+        # actionName
+        # model
+        # resourceParameters
+        # actionParameters
+        # actionDescription
+        # actionHtmlDescription
+        # requests
+        # responses
+        # attributes
+        # resolvedAttributes
+        # actionRelation
+        # actionUriTemplate
+      })
+
+      requests = []
+      responses = []
+
+      _.httpTransactions(transitionElement).forEach((httpTransaction) ->
+        httpRequest = _.chain(httpTransaction).httpRequests().first().value()
+        httpResponse  = _.chain(httpTransaction).httpResponses().first().value()
+
+        request = new blueprintApi.Request({
+          # name
+          # description
+          # htmlDescription
+          # headers
+          # reference
+          # body
+          # schema
+          # exampleId
+          # attributes
+          # resolvedAttributes
+        })
+
+        response = new blueprintApi.Response({
+          # status
+          # description
+          # htmlDescription
+          # headers
+          # reference
+          # body
+          # schema
+          # exampleId
+          # attributes
+          # resolvedAttributes
+        })
+
+        requests.push(request)
+        responses.push(response)
+      )
+
+      resource.requests = requests
+      resource.request = requests[0]
+      resource.responses = responses
+
+      resources.push(resource)
+    )
+  )
+
+  resources
 
 transformSections = (element) ->
   resourceGroups = _.chain(element)
