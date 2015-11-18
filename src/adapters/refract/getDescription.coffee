@@ -1,11 +1,8 @@
 _ = require('./helper')
 markdown = require('../markdown')
 
-getDescription = (element) ->
-  description = _.get(element, 'meta.description') or null
-  {
-    description
-    htmlDescription: if description then markdown.toHtmlSync(description) else null
-  }
+module.exports = (element) ->
+  raw = _.chain(element).copy().first().content().value() or ''
+  html = if raw then markdown.toHtmlSync(raw) else ''
 
-module.exports = getDescription
+  return {raw, html}
