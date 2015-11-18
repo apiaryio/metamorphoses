@@ -13,7 +13,7 @@ getUriParameters = (hrefVariables) ->
                 .some('optional').value()
 
     memberContent = lodashedHrefVariable.content()
-    name = memberContent.get('key').content().value()
+    key = memberContent.get('key').content().value()
     value = memberContent.get('value')
     type = value.get('element').value()
 
@@ -26,7 +26,7 @@ getUriParameters = (hrefVariables) ->
       defaultValue = value.content().value().toString()
 
     return {
-      name
+      key
       values: []
       example: exampleValue
       default: defaultValue
