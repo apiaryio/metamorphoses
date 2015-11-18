@@ -13,16 +13,27 @@ module.exports = (element) ->
     _.transitions(resourceElement).forEach((transitionElement) ->
       description = getDescription(transitionElement)
 
+      resourceParameters = getUriParameters(_.get(resourceElement, 'attributes.hrefVariables'))
+      actionParameters = getUriParameters(_.get(transitionElement, 'attributes.hrefVariables'))
+      parameters = resourceParameters.concat(actionParameters)
+
+      resourceParameters = undefined if _.isEmpty(resourceParameters)
+      actionParameters = undefined if _.isEmpty(actionParameters)
+      parameters = undefined if _.isEmpty(parameters)
+
+      attributes = _.dataStructures(resourceElement)
+      attributes = undefined if _.isEmpty(attributes)
+
       # Resource
       #
       # * `method` is set when iterating `httpTransaction`
       # * Dtto, `actionUriTemplate`
       resource = new blueprintApi.Resource({
         # TODO: `url` should contain a possible HOST suffix.
-        url: _.get(resourceElement, 'attributes.href')
-        uriTemplate: _.get(resourceElement, 'attributes.href')
+        url: _.get(resourceElement, 'attributes.href', '')
+        uriTemplate: _.get(resourceElement, 'attributes.href', '')
 
-        name: _.get(resourceElement, 'meta.title')
+        name: _.get(resourceElement, 'meta.title', '')
 
         # We can safely leave these empty for now.
         headers: {}
@@ -30,21 +41,22 @@ module.exports = (element) ->
 
         description: resourceDescription.raw
         htmlDescription: resourceDescription.html
-        actionName: _.get(transitionElement, 'meta.title')
+        actionName: _.get(transitionElement, 'meta.title', '')
 
         # Model has been deprecated in the API Blueprint format,
         # therfore we can safely skip it.
         model: {}
 
-        resourceParameters: getUriParameters(_.get(resourceElement, 'attributes.hrefVariables'))
-        actionParameters: getUriParameters(_.get(transitionElement, 'attributes.hrefVariables'))
+        parameters
+        resourceParameters
+        actionParameters
 
         actionDescription: description.raw
         actionHtmlDescription: description.html
-        attributes: _.dataStructures(resourceElement)
-        resolvedAttributes: _.dataStructures(resourceElement)
+        attributes
+        resolvedAttributes: attributes
 
-        actionRelation: _.get(transitionElement, 'attributes.relation', null)
+        actionRelation: _.get(transitionElement, 'attributes.relation', '')
       })
 
       requests = []
@@ -63,11 +75,18 @@ module.exports = (element) ->
         httpRequestDescription = getDescription(httpRequest)
         httpResponseDescription = getDescription(httpResponse)
 
-        # In refract just here we have ,ethod
-        resource.method = _.get(httpRequest, 'attributes.method')
+        requestAttributes = _.dataStructures(httpRequestBody)
+        requestAttributes = undefined if _.isEmpty(requestAttributes)
+
+        responseAttributes = _.dataStructures(httpResponseBody)
+        responseAttributes = undefined if _.isEmpty(responseAttributes)
+
+        # In refract just here we have method and href
+        resource.method = _.get(httpRequest, 'attributes.method', '')
+        resource.actionUriTemplate = _.get(httpRequest, 'attributes.href', '')
 
         request = new blueprintApi.Request({
-          name: _.get(httpRequest, 'meta.title')
+          name: _.get(httpRequest, 'meta.title', '')
           description: httpRequestDescription.raw
           htmlDescription: httpRequestDescription.html
           headers: getHeaders(httpRequest)
@@ -75,12 +94,9 @@ module.exports = (element) ->
           body: if _.content(httpRequestBody) then _.content(httpRequestBody) else ''
           schema: if _.content(httpRequestBodySchemas) then _.content(httpRequestBodySchemas) else ''
           # exampleId
-          attributes: _.dataStructures(httpRequestBody)
-          resolvedAttributes: _.dataStructures(httpRequestBody)
+          attributes: requestAttributes
+          resolvedAttributes: requestAttributes
         })
-
-        #if httpRequest.attributes?.href
-        #resource.actionUriTemplate
 
         response = new blueprintApi.Response({
           status: _.get(httpResponse, 'attributes.statusCode')
@@ -91,8 +107,8 @@ module.exports = (element) ->
           body: if _.content(httpResponseBody) then _.content(httpResponseBody) else ''
           schema: if _.content(httpResponseBodySchemas) then _.content(httpResponseBodySchemas) else ''
           # exampleId
-          attributes: _.dataStructures(httpResponseBody)
-          resolvedAttributes: _.dataStructures(httpResponseBody)
+          attributes: responseAttributes
+          resolvedAttributes: responseAttributes
         })
 
         requests.push(request)

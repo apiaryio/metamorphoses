@@ -11,6 +11,7 @@ transformAst = (element) ->
 
   applicationAst = new blueprintApi.Blueprint({
     name: _.get(category, 'meta.title')
+    version: '22' # how about this? we don't have in refract parse result at all
     metadata: []
   })
 
@@ -22,8 +23,9 @@ transformAst = (element) ->
     .map((entry) ->
       content = _.content(entry)
 
-      name = _.get(content, 'key.content')
-      value = _.get(content, 'value.content')
+      name = _(entry).content().get('key.content')
+      value = _(entry).content().get('value.content', '')
+
       applicationAst.location = value if name is 'HOST'
       {name, value}
     ).value()

@@ -19,7 +19,9 @@ describe('Transformation • Refract' , ->
     )
 
     it('json value is equal', ->
-      assert.deepEqual(ast.toJSON(), sampleAppAst)
+      # omit [undefined] in diff
+      result = JSON.parse(JSON.stringify(ast.toJSON()))
+      assert.deepEqual(result, sampleAppAst)
     )
   )
 )

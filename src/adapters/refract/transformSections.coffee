@@ -12,7 +12,7 @@ module.exports = (element) ->
 
   resourceGroups.map((resourceGroupElement) ->
     section = new blueprintApi.Section({
-      name: _.get(resourceGroupElement, 'meta.title')
+      name: _.get(resourceGroupElement, 'meta.title', '')
     })
 
     description = getDescription(resourceGroupElement)
