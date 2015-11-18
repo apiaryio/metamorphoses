@@ -24,12 +24,12 @@ module.exports = (element) ->
         name: _.get(resourceElement, 'meta.title')
 
         # We can safely leave these empty for now.
-        headers: []
-        actionHeaders: []
+        headers: {}
+        actionHeaders: {}
 
         description: resourceDescription.raw
         htmlDescription: resourceDescription.html
-        actionName: _.get(transitionElement, 'meta.tite')
+        actionName: _.get(transitionElement, 'meta.title')
 
         # Model has been deprecated in the API Blueprint format,
         # therfore we can safely skip it.
@@ -42,7 +42,7 @@ module.exports = (element) ->
         actionDescription: description.raw
         actionHtmlDescription: description.html
         attributes: _.dataStructures(resourceElement)
-        # resolvedAttributes
+        resolvedAttributes: _.dataStructures(resourceElement)
 
         actionRelation: transitionElement.attributes?.relation or null
       })
@@ -57,8 +57,8 @@ module.exports = (element) ->
         httpRequestBody = _.chain(httpRequest).messageBodies().first().value()
         httpResponseBody = _.chain(httpResponse).messageBodies().first().value()
 
-        httpRequestBodySchemas = _.chain(httpRequest).messageBodySchemas().first()
-        httpResponseBodySchemas = _.chain(httpResponse).messageBodySchemas().first()
+        httpRequestBodySchemas = _.chain(httpRequest).messageBodySchemas().first().value()
+        httpResponseBodySchemas = _.chain(httpResponse).messageBodySchemas().first().value()
 
         httpRequestDescription = getDescription(httpRequest)
         httpResponseDescription = getDescription(httpResponse)
@@ -72,8 +72,8 @@ module.exports = (element) ->
           htmlDescription: httpRequestDescription.html
           headers: getHeaders(httpRequest)
           # reference
-          body: _.content(httpRequestBody)
-          schema: _.content(httpRequestBodySchemas)
+          body: if _.content(httpRequestBody) then _.content(httpRequestBody) else ''
+          schema: if _.content(httpRequestBodySchemas) then _.content(httpRequestBodySchemas) else ''
           # exampleId
           attributes: _.dataStructures(httpRequestBody)
           resolvedAttributes: _.dataStructures(httpRequestBody)
@@ -88,8 +88,8 @@ module.exports = (element) ->
           htmlDescription: httpResponseDescription.html
           headers: getHeaders(httpResponse)
           # reference
-          body: _.content(httpResponseBody)
-          schema: _.content(httpResponseBodySchemas)
+          body: if _.content(httpResponseBody) then _.content(httpResponseBody) else ''
+          schema: if _.content(httpResponseBodySchemas) then _.content(httpResponseBodySchemas) else ''
           # exampleId
           attributes: _.dataStructures(httpResponseBody)
           resolvedAttributes: _.dataStructures(httpResponseBody)

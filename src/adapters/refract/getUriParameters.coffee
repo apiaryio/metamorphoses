@@ -4,31 +4,29 @@ getMetaDescription = require('./getMetaDescription')
 getUriParameters = (hrefVariables) ->
 
   lodash.content(hrefVariables).map((hrefVariable) ->
-    lodashedHrefVariable = lodash(hrefVariable)
+    lodashedHrefVariable = lodash.chain(hrefVariable)
 
-    required = lodashedHrefVariable.get('attributes.typeAttributes.required', false),
-    if lodashedHrefVariable.has('attributes.typeAttributes.optional') and required isnt true
-      required = lodashedHrefVariable.get('attributes.typeAttributes.optional')
+    required = lodashedHrefVariable.get('attributes.typeAttributes').some('required').value()
+    required = not lodashedHrefVariable.get('attributes.typeAttributes').some('required').value()
 
     memberContent = lodashedHrefVariable.content()
-    key = memberContent.get('key').content()
+    name = memberContent.get('key').content().value()
     value = memberContent.get('value')
-    type = value.get('element')
+    type = value.get('element').value()
 
-    values = [value.content()]
-    default = undefined
-    example = undefined
+    defaultValue = ""
+    exampleValue = ""
 
     if required is true
-      example = value.content()
+      exampleValue = value.content().value().toString()
     else
-      default = value.content()
+      defaultValue = value.content().value().toString()
   
     return {
-      key
-      values
-      example
-      default
+      name
+      values: []
+      example: exampleValue
+      default: defaultValue
       required
       type
       description: getMetaDescription(hrefVariable)
