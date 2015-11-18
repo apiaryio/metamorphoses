@@ -51,14 +51,14 @@ module.exports = (element) ->
       responses = []
 
       _.httpTransactions(transitionElement).forEach((httpTransaction) ->
-        httpRequest = _.chain(httpTransaction).httpRequests().first().value()
-        httpResponse  = _.chain(httpTransaction).httpResponses().first().value()
+        httpRequest = _(httpTransaction).httpRequests().first()
+        httpResponse  = _(httpTransaction).httpResponses().first()
 
-        httpRequestBody = _.chain(httpRequest).messageBodies().first().value()
-        httpResponseBody = _.chain(httpResponse).messageBodies().first().value()
+        httpRequestBody = _(httpRequest).messageBodies().first()
+        httpResponseBody = _(httpResponse).messageBodies().first()
 
-        httpRequestBodySchemas = _.chain(httpRequest).messageBodySchemas().first().value()
-        httpResponseBodySchemas = _.chain(httpResponse).messageBodySchemas().first().value()
+        httpRequestBodySchemas = _(httpRequest).messageBodySchemas().first()
+        httpResponseBodySchemas = _(httpResponse).messageBodySchemas().first()
 
         httpRequestDescription = getDescription(httpRequest)
         httpResponseDescription = getDescription(httpResponse)

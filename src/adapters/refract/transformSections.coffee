@@ -5,7 +5,7 @@ getDescription = require('./getDescription')
 transformResources = require('./transformResources')
 
 module.exports = (element) ->
-  resourceGroups = _.chain(element)
+  resourceGroups = _(element)
                     .content()
                     .filter({element: 'category', meta: {classes: ['resourceGroup']}})
                     .value()
