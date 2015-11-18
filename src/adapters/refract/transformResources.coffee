@@ -13,8 +13,10 @@ module.exports = (element) ->
       description = getDescription(transitionElement)
 
       resource = new blueprintApi.Resource({
+        # TODO: `url` should contain a possible HOST suffix.
         url: _.get(resourceElement, 'attributes.href')
-        # uriTemplate
+        uriTemplate: _.get(resourceElement, 'attributes.href')
+
         # method is set when iterating httpTransaction
         name: _.get(resourceElement, 'meta.title')
         # headers
