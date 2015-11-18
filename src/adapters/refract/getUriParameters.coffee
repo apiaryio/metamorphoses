@@ -1,15 +1,20 @@
-import lodash from 'lodash';
+lodash = require('lodash');
+getDescription = require('./getDescription')
 
-getUriParameters = (hrefVariable) ->
-  return {
-    key: "question_id",
-    values: [],
-    example: "1",
-    default: "",
-    required: true,
-    type: "number",
-    description: "<p>ID of the Question in form of an integer<\/p>\n"
-  };
+getUriParameters = (hrefVariables) ->
+
+  lodash.content(hrefVariables).map((hrefVariable) ->
+    return {
+      key: lodash.content(hrefVariable).get('key.value'),
+      values: lodash.content(hrefVariable).get('value.content'),
+      example: lodash.content(hrefVariable).get('value.content'),
+      default: lodash.content(hrefVariable).get('value.element.attributes.default'),
+      required: lodash(hrefVariable).get('attributes.typeAttributes.required', false),
+      type: lodash.content(hrefVariable).get('value.element'),
+      description: getDescription(hrefVariable).raw
+    };
+
+  )
 
 
 module.exports = getUriParameters
