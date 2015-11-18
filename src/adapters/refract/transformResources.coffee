@@ -12,9 +12,9 @@ module.exports = (element) ->
     _.transitions(resourceElement).forEach((transitionElement) ->
       description = getDescription(transitionElement)
 
+      # Resource
       #
       # * `method` is set when iterating `httpTransaction`
-      #
       resource = new blueprintApi.Resource({
         # TODO: `url` should contain a possible HOST suffix.
         url: _.get(resourceElement, 'attributes.href')
@@ -29,13 +29,20 @@ module.exports = (element) ->
         description: resourceDescription.raw
         htmlDescription: resourceDescription.html
         actionName: _.get(transitionElement, 'meta.tite')
-        # model
+
+        # Model has been deprecated in the API Blueprint format,
+        # therfore we can safely skip it.
+        model: null
+
+        # TODO: Waiting for Vincenzo.
         # resourceParameters
         # actionParameters
+
         actionDescription: description.raw
         actionHtmlDescription: description.html
         attributes: _.dataStructures(resourceElement)
         # resolvedAttributes
+
         # actionRelation
         # actionUriTemplate
       })
