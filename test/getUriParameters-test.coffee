@@ -94,24 +94,24 @@ describe('Transformation • Refract • getUriParameters' , ->
         },
         parameters: [
           {
-                'key': 'page',
-                'description': '',
-                'type': 'number',
-                'required': false,
-                'default': '2',
-                'example': '',
-                'values': [
-                    {
-                        'value': '1'
-                    },
-                    {
-                        'value': '2'
-                    },
-                    {
-                        'value': '3'
-                    }
-                ]
-            }
+            'key': 'page',
+            'description': '',
+            'type': 'enum',
+            'required': false,
+            'default': '2',
+            'example': '',
+            'values': [
+                {
+                    'value': '1'
+                },
+                {
+                    'value': '2'
+                },
+                {
+                    'value': '3'
+                }
+            ]
+          }
         ]
       },
     ]
