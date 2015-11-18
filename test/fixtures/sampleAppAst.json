@@ -3,8 +3,12 @@
   "name": "Polls",
   "metadata": [
     {
-      "name": "FORMAT",
-      "value": "1A"
+        "name": "FORMAT",
+        "value": "1A"
+    },
+    {
+        "name": "HOST",
+        "value": "https://polls.apiblueprint.org/"
     }
   ],
   "version": 18,
