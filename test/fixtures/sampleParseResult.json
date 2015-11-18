@@ -126,7 +126,7 @@
                               "attributes": {
                                 "contentType": "application/json"
                               },
-                              "content": "{\n \"questions_url\": \"/questions\"\n}\n"
+                              "content": "{\n    \"questions_url\": \"/questions\"\n}\n"
                             }
                           ]
                         }
@@ -240,7 +240,7 @@
                               "attributes": {
                                 "contentType": "application/json"
                               },
-                              "content": " {\n \"question\": \"Favourite programming language?\",\n \"published_at\": \"2014-11-11T08:40:51.620Z\",\n \"url\": \"/questions/1\",\n \"choices\": [\n {\n \"choice\": \"Swift\",\n \"url\": \"/questions/1/choices/1\",\n \"votes\": 2048\n }, {\n \"choice\": \"Python\",\n \"url\": \"/questions/1/choices/2\",\n \"votes\": 1024\n }, {\n \"choice\": \"Objective-C\",\n \"url\": \"/questions/1/choices/3\",\n \"votes\": 512\n }, {\n \"choice\": \"Ruby\",\n \"url\": \"/questions/1/choices/4\",\n \"votes\": 256\n }\n ]\n }\n"
+                              "content": "        {\n            \"question\": \"Favourite programming language?\",\n            \"published_at\": \"2014-11-11T08:40:51.620Z\",\n            \"url\": \"/questions/1\",\n            \"choices\": [\n                {\n                    \"choice\": \"Swift\",\n                    \"url\": \"/questions/1/choices/1\",\n                    \"votes\": 2048\n                }, {\n                    \"choice\": \"Python\",\n                    \"url\": \"/questions/1/choices/2\",\n                    \"votes\": 1024\n                }, {\n                    \"choice\": \"Objective-C\",\n                    \"url\": \"/questions/1/choices/3\",\n                    \"votes\": 512\n                }, {\n                    \"choice\": \"Ruby\",\n                    \"url\": \"/questions/1/choices/4\",\n                    \"votes\": 256\n                }\n            ]\n        }\n"
                             }
                           ]
                         }
@@ -360,7 +360,7 @@
                               "attributes": {
                                 "contentType": "application/json"
                               },
-                              "content": "{\n \"url\": \"/questions/1/choices/1\",\n \"votes\": 1,\n \"choice\": \"Swift\"\n}\n"
+                              "content": "{\n    \"url\": \"/questions/1/choices/1\",\n    \"votes\": 1,\n    \"choice\": \"Swift\"\n}\n"
                             }
                           ]
                         }
@@ -454,7 +454,7 @@
                                     },
                                     "value": {
                                       "element": "string",
-                                      "content": "; rel=\"next\""
+                                      "content": "</questions?page=2>; rel=\"next\""
                                     }
                                   }
                                 }
@@ -472,7 +472,7 @@
                               "attributes": {
                                 "contentType": "application/json"
                               },
-                              "content": "[\n {\n \"question\": \"Favourite programming language?\",\n \"published_at\": \"2014-11-11T08:40:51.620Z\",\n \"url\": \"/questions/1\",\n \"choices\": [\n {\n \"choice\": \"Swift\",\n \"url\": \"/questions/1/choices/1\",\n \"votes\": 2048\n }, {\n \"choice\": \"Python\",\n \"url\": \"/questions/1/choices/2\",\n \"votes\": 1024\n }, {\n \"choice\": \"Objective-C\",\n \"url\": \"/questions/1/choices/3\",\n \"votes\": 512\n }, {\n \"choice\": \"Ruby\",\n \"url\": \"/questions/1/choices/4\",\n \"votes\": 256\n }\n ]\n }\n]\n"
+                              "content": "[\n    {\n        \"question\": \"Favourite programming language?\",\n        \"published_at\": \"2014-11-11T08:40:51.620Z\",\n        \"url\": \"/questions/1\",\n        \"choices\": [\n            {\n                \"choice\": \"Swift\",\n                \"url\": \"/questions/1/choices/1\",\n                \"votes\": 2048\n            }, {\n                \"choice\": \"Python\",\n                \"url\": \"/questions/1/choices/2\",\n                \"votes\": 1024\n            }, {\n                \"choice\": \"Objective-C\",\n                \"url\": \"/questions/1/choices/3\",\n                \"votes\": 512\n            }, {\n                \"choice\": \"Ruby\",\n                \"url\": \"/questions/1/choices/4\",\n                \"votes\": 256\n            }\n        ]\n    }\n]\n"
                             }
                           ]
                         }
@@ -528,7 +528,7 @@
                               "attributes": {
                                 "contentType": "application/json"
                               },
-                              "content": " {\n \"question\": \"Favourite programming language?\",\n \"choices\": [\n \"Swift\",\n \"Python\",\n \"Objective-C\",\n \"Ruby\"\n ]\n }\n"
+                              "content": "    {\n        \"question\": \"Favourite programming language?\",\n        \"choices\": [\n            \"Swift\",\n            \"Python\",\n            \"Objective-C\",\n            \"Ruby\"\n        ]\n    }\n"
                             }
                           ]
                         },
@@ -579,7 +579,7 @@
                               "attributes": {
                                 "contentType": "application/json"
                               },
-                              "content": " {\n \"question\": \"Favourite programming language?\",\n \"published_at\": \"2014-11-11T08:40:51.620Z\",\n \"url\": \"/questions/2\",\n \"choices\": [\n {\n \"choice\": \"Swift\",\n \"url\": \"/questions/2/choices/1\",\n \"votes\": 0\n }, {\n \"choice\": \"Python\",\n \"url\": \"/questions/2/choices/2\",\n \"votes\": 0\n }, {\n \"choice\": \"Objective-C\",\n \"url\": \"/questions/2/choices/3\",\n \"votes\": 0\n }, {\n \"choice\": \"Ruby\",\n \"url\": \"/questions/2/choices/4\",\n \"votes\": 0\n }\n ]\n }\n"
+                              "content": "    {\n        \"question\": \"Favourite programming language?\",\n        \"published_at\": \"2014-11-11T08:40:51.620Z\",\n        \"url\": \"/questions/2\",\n        \"choices\": [\n            {\n                \"choice\": \"Swift\",\n                \"url\": \"/questions/2/choices/1\",\n                \"votes\": 0\n            }, {\n                \"choice\": \"Python\",\n                \"url\": \"/questions/2/choices/2\",\n                \"votes\": 0\n            }, {\n                \"choice\": \"Objective-C\",\n                \"url\": \"/questions/2/choices/3\",\n                \"votes\": 0\n            }, {\n                \"choice\": \"Ruby\",\n                \"url\": \"/questions/2/choices/4\",\n                \"votes\": 0\n            }\n        ]\n    }\n"
                             }
                           ]
                         }
