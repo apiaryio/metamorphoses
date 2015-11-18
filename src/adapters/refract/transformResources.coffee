@@ -12,15 +12,20 @@ module.exports = (element) ->
     _.transitions(resourceElement).forEach((transitionElement) ->
       description = getDescription(transitionElement)
 
+      #
+      # * `method` is set when iterating `httpTransaction`
+      #
       resource = new blueprintApi.Resource({
         # TODO: `url` should contain a possible HOST suffix.
         url: _.get(resourceElement, 'attributes.href')
         uriTemplate: _.get(resourceElement, 'attributes.href')
 
-        # method is set when iterating httpTransaction
         name: _.get(resourceElement, 'meta.title')
-        # headers
-        # actionHeaders
+
+        # We can safely leave these empty for now.
+        headers: []
+        actionHeaders: []
+
         description: resourceDescription.raw
         htmlDescription: resourceDescription.html
         actionName: _.get(transitionElement, 'meta.tite')
