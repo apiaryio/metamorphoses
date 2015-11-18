@@ -15,20 +15,25 @@ getUriParameters = (hrefVariables) ->
 
     memberContent = lodashedHrefVariable.content()
     key = memberContent.get('key').content().value()
-    value = memberContent.get('value')
-    type = value.get('element').value()
+    memberContentValue = memberContent.get('value')
+    type = memberContentValue.get('element').value()
 
     defaultValue = ''
     exampleValue = ''
+    values = []
+    if (memberContentValue.has('attributes.default').value())
+      defaultValue = memberContentValue.get('attributes.default').content().value()
 
-    if required is true
-      exampleValue = value.content().value().toString()
+    memberContentValueContent = memberContentValue.content()
+
+    if not lodash.isArray(memberContentValueContent)
+      exampleValue = memberContentValueContent.value().toString()
     else
-      defaultValue = value.content().value().toString()
+      values = memberContentValueContent.map((element) -> element.content()).value()
 
     return {
       key
-      values: []
+      values
       example: exampleValue
       default: defaultValue
       required
