@@ -1,4 +1,4 @@
-lodash = require('./helper');
+lodash = require('./helper')
 getMetaDescription = require('./getMetaDescription')
 
 getUriParameters = (hrefVariables) ->
@@ -6,22 +6,25 @@ getUriParameters = (hrefVariables) ->
   lodash.content(hrefVariables).map((hrefVariable) ->
     lodashedHrefVariable = lodash.chain(hrefVariable)
 
-    required = lodashedHrefVariable.get('attributes.typeAttributes').some('required').value()
-    required = not lodashedHrefVariable.get('attributes.typeAttributes').some('required').value()
+    required = lodashedHrefVariable.get('attributes.typeAttributes')
+                .some('required').value()
+
+    required = not lodashedHrefVariable.get('attributes.typeAttributes')
+                .some('optional').value()
 
     memberContent = lodashedHrefVariable.content()
     name = memberContent.get('key').content().value()
     value = memberContent.get('value')
     type = value.get('element').value()
 
-    defaultValue = ""
-    exampleValue = ""
+    defaultValue = ''
+    exampleValue = ''
 
     if required is true
       exampleValue = value.content().value().toString()
     else
       defaultValue = value.content().value().toString()
-  
+
     return {
       name
       values: []
@@ -30,8 +33,7 @@ getUriParameters = (hrefVariables) ->
       required
       type
       description: getMetaDescription(hrefVariable)
-    };
-
+    }
   )
 
 
