@@ -15,6 +15,7 @@ module.exports = (element) ->
       # Resource
       #
       # * `method` is set when iterating `httpTransaction`
+      # * Dtto, `actionUriTemplate`
       resource = new blueprintApi.Resource({
         # TODO: `url` should contain a possible HOST suffix.
         url: _.get(resourceElement, 'attributes.href')
@@ -43,8 +44,7 @@ module.exports = (element) ->
         attributes: _.dataStructures(resourceElement)
         # resolvedAttributes
 
-        # actionRelation
-        # actionUriTemplate
+        actionRelation: transitionElement.attributes?.relation or null
       })
 
       requests = []
@@ -78,6 +78,9 @@ module.exports = (element) ->
           attributes: _.dataStructures(httpRequestBody)
           resolvedAttributes: _.dataStructures(httpRequestBody)
         })
+
+        #if httpRequest.attributes?.href
+        #resource.actionUriTemplate
 
         response = new blueprintApi.Response({
           status: _.get(httpResponse, 'attributes.statusCode')
