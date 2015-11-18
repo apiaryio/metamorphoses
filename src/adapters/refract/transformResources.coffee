@@ -27,9 +27,7 @@ module.exports = (element) ->
         # actionParameters
         actionDescription: description.raw
         actionHtmlDescription: description.html
-        # requests
-        # responses
-        # attributes
+        attributes: _.dataStructures(resourceElement)
         # resolvedAttributes
         # actionRelation
         # actionUriTemplate
@@ -63,8 +61,8 @@ module.exports = (element) ->
           body: _.content(httpRequestBody)
           schema: _.content(httpRequestBodySchemas)
           # exampleId
-          attributes: _.get(httpRequestBody, 'attributes')
-          # resolvedAttributes
+          attributes: _.dataStructures(httpRequestBody)
+          resolvedAttributes: _.dataStructures(httpRequestBody)
         })
 
         response = new blueprintApi.Response({
@@ -76,8 +74,8 @@ module.exports = (element) ->
           body: _.content(httpResponseBody)
           schema: _.content(httpResponseBodySchemas)
           # exampleId
-          attributes: _.get(httpResponseBody, 'attributes')
-          # resolvedAttributes
+          attributes: _.dataStructures(httpResponseBody)
+          resolvedAttributes: _.dataStructures(httpResponseBody)
         })
 
         requests.push(request)
