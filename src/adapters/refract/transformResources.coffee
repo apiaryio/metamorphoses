@@ -2,6 +2,7 @@ _ = require('./helper')
 blueprintApi = require('../../blueprint-api')
 getDescription = require('./getDescription')
 getHeaders = require('./getHeaders')
+getUriParameters = require('./getUriParameters')
 
 module.exports = (element) ->
   resources = []
@@ -35,9 +36,8 @@ module.exports = (element) ->
         # therfore we can safely skip it.
         model: null
 
-        # TODO: Waiting for Vincenzo.
-        # resourceParameters
-        # actionParameters
+        resourceParameters: getUriParameters(_.get(resourceElement, 'attributes.hrefVariables'))
+        actionParameters: getUriParameters(_.get(transitionElement, 'attributes.hrefVariables'))
 
         actionDescription: description.raw
         actionHtmlDescription: description.html

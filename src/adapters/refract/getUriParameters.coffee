@@ -2,8 +2,12 @@ lodash = require('./helper')
 getMetaDescription = require('./getMetaDescription')
 
 getUriParameters = (hrefVariables) ->
+  hrefVariablesContent = lodash.content(hrefVariables)
 
-  lodash.content(hrefVariables).map((hrefVariable) ->
+  if hrefVariablesContent is undefined
+    return []
+
+  hrefVariablesContent.map((hrefVariable) ->
     lodashedHrefVariable = lodash.chain(hrefVariable)
 
     required = lodashedHrefVariable.get('attributes.typeAttributes')
