@@ -1,801 +1,387 @@
 {
-  "ast": {
-    "_version": "3.0",
-    "metadata": [
-      {
-        "name": "FORMAT",
-        "value": "1A"
-      },
-      {
-        "name": "HOST",
-        "value": "https:\/\/polls.apiblueprint.org\/"
-      }
-    ],
-    "name": "Polls",
-    "description": "Polls is a simple web service that allows consumers to view polls and vote in them.\n\n",
-    "element": "category",
-    "resourceGroups": [
-      {
-        "name": "",
-        "description": "",
-        "resources": [
-          {
-            "element": "resource",
-            "name": "Polls API Root",
-            "description": "This resource does not have any attributes. Instead it offers the initial API affordances in the form of the links in the JSON body.\n\nIt is recommend to follow the \u201curl\u201d link values or Link headers to get to resources instead of constructing your own URLs to keep your client decoupled from implementation details.\n\n",
-            "uriTemplate": "\/",
-            "model": {
-              
-            },
-            "parameters": [
-              
-            ],
-            "actions": [
-              {
-                "name": "Retrieve the Entry Point",
-                "description": "",
-                "method": "GET",
-                "parameters": [
-                  
-                ],
-                "attributes": {
-                  "relation": "",
-                  "uriTemplate": ""
-                },
-                "content": [
-                  
-                ],
-                "examples": [
-                  {
-                    "name": "",
-                    "description": "",
-                    "requests": [
-                      
-                    ],
-                    "responses": [
-                      {
-                        "name": "200",
-                        "description": "",
-                        "headers": [
-                          {
-                            "name": "Content-Type",
-                            "value": "application\/json"
-                          }
-                        ],
-                        "body": "{\n    \"questions_url\": \"\/questions\"\n}\n",
-                        "schema": "",
-                        "content": [
-                          {
-                            "element": "asset",
-                            "attributes": {
-                              "role": "bodyExample"
-                            },
-                            "content": "{\n    \"questions_url\": \"\/questions\"\n}\n"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "content": [
-              
-            ]
-          }
-        ]
-      },
-      {
-        "name": "Question",
-        "description": "Resource related to questions in the API.\n\n",
-        "resources": [
-          {
-            "element": "resource",
-            "name": "Question",
-            "description": "A Question object has the following attributes.\n\n- question\n\n- published_at\n\n- url\n\n- choices (an array of Choice objects).\n\n",
-            "uriTemplate": "\/questions\/{question_id}",
-            "model": {
-              
-            },
-            "parameters": [
-              {
-                "name": "question_id",
-                "description": "ID of the Question in form of an integer",
-                "type": "number",
-                "required": true,
-                "default": "",
-                "example": "1",
-                "values": [
-                  
-                ]
-              }
-            ],
-            "actions": [
-              {
-                "name": "View a question detail",
-                "description": "",
-                "method": "GET",
-                "parameters": [
-                  
-                ],
-                "attributes": {
-                  "relation": "",
-                  "uriTemplate": ""
-                },
-                "content": [
-                  
-                ],
-                "examples": [
-                  {
-                    "name": "",
-                    "description": "",
-                    "requests": [
-                      
-                    ],
-                    "responses": [
-                      {
-                        "name": "200",
-                        "description": "",
-                        "headers": [
-                          {
-                            "name": "Content-Type",
-                            "value": "application\/json"
-                          }
-                        ],
-                        "body": "        {\n            \"question\": \"Favourite programming language?\",\n            \"published_at\": \"2014-11-11T08:40:51.620Z\",\n            \"url\": \"\/questions\/1\",\n            \"choices\": [\n                {\n                    \"choice\": \"Swift\",\n                    \"url\": \"\/questions\/1\/choices\/1\",\n                    \"votes\": 2048\n                }, {\n                    \"choice\": \"Python\",\n                    \"url\": \"\/questions\/1\/choices\/2\",\n                    \"votes\": 1024\n                }, {\n                    \"choice\": \"Objective-C\",\n                    \"url\": \"\/questions\/1\/choices\/3\",\n                    \"votes\": 512\n                }, {\n                    \"choice\": \"Ruby\",\n                    \"url\": \"\/questions\/1\/choices\/4\",\n                    \"votes\": 256\n                }\n            ]\n        }\n",
-                        "schema": "",
-                        "content": [
-                          {
-                            "element": "asset",
-                            "attributes": {
-                              "role": "bodyExample"
-                            },
-                            "content": "        {\n            \"question\": \"Favourite programming language?\",\n            \"published_at\": \"2014-11-11T08:40:51.620Z\",\n            \"url\": \"\/questions\/1\",\n            \"choices\": [\n                {\n                    \"choice\": \"Swift\",\n                    \"url\": \"\/questions\/1\/choices\/1\",\n                    \"votes\": 2048\n                }, {\n                    \"choice\": \"Python\",\n                    \"url\": \"\/questions\/1\/choices\/2\",\n                    \"votes\": 1024\n                }, {\n                    \"choice\": \"Objective-C\",\n                    \"url\": \"\/questions\/1\/choices\/3\",\n                    \"votes\": 512\n                }, {\n                    \"choice\": \"Ruby\",\n                    \"url\": \"\/questions\/1\/choices\/4\",\n                    \"votes\": 256\n                }\n            ]\n        }\n"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "content": [
-              
-            ]
-          },
-          {
-            "element": "resource",
-            "name": "Choice",
-            "description": "",
-            "uriTemplate": "\/questions\/{question_id}\/choices\/{choice_id}",
-            "model": {
-              
-            },
-            "parameters": [
-              {
-                "name": "question_id",
-                "description": "ID of the Question in form of an integer",
-                "type": "number",
-                "required": true,
-                "default": "",
-                "example": "1",
-                "values": [
-                  
-                ]
-              },
-              {
-                "name": "choice_id",
-                "description": "ID of the Choice in form of an integer",
-                "type": "number",
-                "required": true,
-                "default": "",
-                "example": "1",
-                "values": [
-                  
-                ]
-              }
-            ],
-            "actions": [
-              {
-                "name": "Vote on a Choice",
-                "description": "This action allows you to vote on a question's choice.\n\n",
-                "method": "POST",
-                "parameters": [
-                  
-                ],
-                "attributes": {
-                  "relation": "",
-                  "uriTemplate": ""
-                },
-                "content": [
-                  
-                ],
-                "examples": [
-                  {
-                    "name": "",
-                    "description": "",
-                    "requests": [
-                      
-                    ],
-                    "responses": [
-                      {
-                        "name": "201",
-                        "description": "",
-                        "headers": [
-                          {
-                            "name": "Content-Type",
-                            "value": "application\/json"
-                          }
-                        ],
-                        "body": "{\n    \"url\": \"\/questions\/1\/choices\/1\",\n    \"votes\": 1,\n    \"choice\": \"Swift\"\n}\n",
-                        "schema": "",
-                        "content": [
-                          {
-                            "element": "asset",
-                            "attributes": {
-                              "role": "bodyExample"
-                            },
-                            "content": "{\n    \"url\": \"\/questions\/1\/choices\/1\",\n    \"votes\": 1,\n    \"choice\": \"Swift\"\n}\n"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "content": [
-              
-            ]
-          },
-          {
-            "element": "resource",
-            "name": "Questions collection",
-            "description": "Again, instead of constructing the URLs for the next page. It is **highly** recommended that you follow the `next` link header in the response.\n\n",
-            "uriTemplate": "\/questions{?page}",
-            "model": {
-              
-            },
-            "parameters": [
-              {
-                "name": "page",
-                "description": "The page of questions to return",
-                "type": "number",
-                "required": false,
-                "default": "",
-                "example": "1",
-                "values": [
-                  
-                ]
-              }
-            ],
-            "actions": [
-              {
-                "name": "List all questions",
-                "description": "",
-                "method": "GET",
-                "parameters": [
-                  
-                ],
-                "attributes": {
-                  "relation": "",
-                  "uriTemplate": ""
-                },
-                "content": [
-                  
-                ],
-                "examples": [
-                  {
-                    "name": "",
-                    "description": "",
-                    "requests": [
-                      
-                    ],
-                    "responses": [
-                      {
-                        "name": "200",
-                        "description": "",
-                        "headers": [
-                          {
-                            "name": "Content-Type",
-                            "value": "application\/json"
-                          },
-                          {
-                            "name": "Link",
-                            "value": "<\/questions?page=2>; rel=\"next\""
-                          }
-                        ],
-                        "body": "[\n    {\n        \"question\": \"Favourite programming language?\",\n        \"published_at\": \"2014-11-11T08:40:51.620Z\",\n        \"url\": \"\/questions\/1\",\n        \"choices\": [\n            {\n                \"choice\": \"Swift\",\n                \"url\": \"\/questions\/1\/choices\/1\",\n                \"votes\": 2048\n            }, {\n                \"choice\": \"Python\",\n                \"url\": \"\/questions\/1\/choices\/2\",\n                \"votes\": 1024\n            }, {\n                \"choice\": \"Objective-C\",\n                \"url\": \"\/questions\/1\/choices\/3\",\n                \"votes\": 512\n            }, {\n                \"choice\": \"Ruby\",\n                \"url\": \"\/questions\/1\/choices\/4\",\n                \"votes\": 256\n            }\n        ]\n    }\n]\n",
-                        "schema": "",
-                        "content": [
-                          {
-                            "element": "asset",
-                            "attributes": {
-                              "role": "bodyExample"
-                            },
-                            "content": "[\n    {\n        \"question\": \"Favourite programming language?\",\n        \"published_at\": \"2014-11-11T08:40:51.620Z\",\n        \"url\": \"\/questions\/1\",\n        \"choices\": [\n            {\n                \"choice\": \"Swift\",\n                \"url\": \"\/questions\/1\/choices\/1\",\n                \"votes\": 2048\n            }, {\n                \"choice\": \"Python\",\n                \"url\": \"\/questions\/1\/choices\/2\",\n                \"votes\": 1024\n            }, {\n                \"choice\": \"Objective-C\",\n                \"url\": \"\/questions\/1\/choices\/3\",\n                \"votes\": 512\n            }, {\n                \"choice\": \"Ruby\",\n                \"url\": \"\/questions\/1\/choices\/4\",\n                \"votes\": 256\n            }\n        ]\n    }\n]\n"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "name": "Create a new question",
-                "description": "You can create your own question using this action. It takes a JSON dictionary containing a question and a collection of answers in the form of choices.\n\n- question (string) - The question\n\n- choices (array[string]) - A collection of choices.\n\n",
-                "method": "POST",
-                "parameters": [
-                  
-                ],
-                "attributes": {
-                  "relation": "",
-                  "uriTemplate": ""
-                },
-                "content": [
-                  
-                ],
-                "examples": [
-                  {
-                    "name": "",
-                    "description": "",
-                    "requests": [
-                      {
-                        "name": "",
-                        "description": "",
-                        "headers": [
-                          {
-                            "name": "Content-Type",
-                            "value": "application\/json"
-                          }
-                        ],
-                        "body": "    {\n        \"question\": \"Favourite programming language?\",\n        \"choices\": [\n            \"Swift\",\n            \"Python\",\n            \"Objective-C\",\n            \"Ruby\"\n        ]\n    }\n",
-                        "schema": "",
-                        "content": [
-                          {
-                            "element": "asset",
-                            "attributes": {
-                              "role": "bodyExample"
-                            },
-                            "content": "    {\n        \"question\": \"Favourite programming language?\",\n        \"choices\": [\n            \"Swift\",\n            \"Python\",\n            \"Objective-C\",\n            \"Ruby\"\n        ]\n    }\n"
-                          }
-                        ]
-                      }
-                    ],
-                    "responses": [
-                      {
-                        "name": "201",
-                        "description": "",
-                        "headers": [
-                          {
-                            "name": "Content-Type",
-                            "value": "application\/json"
-                          },
-                          {
-                            "name": "Location",
-                            "value": "\/questions\/2"
-                          }
-                        ],
-                        "body": "    {\n        \"question\": \"Favourite programming language?\",\n        \"published_at\": \"2014-11-11T08:40:51.620Z\",\n        \"url\": \"\/questions\/2\",\n        \"choices\": [\n            {\n                \"choice\": \"Swift\",\n                \"url\": \"\/questions\/2\/choices\/1\",\n                \"votes\": 0\n            }, {\n                \"choice\": \"Python\",\n                \"url\": \"\/questions\/2\/choices\/2\",\n                \"votes\": 0\n            }, {\n                \"choice\": \"Objective-C\",\n                \"url\": \"\/questions\/2\/choices\/3\",\n                \"votes\": 0\n            }, {\n                \"choice\": \"Ruby\",\n                \"url\": \"\/questions\/2\/choices\/4\",\n                \"votes\": 0\n            }\n        ]\n    }\n",
-                        "schema": "",
-                        "content": [
-                          {
-                            "element": "asset",
-                            "attributes": {
-                              "role": "bodyExample"
-                            },
-                            "content": "    {\n        \"question\": \"Favourite programming language?\",\n        \"published_at\": \"2014-11-11T08:40:51.620Z\",\n        \"url\": \"\/questions\/2\",\n        \"choices\": [\n            {\n                \"choice\": \"Swift\",\n                \"url\": \"\/questions\/2\/choices\/1\",\n                \"votes\": 0\n            }, {\n                \"choice\": \"Python\",\n                \"url\": \"\/questions\/2\/choices\/2\",\n                \"votes\": 0\n            }, {\n                \"choice\": \"Objective-C\",\n                \"url\": \"\/questions\/2\/choices\/3\",\n                \"votes\": 0\n            }, {\n                \"choice\": \"Ruby\",\n                \"url\": \"\/questions\/2\/choices\/4\",\n                \"votes\": 0\n            }\n        ]\n    }\n"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "content": [
-              
-            ]
-          }
-        ]
-      }
-    ],
-    "content": [
-      {
-        "element": "category",
-        "content": [
-          {
-            "element": "resource",
-            "name": "Polls API Root",
-            "description": "This resource does not have any attributes. Instead it offers the initial API affordances in the form of the links in the JSON body.\n\nIt is recommend to follow the \u201curl\u201d link values or Link headers to get to resources instead of constructing your own URLs to keep your client decoupled from implementation details.\n\n",
-            "uriTemplate": "\/",
-            "model": {
-              
-            },
-            "parameters": [
-              
-            ],
-            "actions": [
-              {
-                "name": "Retrieve the Entry Point",
-                "description": "",
-                "method": "GET",
-                "parameters": [
-                  
-                ],
-                "attributes": {
-                  "relation": "",
-                  "uriTemplate": ""
-                },
-                "content": [
-                  
-                ],
-                "examples": [
-                  {
-                    "name": "",
-                    "description": "",
-                    "requests": [
-                      
-                    ],
-                    "responses": [
-                      {
-                        "name": "200",
-                        "description": "",
-                        "headers": [
-                          {
-                            "name": "Content-Type",
-                            "value": "application\/json"
-                          }
-                        ],
-                        "body": "{\n    \"questions_url\": \"\/questions\"\n}\n",
-                        "schema": "",
-                        "content": [
-                          {
-                            "element": "asset",
-                            "attributes": {
-                              "role": "bodyExample"
-                            },
-                            "content": "{\n    \"questions_url\": \"\/questions\"\n}\n"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "content": [
-              
-            ]
-          }
-        ]
-      },
-      {
-        "element": "category",
-        "attributes": {
-          "name": "Question"
-        },
-        "content": [
-          {
-            "element": "copy",
-            "content": "Resource related to questions in the API.\n\n"
-          },
-          {
-            "element": "resource",
-            "name": "Question",
-            "description": "A Question object has the following attributes.\n\n- question\n\n- published_at\n\n- url\n\n- choices (an array of Choice objects).\n\n",
-            "uriTemplate": "\/questions\/{question_id}",
-            "model": {
-              
-            },
-            "parameters": [
-              {
-                "name": "question_id",
-                "description": "ID of the Question in form of an integer",
-                "type": "number",
-                "required": true,
-                "default": "",
-                "example": "1",
-                "values": [
-                  
-                ]
-              }
-            ],
-            "actions": [
-              {
-                "name": "View a question detail",
-                "description": "",
-                "method": "GET",
-                "parameters": [
-                  
-                ],
-                "attributes": {
-                  "relation": "",
-                  "uriTemplate": ""
-                },
-                "content": [
-                  
-                ],
-                "examples": [
-                  {
-                    "name": "",
-                    "description": "",
-                    "requests": [
-                      
-                    ],
-                    "responses": [
-                      {
-                        "name": "200",
-                        "description": "",
-                        "headers": [
-                          {
-                            "name": "Content-Type",
-                            "value": "application\/json"
-                          }
-                        ],
-                        "body": "        {\n            \"question\": \"Favourite programming language?\",\n            \"published_at\": \"2014-11-11T08:40:51.620Z\",\n            \"url\": \"\/questions\/1\",\n            \"choices\": [\n                {\n                    \"choice\": \"Swift\",\n                    \"url\": \"\/questions\/1\/choices\/1\",\n                    \"votes\": 2048\n                }, {\n                    \"choice\": \"Python\",\n                    \"url\": \"\/questions\/1\/choices\/2\",\n                    \"votes\": 1024\n                }, {\n                    \"choice\": \"Objective-C\",\n                    \"url\": \"\/questions\/1\/choices\/3\",\n                    \"votes\": 512\n                }, {\n                    \"choice\": \"Ruby\",\n                    \"url\": \"\/questions\/1\/choices\/4\",\n                    \"votes\": 256\n                }\n            ]\n        }\n",
-                        "schema": "",
-                        "content": [
-                          {
-                            "element": "asset",
-                            "attributes": {
-                              "role": "bodyExample"
-                            },
-                            "content": "        {\n            \"question\": \"Favourite programming language?\",\n            \"published_at\": \"2014-11-11T08:40:51.620Z\",\n            \"url\": \"\/questions\/1\",\n            \"choices\": [\n                {\n                    \"choice\": \"Swift\",\n                    \"url\": \"\/questions\/1\/choices\/1\",\n                    \"votes\": 2048\n                }, {\n                    \"choice\": \"Python\",\n                    \"url\": \"\/questions\/1\/choices\/2\",\n                    \"votes\": 1024\n                }, {\n                    \"choice\": \"Objective-C\",\n                    \"url\": \"\/questions\/1\/choices\/3\",\n                    \"votes\": 512\n                }, {\n                    \"choice\": \"Ruby\",\n                    \"url\": \"\/questions\/1\/choices\/4\",\n                    \"votes\": 256\n                }\n            ]\n        }\n"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "content": [
-              
-            ]
-          },
-          {
-            "element": "resource",
-            "name": "Choice",
-            "description": "",
-            "uriTemplate": "\/questions\/{question_id}\/choices\/{choice_id}",
-            "model": {
-              
-            },
-            "parameters": [
-              {
-                "name": "question_id",
-                "description": "ID of the Question in form of an integer",
-                "type": "number",
-                "required": true,
-                "default": "",
-                "example": "1",
-                "values": [
-                  
-                ]
-              },
-              {
-                "name": "choice_id",
-                "description": "ID of the Choice in form of an integer",
-                "type": "number",
-                "required": true,
-                "default": "",
-                "example": "1",
-                "values": [
-                  
-                ]
-              }
-            ],
-            "actions": [
-              {
-                "name": "Vote on a Choice",
-                "description": "This action allows you to vote on a question's choice.\n\n",
-                "method": "POST",
-                "parameters": [
-                  
-                ],
-                "attributes": {
-                  "relation": "",
-                  "uriTemplate": ""
-                },
-                "content": [
-                  
-                ],
-                "examples": [
-                  {
-                    "name": "",
-                    "description": "",
-                    "requests": [
-                      
-                    ],
-                    "responses": [
-                      {
-                        "name": "201",
-                        "description": "",
-                        "headers": [
-                          {
-                            "name": "Content-Type",
-                            "value": "application\/json"
-                          }
-                        ],
-                        "body": "{\n    \"url\": \"\/questions\/1\/choices\/1\",\n    \"votes\": 1,\n    \"choice\": \"Swift\"\n}\n",
-                        "schema": "",
-                        "content": [
-                          {
-                            "element": "asset",
-                            "attributes": {
-                              "role": "bodyExample"
-                            },
-                            "content": "{\n    \"url\": \"\/questions\/1\/choices\/1\",\n    \"votes\": 1,\n    \"choice\": \"Swift\"\n}\n"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "content": [
-              
-            ]
-          },
-          {
-            "element": "resource",
-            "name": "Questions collection",
-            "description": "Again, instead of constructing the URLs for the next page. It is **highly** recommended that you follow the `next` link header in the response.\n\n",
-            "uriTemplate": "\/questions{?page}",
-            "model": {
-              
-            },
-            "parameters": [
-              {
-                "name": "page",
-                "description": "The page of questions to return",
-                "type": "number",
-                "required": false,
-                "default": "",
-                "example": "1",
-                "values": [
-                  
-                ]
-              }
-            ],
-            "actions": [
-              {
-                "name": "List all questions",
-                "description": "",
-                "method": "GET",
-                "parameters": [
-                  
-                ],
-                "attributes": {
-                  "relation": "",
-                  "uriTemplate": ""
-                },
-                "content": [
-                  
-                ],
-                "examples": [
-                  {
-                    "name": "",
-                    "description": "",
-                    "requests": [
-                      
-                    ],
-                    "responses": [
-                      {
-                        "name": "200",
-                        "description": "",
-                        "headers": [
-                          {
-                            "name": "Content-Type",
-                            "value": "application\/json"
-                          },
-                          {
-                            "name": "Link",
-                            "value": "<\/questions?page=2>; rel=\"next\""
-                          }
-                        ],
-                        "body": "[\n    {\n        \"question\": \"Favourite programming language?\",\n        \"published_at\": \"2014-11-11T08:40:51.620Z\",\n        \"url\": \"\/questions\/1\",\n        \"choices\": [\n            {\n                \"choice\": \"Swift\",\n                \"url\": \"\/questions\/1\/choices\/1\",\n                \"votes\": 2048\n            }, {\n                \"choice\": \"Python\",\n                \"url\": \"\/questions\/1\/choices\/2\",\n                \"votes\": 1024\n            }, {\n                \"choice\": \"Objective-C\",\n                \"url\": \"\/questions\/1\/choices\/3\",\n                \"votes\": 512\n            }, {\n                \"choice\": \"Ruby\",\n                \"url\": \"\/questions\/1\/choices\/4\",\n                \"votes\": 256\n            }\n        ]\n    }\n]\n",
-                        "schema": "",
-                        "content": [
-                          {
-                            "element": "asset",
-                            "attributes": {
-                              "role": "bodyExample"
-                            },
-                            "content": "[\n    {\n        \"question\": \"Favourite programming language?\",\n        \"published_at\": \"2014-11-11T08:40:51.620Z\",\n        \"url\": \"\/questions\/1\",\n        \"choices\": [\n            {\n                \"choice\": \"Swift\",\n                \"url\": \"\/questions\/1\/choices\/1\",\n                \"votes\": 2048\n            }, {\n                \"choice\": \"Python\",\n                \"url\": \"\/questions\/1\/choices\/2\",\n                \"votes\": 1024\n            }, {\n                \"choice\": \"Objective-C\",\n                \"url\": \"\/questions\/1\/choices\/3\",\n                \"votes\": 512\n            }, {\n                \"choice\": \"Ruby\",\n                \"url\": \"\/questions\/1\/choices\/4\",\n                \"votes\": 256\n            }\n        ]\n    }\n]\n"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "name": "Create a new question",
-                "description": "You can create your own question using this action. It takes a JSON dictionary containing a question and a collection of answers in the form of choices.\n\n- question (string) - The question\n\n- choices (array[string]) - A collection of choices.\n\n",
-                "method": "POST",
-                "parameters": [
-                  
-                ],
-                "attributes": {
-                  "relation": "",
-                  "uriTemplate": ""
-                },
-                "content": [
-                  
-                ],
-                "examples": [
-                  {
-                    "name": "",
-                    "description": "",
-                    "requests": [
-                      {
-                        "name": "",
-                        "description": "",
-                        "headers": [
-                          {
-                            "name": "Content-Type",
-                            "value": "application\/json"
-                          }
-                        ],
-                        "body": "    {\n        \"question\": \"Favourite programming language?\",\n        \"choices\": [\n            \"Swift\",\n            \"Python\",\n            \"Objective-C\",\n            \"Ruby\"\n        ]\n    }\n",
-                        "schema": "",
-                        "content": [
-                          {
-                            "element": "asset",
-                            "attributes": {
-                              "role": "bodyExample"
-                            },
-                            "content": "    {\n        \"question\": \"Favourite programming language?\",\n        \"choices\": [\n            \"Swift\",\n            \"Python\",\n            \"Objective-C\",\n            \"Ruby\"\n        ]\n    }\n"
-                          }
-                        ]
-                      }
-                    ],
-                    "responses": [
-                      {
-                        "name": "201",
-                        "description": "",
-                        "headers": [
-                          {
-                            "name": "Content-Type",
-                            "value": "application\/json"
-                          },
-                          {
-                            "name": "Location",
-                            "value": "\/questions\/2"
-                          }
-                        ],
-                        "body": "    {\n        \"question\": \"Favourite programming language?\",\n        \"published_at\": \"2014-11-11T08:40:51.620Z\",\n        \"url\": \"\/questions\/2\",\n        \"choices\": [\n            {\n                \"choice\": \"Swift\",\n                \"url\": \"\/questions\/2\/choices\/1\",\n                \"votes\": 0\n            }, {\n                \"choice\": \"Python\",\n                \"url\": \"\/questions\/2\/choices\/2\",\n                \"votes\": 0\n            }, {\n                \"choice\": \"Objective-C\",\n                \"url\": \"\/questions\/2\/choices\/3\",\n                \"votes\": 0\n            }, {\n                \"choice\": \"Ruby\",\n                \"url\": \"\/questions\/2\/choices\/4\",\n                \"votes\": 0\n            }\n        ]\n    }\n",
-                        "schema": "",
-                        "content": [
-                          {
-                            "element": "asset",
-                            "attributes": {
-                              "role": "bodyExample"
-                            },
-                            "content": "    {\n        \"question\": \"Favourite programming language?\",\n        \"published_at\": \"2014-11-11T08:40:51.620Z\",\n        \"url\": \"\/questions\/2\",\n        \"choices\": [\n            {\n                \"choice\": \"Swift\",\n                \"url\": \"\/questions\/2\/choices\/1\",\n                \"votes\": 0\n            }, {\n                \"choice\": \"Python\",\n                \"url\": \"\/questions\/2\/choices\/2\",\n                \"votes\": 0\n            }, {\n                \"choice\": \"Objective-C\",\n                \"url\": \"\/questions\/2\/choices\/3\",\n                \"votes\": 0\n            }, {\n                \"choice\": \"Ruby\",\n                \"url\": \"\/questions\/2\/choices\/4\",\n                \"votes\": 0\n            }\n        ]\n    }\n"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "content": [
-              
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  "warnings": [
-    
+  "location": "https://polls.apiblueprint.org/",
+  "name": "Polls",
+  "metadata": [
+    {
+      "name": "FORMAT",
+      "value": "1A"
+    }
   ],
-  "sourcemap": null,
-  "error": null,
-  "_version": "1.0"
+  "version": 18,
+  "description": "Polls is a simple web service that allows consumers to view polls and vote in them.",
+  "htmlDescription": "<p>Polls is a simple web service that allows consumers to view polls and vote in them.</p>",
+  "sections": [
+    {
+      "name": "",
+      "description": "",
+      "htmlDescription": "",
+      "resources": [
+        {
+          "method": "GET",
+          "url": "/",
+          "uriTemplate": "/",
+          "name": "Polls API Root",
+          "actionName": "Retrieve the Entry Point",
+          "actionDescription": "",
+          "actionHtmlDescription": "",
+          "description": "This resource does not have any attributes. Instead it offers the initial API affordances in the form of the links in the JSON body.\n\nIt is recommend to follow the “url” link values or Link headers to get to resources instead of constructing your own URLs to keep your client decoupled from implementation details.\n",
+          "htmlDescription": "<p>This resource does not have any attributes. Instead it offers the initial API affordances in the form of the links in the JSON body.</p>\n\n<p>It is recommend to follow the “url” link values or Link headers to get to resources instead of constructing your own URLs to keep your client decoupled from implementation details.</p>",
+          "model": {},
+          "headers": {},
+          "actionHeaders": {},
+          "request": {
+            "name": "",
+            "description": "",
+            "htmlDescription": "",
+            "headers": {},
+            "body": "",
+            "schema": "",
+            "exampleId": 0
+          },
+          "requests": [
+            {
+              "name": "",
+              "description": "",
+              "htmlDescription": "",
+              "headers": {},
+              "body": "",
+              "schema": "",
+              "exampleId": 0
+            }
+          ],
+          "responses": [
+            {
+              "status": "200",
+              "description": "",
+              "htmlDescription": "",
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "body": "{\n    \"questions_url\": \"/questions\"\n}",
+              "schema": "",
+              "exampleId": 0
+            }
+          ],
+          "actionRelation": "",
+          "actionUriTemplate": ""
+        }
+      ]
+    },
+    {
+      "name": "Question",
+      "description": "Resource related to questions in the API.",
+      "htmlDescription": "<p>Resource related to questions in the API.</p>",
+      "resources": [
+        {
+          "method": "GET",
+          "url": "/questions/{question_id}",
+          "uriTemplate": "/questions/{question_id}",
+          "name": "Question",
+          "actionName": "View a question detail",
+          "actionDescription": "",
+          "actionHtmlDescription": "",
+          "description": "A Question object has the following attributes.\n\n- question\n\n- published_at\n\n- url\n\n- choices (an array of Choice objects).\n",
+          "htmlDescription": "<p>A Question object has the following attributes.</p>\n\n<ul>\n<li><p>question</p></li>\n<li><p>published_at</p></li>\n<li><p>url</p></li>\n<li><p>choices (an array of Choice objects).</p></li>\n</ul>",
+          "model": {},
+          "headers": {},
+          "actionHeaders": {},
+          "parameters": [
+            {
+              "description": "<p>ID of the Question in form of an integer</p>\n",
+              "type": "number",
+              "required": true,
+              "default": "",
+              "example": "1",
+              "values": [],
+              "key": "question_id"
+            }
+          ],
+          "resourceParameters": [
+            {
+              "description": "<p>ID of the Question in form of an integer</p>\n",
+              "type": "number",
+              "required": true,
+              "default": "",
+              "example": "1",
+              "values": [],
+              "key": "question_id"
+            }
+          ],
+          "request": {
+            "name": "",
+            "description": "",
+            "htmlDescription": "",
+            "headers": {},
+            "body": "",
+            "schema": "",
+            "exampleId": 0
+          },
+          "requests": [
+            {
+              "name": "",
+              "description": "",
+              "htmlDescription": "",
+              "headers": {},
+              "body": "",
+              "schema": "",
+              "exampleId": 0
+            }
+          ],
+          "responses": [
+            {
+              "status": "200",
+              "description": "",
+              "htmlDescription": "",
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "body": "        {\n            \"question\": \"Favourite programming language?\",\n            \"published_at\": \"2014-11-11T08:40:51.620Z\",\n            \"url\": \"/questions/1\",\n            \"choices\": [\n                {\n                    \"choice\": \"Swift\",\n                    \"url\": \"/questions/1/choices/1\",\n                    \"votes\": 2048\n                }, {\n                    \"choice\": \"Python\",\n                    \"url\": \"/questions/1/choices/2\",\n                    \"votes\": 1024\n                }, {\n                    \"choice\": \"Objective-C\",\n                    \"url\": \"/questions/1/choices/3\",\n                    \"votes\": 512\n                }, {\n                    \"choice\": \"Ruby\",\n                    \"url\": \"/questions/1/choices/4\",\n                    \"votes\": 256\n                }\n            ]\n        }",
+              "schema": "",
+              "exampleId": 0
+            }
+          ],
+          "actionRelation": "",
+          "actionUriTemplate": ""
+        },
+        {
+          "method": "POST",
+          "url": "/questions/{question_id}/choices/{choice_id}",
+          "uriTemplate": "/questions/{question_id}/choices/{choice_id}",
+          "name": "Choice",
+          "actionName": "Vote on a Choice",
+          "actionDescription": "This action allows you to vote on a question's choice.\n",
+          "actionHtmlDescription": "<p>This action allows you to vote on a question&#39;s choice.</p>",
+          "htmlDescription": "",
+          "model": {},
+          "headers": {},
+          "actionHeaders": {},
+          "parameters": [
+            {
+              "description": "<p>ID of the Question in form of an integer</p>\n",
+              "type": "number",
+              "required": true,
+              "default": "",
+              "example": "1",
+              "values": [],
+              "key": "question_id"
+            },
+            {
+              "description": "<p>ID of the Choice in form of an integer</p>\n",
+              "type": "number",
+              "required": true,
+              "default": "",
+              "example": "1",
+              "values": [],
+              "key": "choice_id"
+            }
+          ],
+          "resourceParameters": [
+            {
+              "description": "<p>ID of the Question in form of an integer</p>\n",
+              "type": "number",
+              "required": true,
+              "default": "",
+              "example": "1",
+              "values": [],
+              "key": "question_id"
+            },
+            {
+              "description": "<p>ID of the Choice in form of an integer</p>\n",
+              "type": "number",
+              "required": true,
+              "default": "",
+              "example": "1",
+              "values": [],
+              "key": "choice_id"
+            }
+          ],
+          "request": {
+            "name": "",
+            "description": "",
+            "htmlDescription": "",
+            "headers": {},
+            "body": "",
+            "schema": "",
+            "exampleId": 0
+          },
+          "requests": [
+            {
+              "name": "",
+              "description": "",
+              "htmlDescription": "",
+              "headers": {},
+              "body": "",
+              "schema": "",
+              "exampleId": 0
+            }
+          ],
+          "responses": [
+            {
+              "status": "201",
+              "description": "",
+              "htmlDescription": "",
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "body": "{\n    \"url\": \"/questions/1/choices/1\",\n    \"votes\": 1,\n    \"choice\": \"Swift\"\n}",
+              "schema": "",
+              "exampleId": 0
+            }
+          ],
+          "actionRelation": "",
+          "actionUriTemplate": ""
+        },
+        {
+          "method": "GET",
+          "url": "/questions{?page}",
+          "uriTemplate": "/questions{?page}",
+          "name": "Questions collection",
+          "actionName": "List all questions",
+          "actionDescription": "",
+          "actionHtmlDescription": "",
+          "description": "Again, instead of constructing the URLs for the next page. It is **highly** recommended that you follow the `next` link header in the response.\n",
+          "htmlDescription": "<p>Again, instead of constructing the URLs for the next page. It is <strong>highly</strong> recommended that you follow the <code>next</code> link header in the response.</p>",
+          "model": {},
+          "headers": {},
+          "actionHeaders": {},
+          "parameters": [
+            {
+              "description": "<p>The page of questions to return</p>\n",
+              "type": "number",
+              "required": false,
+              "default": "",
+              "example": "1",
+              "values": [],
+              "key": "page"
+            }
+          ],
+          "resourceParameters": [
+            {
+              "description": "<p>The page of questions to return</p>\n",
+              "type": "number",
+              "required": false,
+              "default": "",
+              "example": "1",
+              "values": [],
+              "key": "page"
+            }
+          ],
+          "request": {
+            "name": "",
+            "description": "",
+            "htmlDescription": "",
+            "headers": {},
+            "body": "",
+            "schema": "",
+            "exampleId": 0
+          },
+          "requests": [
+            {
+              "name": "",
+              "description": "",
+              "htmlDescription": "",
+              "headers": {},
+              "body": "",
+              "schema": "",
+              "exampleId": 0
+            }
+          ],
+          "responses": [
+            {
+              "status": "200",
+              "description": "",
+              "htmlDescription": "",
+              "headers": {
+                "Content-Type": "application/json",
+                "Link": "</questions?page=2>; rel=\"next\""
+              },
+              "body": "[\n    {\n        \"question\": \"Favourite programming language?\",\n        \"published_at\": \"2014-11-11T08:40:51.620Z\",\n        \"url\": \"/questions/1\",\n        \"choices\": [\n            {\n                \"choice\": \"Swift\",\n                \"url\": \"/questions/1/choices/1\",\n                \"votes\": 2048\n            }, {\n                \"choice\": \"Python\",\n                \"url\": \"/questions/1/choices/2\",\n                \"votes\": 1024\n            }, {\n                \"choice\": \"Objective-C\",\n                \"url\": \"/questions/1/choices/3\",\n                \"votes\": 512\n            }, {\n                \"choice\": \"Ruby\",\n                \"url\": \"/questions/1/choices/4\",\n                \"votes\": 256\n            }\n        ]\n    }\n]",
+              "schema": "",
+              "exampleId": 0
+            }
+          ],
+          "actionRelation": "",
+          "actionUriTemplate": ""
+        },
+        {
+          "method": "POST",
+          "url": "/questions{?page}",
+          "uriTemplate": "/questions{?page}",
+          "name": "Questions collection",
+          "actionName": "Create a new question",
+          "actionDescription": "You can create your own question using this action. It takes a JSON dictionary containing a question and a collection of answers in the form of choices.\n\n- question (string) - The question\n\n- choices (array[string]) - A collection of choices.\n",
+          "actionHtmlDescription": "<p>You can create your own question using this action. It takes a JSON dictionary containing a question and a collection of answers in the form of choices.</p>\n\n<ul>\n<li><p>question (string) - The question</p></li>\n<li><p>choices (array[string]) - A collection of choices.</p></li>\n</ul>",
+          "description": "Again, instead of constructing the URLs for the next page. It is **highly** recommended that you follow the `next` link header in the response.\n",
+          "htmlDescription": "<p>Again, instead of constructing the URLs for the next page. It is <strong>highly</strong> recommended that you follow the <code>next</code> link header in the response.</p>",
+          "model": {},
+          "headers": {},
+          "actionHeaders": {},
+          "parameters": [
+            {
+              "description": "<p>The page of questions to return</p>\n",
+              "type": "number",
+              "required": false,
+              "default": "",
+              "example": "1",
+              "values": [],
+              "key": "page"
+            }
+          ],
+          "resourceParameters": [
+            {
+              "description": "<p>The page of questions to return</p>\n",
+              "type": "number",
+              "required": false,
+              "default": "",
+              "example": "1",
+              "values": [],
+              "key": "page"
+            }
+          ],
+          "request": {
+            "name": "",
+            "description": "",
+            "htmlDescription": "",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": "    {\n        \"question\": \"Favourite programming language?\",\n        \"choices\": [\n            \"Swift\",\n            \"Python\",\n            \"Objective-C\",\n            \"Ruby\"\n        ]\n    }",
+            "schema": "",
+            "exampleId": 0
+          },
+          "requests": [
+            {
+              "name": "",
+              "description": "",
+              "htmlDescription": "",
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "body": "    {\n        \"question\": \"Favourite programming language?\",\n        \"choices\": [\n            \"Swift\",\n            \"Python\",\n            \"Objective-C\",\n            \"Ruby\"\n        ]\n    }",
+              "schema": "",
+              "exampleId": 0
+            }
+          ],
+          "responses": [
+            {
+              "status": "201",
+              "description": "",
+              "htmlDescription": "",
+              "headers": {
+                "Content-Type": "application/json",
+                "Location": "/questions/2"
+              },
+              "body": "    {\n        \"question\": \"Favourite programming language?\",\n        \"published_at\": \"2014-11-11T08:40:51.620Z\",\n        \"url\": \"/questions/2\",\n        \"choices\": [\n            {\n                \"choice\": \"Swift\",\n                \"url\": \"/questions/2/choices/1\",\n                \"votes\": 0\n            }, {\n                \"choice\": \"Python\",\n                \"url\": \"/questions/2/choices/2\",\n                \"votes\": 0\n            }, {\n                \"choice\": \"Objective-C\",\n                \"url\": \"/questions/2/choices/3\",\n                \"votes\": 0\n            }, {\n                \"choice\": \"Ruby\",\n                \"url\": \"/questions/2/choices/4\",\n                \"votes\": 0\n            }\n        ]\n    }",
+              "schema": "",
+              "exampleId": 0
+            }
+          ],
+          "actionRelation": "",
+          "actionUriTemplate": ""
+        }
+      ]
+    }
+  ],
+  "validations": [],
+  "dataStructures": []
 }

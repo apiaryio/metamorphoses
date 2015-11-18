@@ -16,11 +16,10 @@ describe('Transformation • Refract' , ->
 
     it('Returns object of instance Blueprint', ->
       assert.instanceOf(ast, blueprint.Blueprint)
-      console.log JSON.stringify(ast.toJSON(), null, 2)
     )
 
     it('json value is equal', ->
-      #assert.deepEqual(ast.toJSON(), sampleAppAst)
+      assert.deepEqual(ast.toJSON(), sampleAppAst)
     )
   )
 )
