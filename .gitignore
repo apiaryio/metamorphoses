@@ -6,3 +6,4 @@ node_modules
 # http://mammal.io/articles/using-es6-today/#getting-started
 lib
 npm-debug.log
+*.DS_Store
