@@ -34,7 +34,7 @@ module.exports = (element) ->
 
         # Model has been deprecated in the API Blueprint format,
         # therfore we can safely skip it.
-        model: null
+        model: {}
 
         resourceParameters: getUriParameters(_.get(resourceElement, 'attributes.hrefVariables'))
         actionParameters: getUriParameters(_.get(transitionElement, 'attributes.hrefVariables'))
@@ -44,7 +44,7 @@ module.exports = (element) ->
         attributes: _.dataStructures(resourceElement)
         resolvedAttributes: _.dataStructures(resourceElement)
 
-        actionRelation: transitionElement.attributes?.relation or null
+        actionRelation: _.get(transitionElement, 'attributes.relation', null)
       })
 
       requests = []
