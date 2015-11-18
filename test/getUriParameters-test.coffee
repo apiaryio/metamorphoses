@@ -37,7 +37,7 @@ describe('Transformation • Refract • getUriParameters' , ->
     parameters = [
       {
         'key': 'question_id',
-        'description': 'ID of the Question in form of an integer',
+        'description': '<p>ID of the Question in form of an integer</p>\n',
         'type': 'number',
         'required': true,
         'default': '',

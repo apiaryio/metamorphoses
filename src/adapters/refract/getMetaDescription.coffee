@@ -1,4 +1,5 @@
 lodash = require('./helper')
+markdown = require('../markdown')
 
 module.exports = (element) ->
-  lodash(element).get('meta.description', '')
+  markdown.toHtmlSync(lodash(element).get('meta.description', ''))
