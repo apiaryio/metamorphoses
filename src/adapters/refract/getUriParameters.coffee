@@ -9,7 +9,10 @@ getUriParameters = (hrefVariables) ->
 
   hrefVariablesContent.map((hrefVariable) ->
     lodashedHrefVariable = lodash.chain(hrefVariable)
-    typeAttributes = lodashedHrefVariable.get('attributes.typeAttributes').value()
+    typeAttributes = lodashedHrefVariable
+                        .get('attributes.typeAttributes')
+                        .value()
+
     required = typeAttributes.indexOf('required') isnt -1
     required = typeAttributes.indexOf('optional') is -1
 
@@ -21,15 +24,19 @@ getUriParameters = (hrefVariables) ->
     defaultValue = ''
     exampleValue = ''
     values = []
+
     if (memberContentValue.has('attributes.default').value())
-      defaultValue = memberContentValue.get('attributes.default').content().value()
+      defaultValue = memberContentValue.get('attributes.default')
+        .first().content().value().toString()
 
     memberContentValueContent = memberContentValue.content()
 
-    if not lodash.isArray(memberContentValueContent)
+    if not lodash.isArray(memberContentValueContent.value())
       exampleValue = memberContentValueContent.value().toString()
     else
-      values = memberContentValueContent.map((element) -> element.content()).value()
+      values = memberContentValueContent.map((element) ->
+        {value: lodash(element).content().value().toString()}
+      ).value()
 
     return {
       key
