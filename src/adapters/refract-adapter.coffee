@@ -5,19 +5,16 @@ getDescription = require('./refract/getDescription')
 transformSections = require('./refract/transformSections')
 
 transformAst = (element) ->
-  category = _.chain(element).get('content').filter({element: 'category'})
-                .first()
-                .value()
 
   applicationAst = new blueprintApi.Blueprint({
-    name: _.get(category, 'meta.title')
+    name: _.get(element, 'meta.title')
     version: '22' # how about this? we don't have in refract parse result at all
     metadata: []
   })
 
   # Metadata and location
   applicationAst.metadata =
-    _.chain(category)
+    _.chain(element)
     .get('attributes.meta')
     .filter({meta: {classes: ['user']}})
     .map((entry) ->
@@ -31,13 +28,13 @@ transformAst = (element) ->
     ).value()
 
   # description
-  description = getDescription(category)
+  description = getDescription(element)
 
   applicationAst.description = description.raw
   applicationAst.htmlDescription = description.html
 
   # Sections
-  applicationAst.sections = transformSections(category)
+  applicationAst.sections = transformSections(element)
 
   applicationAst
 
