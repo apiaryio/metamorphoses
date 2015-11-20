@@ -1,5 +1,5 @@
 {assert} = require('chai')
-markdown = require('../lib/adapters/markdown')
+markdown = require('../src/adapters/markdown')
 
 describe('Markdown', ->
   describe('#toHtml', ->
