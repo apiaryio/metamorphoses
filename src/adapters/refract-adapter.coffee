@@ -8,7 +8,7 @@ transformAst = (element) ->
 
   applicationAst = new blueprintApi.Blueprint({
     name: _.chain(element).get('meta.title', '').fixNewLines().value()
-    version: '22' # how about this? we don't have in refract parse result at all
+    version: blueprintApi.Version
     metadata: []
   })
 
