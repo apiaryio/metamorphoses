@@ -67,19 +67,19 @@ describe('#createAdapter', ->
 
   it('recognizes JSON serialization of refract with json suffix', ->
     assert.equal(
-      createAdapter('application/vnd.refract+json'),
+      createAdapter('application/vnd.refract.api-description+json'),
       refractAdapter
     )
   )
 
   it('recognizes JSON serialization of refract without suffix', ->
     assert.equal(
-      createAdapter('application/vnd.refract'),
+      createAdapter('application/vnd.refract.api-description'),
       refractAdapter
     )
   )
 
-  it('recognizes JSON serialization of refract with yaml suffix', ->
-    assert.equal(createAdapter('application/vnd.refract+yaml'))
+  it('does not recognizes YAML serialization of refract with yaml suffix', ->
+    assert.equal(createAdapter('application/vnd.refract.api-description+yaml'))
   )
 )

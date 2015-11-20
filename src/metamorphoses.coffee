@@ -33,7 +33,7 @@ createAdapter = (mimeType) ->
 
   # Refract
   # https://github.com/refractproject/refract-spec
-  if parsedMimeType.subtype is 'vnd.refract'
+  if parsedMimeType.subtype is 'vnd.refract.api-description'
     if not parsedMimeType.suffix or parsedMimeType.suffix is 'json'
       return refractAdapter
     return
