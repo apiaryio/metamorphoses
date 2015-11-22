@@ -18,7 +18,7 @@ convertToApplicationAst = (parseResultElement) ->
 describe('Transformations • Refract', ->
   describe('Resources', ->
     [
-        label: 'Parse Result sith Resource Group'
+        label: 'Parse Result with Resource Group'
         ast: convertToApplicationAst(require('./fixtures/refract-parse-result-with-resource-group.json'))
       ,
         label: 'Parse Result without Resource Group'
