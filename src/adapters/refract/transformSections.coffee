@@ -5,21 +5,22 @@ getDescription = require('./getDescription')
 transformResources = require('./transformResources')
 
 module.exports = (element) ->
-  resourceGroups = _(element)
+  resourceGroups = []
+  resourceGroupsElements = _.chain(element)
                     .content()
                     .filter({element: 'category', meta: {classes: ['resourceGroup']}})
                     .value()
 
-
-  if resourceGroups.length is 0
-    resourceGroups = [
+  # If we can't find any resource group we can assume that there are Resources directly
+  if resourceGroupsElements.length is 0
+    resourceGroups.push(
       new blueprintApi.Section({
         name: ''
-        resources: transformResources(element.content[0])
+        resources: transformResources(element)
       })
-    ]
+    )
   else
-    resourceGroups.map((resourceGroupElement) ->
+    resourceGroupsElements.forEach((resourceGroupElement) ->
       section = new blueprintApi.Section({
         name: _.get(resourceGroupElement, 'meta.title', '')
       })
@@ -31,5 +32,7 @@ module.exports = (element) ->
 
       section.resources = transformResources(resourceGroupElement)
 
-      section
+      resourceGroups.push(section)
     )
+
+  resourceGroups
