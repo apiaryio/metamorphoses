@@ -21,13 +21,9 @@ getUriParameters = (hrefVariables) ->
     memberContentValue = memberContent.get('value')
     type = memberContentValue.get('element').value()
 
-    defaultValue = ''
+    defaultValue = memberContentValue.get('attributes.default', '').value().toString()
     exampleValue = ''
     values = []
-
-    if (memberContentValue.has('attributes.default').value())
-      defaultValue = memberContentValue.get('attributes.default')
-        .first().content().value().toString()
 
     memberContentValueContent = memberContentValue.content()
 
