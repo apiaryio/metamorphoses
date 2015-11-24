@@ -123,5 +123,22 @@ describe('Transformations • Refract', ->
         assert.isOk(ast.description)
       )
     )
+
+    describe('Example Header', ->
+      ast = null
+      before( ->
+        {ast} = getZooFeature('example-header')
+      )
+
+      it('Response has correct headers', ->
+        expected = {
+          'Content-Type': 'application/json'
+          'Accepts': ''
+          'X-Test1': 100
+          'X-Test2': 'abc'
+        }
+        assert.deepEqual(ast.sections[0].resources[0].responses[0].headers, expected)
+      )
+    )
   )
 )
