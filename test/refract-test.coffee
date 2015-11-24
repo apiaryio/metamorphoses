@@ -159,5 +159,17 @@ describe('Transformations • Refract', ->
         assert.deepEqual(ast.sections[0].resources[0].responses[0].headers, expected)
       )
     )
+
+    describe('Parameter and No Response', ->
+      ast = null
+      before( ->
+        {ast} = getZooFeature('param-no-response')
+      )
+
+      it('resource has reqest schema', ->
+        expected = '{\"type\":\"string\"}'
+        assert.equal(ast.sections[0].resources[0].requests[0].schema, expected)
+      )
+    )
   )
 )
