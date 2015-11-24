@@ -171,5 +171,82 @@ describe('Transformations • Refract', ->
         assert.equal(ast.sections[0].resources[0].requests[0].schema, expected)
       )
     )
+
+    describe('Params', ->
+      ast = null
+      before( ->
+        {ast} = getZooFeature('params')
+      )
+
+      context('GET', ->
+        resource = null
+        before( ->
+          resource = ast.sections[0].resources[0]
+        )
+
+        it('method is GET', ->
+          assert.equal(resource.method, 'GET')
+        )
+
+        it('url equals to `/test/{id}{?arg}`', ->
+          assert.equal(resource.uriTemplate, '/test/{id}{?arg}')
+        )
+
+        it('uriTemplate equals to `/test/{id}{?arg}`', ->
+          assert.equal(resource.uriTemplate, '/test/{id}{?arg}')
+        )
+
+        it('has two parameters', ->
+          assert.equal(resource.parameters.length, 2)
+        )
+
+        it('has two actionParameters', ->
+          assert.equal(resource.actionParameters.length, 2)
+        )
+
+        it('first parameter is `id`', ->
+          assert.equal(resource.parameters[0].key, 'id')
+        )
+
+        it('first parameter is required', ->
+          assert.isTrue(resource.parameters[0].required)
+        )
+
+        it('first parameter has `type` equal to `string`', ->
+          assert.equal(resource.parameters[0].type, 'string')
+        )
+
+        it('second parameter is `arg`', ->
+          assert.equal(resource.parameters[1].key, 'arg')
+        )
+
+        it('second parameter isn\'t required', ->
+          assert.isFalse(resource.parameters[1].required)
+        )
+      )
+
+      context('POST', ->
+        resource = null
+        before( ->
+          resource = ast.sections[0].resources[1]
+        )
+
+        it('method is POST', ->
+          assert.equal(resource.method, 'POST')
+        )
+
+        it('url equals to `/test`', ->
+          assert.equal(resource.uriTemplate, '/test')
+        )
+
+        it('uriTemplate equals to `/test`', ->
+          assert.equal(resource.uriTemplate, '/test')
+        )
+
+        it('has schema', ->
+          assert.equal(resource.request.schema, '{\"type\":\"string\"}')
+        )
+      )
+    )
   )
 )
