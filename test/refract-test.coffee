@@ -108,5 +108,20 @@ describe('Transformations • Refract', ->
         )
       )
     )
+
+    describe('Description', ->
+      ast = null
+      before( ->
+        {ast} = getZooFeature('description')
+      )
+
+      it('has name', ->
+        assert.isOk(ast.name)
+      )
+
+      it('has description', ->
+        assert.isOk(ast.description)
+      )
+    )
   )
 )
