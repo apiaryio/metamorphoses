@@ -71,6 +71,25 @@ describe('Transformations • Refract', ->
   )
 
   context('Features', ->
+    describe('Minimal JSON', ->
+      ast = null
+      before( ->
+        {ast} = getZooFeature('minimal-json')
+      )
+
+      it('has a name', ->
+        assert.isOk(ast.name)
+      )
+
+      it('has one section', ->
+        assert.equal(ast.sections.length, 1)
+      )
+
+      it('section has no name', ->
+        assert.equal(ast.sections[0].name, '')
+      )
+    )
+
     describe('Action', ->
       ast = null
       before( ->
