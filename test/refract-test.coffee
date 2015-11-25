@@ -248,5 +248,26 @@ describe('Transformations • Refract', ->
         )
       )
     )
+
+    describe('Path level parameters', ->
+      ast = null
+      resource = null
+      before( ->
+        {ast} = getZooFeature('path-level-params')
+        resource = ast.sections[0].resources[0]
+      )
+
+      it('resource have three paramters', ->
+        assert.equal(resource.parameters.length, 3)
+      )
+
+      it('2 paramters are resource paramters', ->
+        assert.equal(resource.resourceParameters.length, 2)
+      )
+
+      it('1 paramter is action paramter', ->
+        assert.equal(resource.actionParameters.length, 1)
+      )
+    )
   )
 )
