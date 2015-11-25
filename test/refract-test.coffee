@@ -68,6 +68,27 @@ describe('Transformations • Refract', ->
     )
   )
 
+  describe('hrefVariables', ->
+    ast = null
+    resource = null
+    before( ->
+      ast = convertToApplicationAst(require('./fixtures/refract-parse-result-href-variables.json'))
+      resource = ast.sections[0].resources[0]
+    )
+
+    it('resource has three parameters', ->
+      assert.equal(resource.parameters.length, 3)
+    )
+
+    it('resource has one resource parameter', ->
+      assert.equal(resource.resourceParameters.length, 1)
+    )
+
+    it('resource has two action parameters', ->
+      assert.equal(resource.actionParameters.length, 2)
+    )
+  )
+
   context('Features', ->
     describe('Minimal JSON', ->
       ast = null
