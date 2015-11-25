@@ -20,13 +20,11 @@ getZooFeature = (name, debug) ->
   ast = convertToApplicationAst(refract)
 
   if debug
-    console.log 'SWAGGER:', swagger
-    console.log '\n----------------------------\n'
-    console.log 'REFRACT:', JSON.stringify(refract, null, 2)
-    console.log '\n----------------------------\n'
-    console.log 'AST:', JSON.stringify(ast, null, 2)
-
-
+    console.log('SWAGGER:', swagger)
+    console.log('\n----------------------------\n')
+    console.log('REFRACT:', JSON.stringify(refract, null, 2))
+    console.log('\n----------------------------\n')
+    console.log('AST:', JSON.stringify(ast, null, 2))
 
   {ast, refract, swagger}
 
@@ -267,6 +265,33 @@ describe('Transformations • Refract', ->
 
       it('1 paramter is action paramter', ->
         assert.equal(resource.actionParameters.length, 1)
+      )
+    )
+
+    describe('Tags', ->
+      ast = null
+      before( ->
+        {ast} = getZooFeature('tags')
+      )
+
+      it('has two sections', ->
+        assert.equal(ast.sections.length, 2)
+      )
+
+      it('first section has name `Group1`', ->
+        assert.equal(ast.sections[0].name, 'Group1')
+      )
+
+      it('`Group1` contains 3 resources', ->
+        assert.equal(ast.sections[0].resources.length, 3)
+      )
+
+      it('second section has name `Group2`', ->
+        assert.equal(ast.sections[1].name, 'Group2')
+      )
+
+      it('`Group2` contains 2 resources', ->
+        assert.equal(ast.sections[1].resources.length, 2)
       )
     )
   )
