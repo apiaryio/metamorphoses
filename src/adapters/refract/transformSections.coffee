@@ -22,7 +22,7 @@ module.exports = (element) ->
   else
     resourceGroupsElements.forEach((resourceGroupElement) ->
       section = new blueprintApi.Section({
-        name: _.get(resourceGroupElement, 'meta.title', '')
+        name: _.chain(resourceGroupElement).get('meta.title', '').contentOrValue().value()
       })
 
       description = getDescription(resourceGroupElement)

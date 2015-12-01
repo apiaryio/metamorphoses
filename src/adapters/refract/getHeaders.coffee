@@ -9,8 +9,8 @@ module.exports = (element) ->
 
   _.content(httpHeaders).forEach((headerElement) ->
     content = _.content(headerElement)
-    key = _.get(content, 'key.content')
-    value = _.get(content, 'value.content')
+    key = _.chain(content).get('key').contentOrValue().value()
+    value = _.chain(content).get('value').contentOrValue().value()
 
     headers[key] = value if key
   )

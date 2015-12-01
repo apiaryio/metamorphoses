@@ -17,11 +17,11 @@ getUriParameters = (hrefVariables) ->
     required = typeAttributes?.indexOf('optional') is -1
 
     memberContent = lodashedHrefVariable.content()
-    key = memberContent.get('key').content().value()
+    key = memberContent.get('key').contentOrValue().value()
     memberContentValue = memberContent.get('value')
     type = memberContentValue.get('element').value()
 
-    defaultValue = memberContentValue.get('attributes.default', '').value().toString()
+    defaultValue = memberContentValue.get('attributes.default', '').contentOrValue().value().toString()
     exampleValue = ''
     values = []
 
