@@ -25,10 +25,10 @@ module.exports = (element) ->
       # * Dtto, `actionUriTemplate`
       resource = new blueprintApi.Resource({
         # TODO: `url` should contain a possible HOST suffix.
-        url: _.get(resourceElement, 'attributes.href', '')
-        uriTemplate: _.get(resourceElement, 'attributes.href', '')
+        url: _.chain(resourceElement).get('attributes.href', '').contentOrValue().value()
+        uriTemplate: _.chain(resourceElement).get('attributes.href', '').contentOrValue().value()
 
-        name: _.get(resourceElement, 'meta.title', '')
+        name: _.chain(resourceElement).get('meta.title', '').contentOrValue().value()
 
         # We can safely leave these empty for now.
         headers: {}
@@ -36,7 +36,7 @@ module.exports = (element) ->
 
         description: resourceDescription.raw
         htmlDescription: resourceDescription.html
-        actionName: _.get(transitionElement, 'meta.title', '')
+        actionName: _.chain(transitionElement).get('meta.title', '').contentOrValue().value()
 
         # Model has been deprecated in the API Blueprint format,
         # therfore we can safely skip it.
@@ -47,7 +47,7 @@ module.exports = (element) ->
         attributes
         resolvedAttributes: attributes
 
-        actionRelation: _.get(transitionElement, 'attributes.relation', '')
+        actionRelation: _.chain('transitionElement').get('attributes.relation', '').contentOrValue().value()
       })
 
       requests = []
@@ -73,14 +73,14 @@ module.exports = (element) ->
         responseAttributes = undefined if _.isEmpty(responseAttributes)
 
         # In refract just here we have method and href
-        resource.method = _.get(httpRequest, 'attributes.method', '')
-        resource.actionUriTemplate = _.get(httpRequest, 'attributes.href', '')
+        resource.method = _.chain(httpRequest).get('attributes.method', '').contentOrValue().value()
+        resource.actionUriTemplate = _.chain(httpRequest).get('attributes.href', '').contentOrValue().value()
 
         requestParameters = getUriParameters(_.get(httpRequest, 'attributes.hrefVariables'))
         actionParameters = actionParameters.concat(requestParameters)
 
         request = new blueprintApi.Request({
-          name: _.get(httpRequest, 'meta.title', '')
+          name: _.chain(httpRequest).get('meta.title', '').contentOrValue().value()
           description: httpRequestDescription.raw
           htmlDescription: httpRequestDescription.html
           headers: getHeaders(httpRequest)
@@ -93,7 +93,7 @@ module.exports = (element) ->
         })
 
         response = new blueprintApi.Response({
-          status: _.get(httpResponse, 'attributes.statusCode')
+          status: _.chain(httpResponse).get('attributes.statusCode').contentOrValue().value()
           description: httpResponseDescription.raw
           htmlDescription: httpResponseDescription.html
           headers: getHeaders(httpResponse)

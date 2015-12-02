@@ -30,6 +30,22 @@ getZooFeature = (name, debug) ->
 
 
 describe('Transformations • Refract', ->
+  describe('Title', ->
+    [
+        label: 'as primitive value'
+        ast: convertToApplicationAst(require('./fixtures/refract-parse-result-title-as-primitive-value.json'))
+      ,
+        label: 'as refract element'
+        ast: convertToApplicationAst(require('./fixtures/refract-parse-result-title-as-refract-element.json'))
+    ].forEach(({label, ast}) ->
+      context(label, ->
+        it('has name equal to `Title example`', ->
+          assert.equal(ast.name, 'Title example')
+        )
+      )
+    )
+  )
+
   describe('Resources', ->
     [
         label: 'Parse Result with Resource Group'
