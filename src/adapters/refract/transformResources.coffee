@@ -15,11 +15,6 @@ module.exports = (element) ->
 
       resourceParameters = getUriParameters(_.get(resourceElement, 'attributes.hrefVariables'))
       actionParameters = getUriParameters(_.get(transitionElement, 'attributes.hrefVariables'))
-      parameters = resourceParameters.concat(actionParameters)
-
-      resourceParameters = undefined if _.isEmpty(resourceParameters)
-      actionParameters = undefined if _.isEmpty(actionParameters)
-      parameters = undefined if _.isEmpty(parameters)
 
       attributes = _.dataStructures(resourceElement)
       attributes = undefined if _.isEmpty(attributes)
@@ -46,10 +41,6 @@ module.exports = (element) ->
         # Model has been deprecated in the API Blueprint format,
         # therfore we can safely skip it.
         model: {}
-
-        parameters
-        resourceParameters
-        actionParameters
 
         actionDescription: description.raw
         actionHtmlDescription: description.html
@@ -85,6 +76,9 @@ module.exports = (element) ->
         resource.method = _.get(httpRequest, 'attributes.method', '')
         resource.actionUriTemplate = _.get(httpRequest, 'attributes.href', '')
 
+        requestParameters = getUriParameters(_.get(httpRequest, 'attributes.hrefVariables'))
+        actionParameters = actionParameters.concat(requestParameters)
+
         request = new blueprintApi.Request({
           name: _.get(httpRequest, 'meta.title', '')
           description: httpRequestDescription.raw
@@ -118,6 +112,10 @@ module.exports = (element) ->
       resource.requests = requests
       resource.request = requests[0]
       resource.responses = responses
+
+      resource.resourceParameters = resourceParameters
+      resource.actionParameters = actionParameters
+      resource.parameters = resourceParameters.concat(actionParameters)
 
       resources.push(resource)
     )
