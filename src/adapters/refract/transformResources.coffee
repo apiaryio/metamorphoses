@@ -47,7 +47,7 @@ module.exports = (element) ->
         attributes
         resolvedAttributes: attributes
 
-        actionRelation: _.chain('transitionElement').get('attributes.relation', '').contentOrValue().value()
+        actionRelation: _.chain(transitionElement).get('attributes.relation', '').contentOrValue().value()
       })
 
       requests = []
