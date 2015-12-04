@@ -33,10 +33,14 @@ describe('Transformations • Refract', ->
   describe('Title', ->
     [
         label: 'as primitive value'
-        ast: convertToApplicationAst(require('./fixtures/refract-parse-result-title-as-primitive-value.json'))
+        ast: convertToApplicationAst(
+          require('./fixtures/refract-parse-result-title-as-primitive-value.json')
+        )
       ,
         label: 'as refract element'
-        ast: convertToApplicationAst(require('./fixtures/refract-parse-result-title-as-refract-element.json'))
+        ast: convertToApplicationAst(
+          require('./fixtures/refract-parse-result-title-as-refract-element.json')
+        )
     ].forEach(({label, ast}) ->
       context(label, ->
         it('has name equal to `Title example`', ->
@@ -329,10 +333,12 @@ describe('Transformations • Refract', ->
     )
 
     describe('Mixed Resources and Resource Groups', ->
-      applicationAst = null;
+      applicationAst = null
 
       before(->
-        applicationAst = convertToApplicationAst(require('./fixtures/refract-parse-result-tags.json'))
+        applicationAst = convertToApplicationAst(
+          require('./fixtures/refract-parse-result-tags.json')
+        )
       )
 
       it('Has two sections', ->
