@@ -15,17 +15,16 @@ module.exports = (parentElement) ->
   applicationAstResources = []
 
   _.forEach(parentElement.content, (element, index) ->
-    # If the element is a resource, transform it
-    # into the Application AST Resource and push it
-    # to a temporary array, we'll create an artificial
-    # resource group (section) for these resources
-    # later in the process.
+    # There might be two types of elements—resource and
+    # category. Categories are being mapped 1:1 to
+    # sections (resource groups), resources are being
+    # pushed to a temporary array and then assigned to
+    # an artificial section.
     if element.element is 'resource'
       applicationAstResources = applicationAstResources.concat(
         transformResource(element)
       )
 
-    # Element is category (resource group most probably).
     if element.element is 'category'
       # First let's create an artificial resource group (section)
       # for previous resources.
