@@ -116,12 +116,8 @@ describe('Transformations • Refract', ->
         assert.isOk(ast.name)
       )
 
-      it('has one section', ->
-        assert.equal(ast.sections.length, 1)
-      )
-
-      it('section has no name', ->
-        assert.equal(ast.sections[0].name, '')
+      it('doesn\'t have any sections', ->
+        assert.equal(ast.sections.length, 0)
       )
     )
 
@@ -331,5 +327,26 @@ describe('Transformations • Refract', ->
         assert.equal(ast.sections[1].resources.length, 2)
       )
     )
+
+    describe('Mixed Resources and Resource Groups', ->
+      applicationAst = null;
+
+      before(->
+        applicationAst = convertToApplicationAst(require('./fixtures/refract-parse-result-tags.json'))
+      )
+
+      it('Has two sections', ->
+        assert.strictEqual(applicationAst.sections.length, 2)
+      )
+
+      it('First section contains two resources', ->
+        assert.strictEqual(applicationAst.sections[0].resources.length, 6)
+      )
+
+      it('Second section contains two resources', ->
+        assert.strictEqual(applicationAst.sections[1].resources.length, 1)
+      )
+    )
+
   )
 )
