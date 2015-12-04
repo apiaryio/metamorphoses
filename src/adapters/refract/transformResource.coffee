@@ -65,11 +65,19 @@ module.exports = (resourceElement) ->
       httpRequestDescription = getDescription(httpRequest)
       httpResponseDescription = getDescription(httpResponse)
 
-      requestAttributes = _.dataStructures(httpRequestBody)
-      requestAttributes = undefined if _.isEmpty(requestAttributes)
+      httpRequestBodyDataStructures = _.dataStructures(httpRequestBody)
 
-      responseAttributes = _.dataStructures(httpResponseBody)
-      responseAttributes = undefined if _.isEmpty(responseAttributes)
+      if _.isEmpty(httpRequestBodyDataStructures)
+        requestAttributes = undefined
+      else
+        requestAttributes = httpRequestBodyDataStructures
+
+      httpResponseBodyDataStructures = _.dataStructures(httpResponseBody)
+
+      if _.isEmpty(httpResponseBodyDataStructures)
+        responseAttributes = undefined
+      else
+        responseAttributes = httpResponseBodyDataStructures
 
       # In refract just here we have method and href
       resource.method = _.chain(httpRequest).get('attributes.method', '').contentOrValue().value()
