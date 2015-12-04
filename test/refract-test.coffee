@@ -341,15 +341,15 @@ describe('Transformations • Refract', ->
         )
       )
 
-      it('Has two sections', ->
+      it('Jas the correct sections', ->
         assert.strictEqual(applicationAst.sections.length, 2)
       )
 
-      it('First section contains two resources', ->
+      it('First section has the correct resources', ->
         assert.strictEqual(applicationAst.sections[0].resources.length, 6)
       )
 
-      it('Second section contains two resources', ->
+      it('Second section has the correct resources', ->
         assert.strictEqual(applicationAst.sections[1].resources.length, 1)
       )
     )
