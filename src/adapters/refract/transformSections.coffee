@@ -48,18 +48,16 @@ module.exports = (parentElement) ->
       })
 
       resourceGroups.push(resourceGroup)
-
-    # If this the last run, make sure tu flush the resources
-    # into an an artificial resource group (section).
-    isLastRun = index is (parentElement.content.length - 1)
-
-    if isLastRun and applicationAstResources.length
-      resourceGroups.push(
-        new blueprintApi.Section({
-          name: ''
-          resources: applicationAstResources
-        })
-      )
   )
+
+  # Make sure tu flush the resources into an an artificial
+  # resource group (section).
+  if applicationAstResources.length
+    resourceGroups.push(
+      new blueprintApi.Section({
+        name: ''
+        resources: applicationAstResources
+      })
+    )
 
   resourceGroups
