@@ -14,7 +14,7 @@ module.exports = (parentElement) ->
   # Refract Resources into the Application AST Resource).
   applicationAstResources = []
 
-  _.forEach(parentElement.content, (element, index) ->
+  _.forEach(_.get(parentElement, 'content'), (element, index) ->
     # There might be two types of elements—resource and
     # category. Categories are being mapped 1:1 to
     # sections (resource groups), resources are being
