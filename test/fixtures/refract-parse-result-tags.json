@@ -1,0 +1,1521 @@
+{
+  "element": "parseResult",
+  "meta": {},
+  "attributes": {},
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": "SwaggerHub Registry API"
+      },
+      "attributes": {
+        "meta": {
+          "element": "object",
+          "meta": {},
+          "attributes": {},
+          "content": [
+            {
+              "element": "member",
+              "meta": {
+                "classes": [
+                  "user"
+                ]
+              },
+              "attributes": {},
+              "content": {
+                "key": {
+                  "element": "string",
+                  "meta": {},
+                  "attributes": {},
+                  "content": "HOST"
+                },
+                "value": {
+                  "element": "string",
+                  "meta": {},
+                  "attributes": {},
+                  "content": "https://api.swaggerhub.com"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "content": [
+        {
+          "element": "copy",
+          "meta": {},
+          "attributes": {},
+          "content": "The registry API for SwaggerHub"
+        },
+        {
+          "element": "resource",
+          "meta": {},
+          "attributes": {
+            "href": "/apisss{?query,state,tag,page,limit,sort,order}"
+          },
+          "content": [
+            {
+              "element": "transition",
+              "meta": {
+                "title": "Retrieves a list of currently defined APIs in APIs.json format"
+              },
+              "attributes": {
+                "relation": "searchApis",
+                "hrefVariables": {
+                  "element": "hrefVariables",
+                  "meta": {},
+                  "attributes": {},
+                  "content": [
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "free text query to match"
+                      },
+                      "attributes": {},
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "query"
+                        },
+                        "value": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": ""
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "matches against published state"
+                      },
+                      "attributes": {},
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "state"
+                        },
+                        "value": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {
+                            "default": "ALL"
+                          },
+                          "content": ""
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "matches against tags associated with an API"
+                      },
+                      "attributes": {},
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "tag"
+                        },
+                        "value": {
+                          "element": "array",
+                          "meta": {},
+                          "attributes": {},
+                          "content": []
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "page to return"
+                      },
+                      "attributes": {},
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "page"
+                        },
+                        "value": {
+                          "element": "number",
+                          "meta": {},
+                          "attributes": {},
+                          "content": null
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "number of results per page"
+                      },
+                      "attributes": {},
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "limit"
+                        },
+                        "value": {
+                          "element": "number",
+                          "meta": {},
+                          "attributes": {
+                            "default": 10
+                          },
+                          "content": null
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "sort criteria"
+                      },
+                      "attributes": {},
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "sort"
+                        },
+                        "value": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {
+                            "default": "NAME"
+                          },
+                          "content": ""
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "sort order"
+                      },
+                      "attributes": {},
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "order"
+                        },
+                        "value": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {
+                            "default": "ASC"
+                          },
+                          "content": ""
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "content": [
+                {
+                  "element": "httpTransaction",
+                  "meta": {},
+                  "attributes": {},
+                  "content": [
+                    {
+                      "element": "httpRequest",
+                      "meta": {},
+                      "attributes": {
+                        "method": "GET"
+                      },
+                      "content": []
+                    },
+                    {
+                      "element": "httpResponse",
+                      "meta": {},
+                      "attributes": {
+                        "statusCode": "200"
+                      },
+                      "content": [
+                        {
+                          "element": "copy",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "a list of APIs in APIs.json format"
+                        },
+                        {
+                          "element": "asset",
+                          "meta": {
+                            "classes": [
+                              "messageBodySchema"
+                            ]
+                          },
+                          "attributes": {
+                            "contentType": "application/schema+json"
+                          },
+                          "content": "{\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\"},\"description\":{\"type\":\"string\"},\"url\":{\"type\":\"string\"},\"created\":{\"type\":\"string\",\"format\":\"date-time\"},\"modified\":{\"type\":\"string\",\"format\":\"date-time\"},\"specificationVersion\":{\"type\":\"string\"},\"offset\":{\"type\":\"integer\",\"format\":\"int32\"},\"totalCount\":{\"type\":\"integer\",\"format\":\"int64\"},\"apis\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\"},\"description\":{\"type\":\"string\"},\"tags\":{\"type\":\"array\",\"uniqueItems\":true,\"items\":{\"type\":\"string\"}},\"properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"type\":{\"type\":\"string\"}},\"description\":\"an API property\"}}}}}}}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "element": "resource",
+          "meta": {},
+          "attributes": {
+            "href": "/apis/{owner}{?page,limit,sort,order}"
+          },
+          "content": [
+            {
+              "element": "transition",
+              "meta": {
+                "title": "Retrieves an APIs.json listing of all APIs defined for this owner"
+              },
+              "attributes": {
+                "relation": "getOwnerApis",
+                "hrefVariables": {
+                  "element": "hrefVariables",
+                  "meta": {},
+                  "attributes": {},
+                  "content": [
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "API owner identifier"
+                      },
+                      "attributes": {
+                        "typeAttributes": [
+                          "required"
+                        ]
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "owner"
+                        },
+                        "value": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": ""
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "page to return"
+                      },
+                      "attributes": {},
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "page"
+                        },
+                        "value": {
+                          "element": "number",
+                          "meta": {},
+                          "attributes": {},
+                          "content": null
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "number of results per page"
+                      },
+                      "attributes": {},
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "limit"
+                        },
+                        "value": {
+                          "element": "number",
+                          "meta": {},
+                          "attributes": {
+                            "default": 10
+                          },
+                          "content": null
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "sort criteria"
+                      },
+                      "attributes": {},
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "sort"
+                        },
+                        "value": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {
+                            "default": "NAME"
+                          },
+                          "content": ""
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "sort order"
+                      },
+                      "attributes": {},
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "order"
+                        },
+                        "value": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {
+                            "default": "ASC"
+                          },
+                          "content": ""
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "content": [
+                {
+                  "element": "httpTransaction",
+                  "meta": {},
+                  "attributes": {},
+                  "content": [
+                    {
+                      "element": "httpRequest",
+                      "meta": {},
+                      "attributes": {
+                        "method": "GET"
+                      },
+                      "content": []
+                    },
+                    {
+                      "element": "httpResponse",
+                      "meta": {},
+                      "attributes": {
+                        "statusCode": "200"
+                      },
+                      "content": [
+                        {
+                          "element": "copy",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "a list of APIs in APIs.json format"
+                        },
+                        {
+                          "element": "asset",
+                          "meta": {
+                            "classes": [
+                              "messageBodySchema"
+                            ]
+                          },
+                          "attributes": {
+                            "contentType": "application/schema+json"
+                          },
+                          "content": "{\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\"},\"description\":{\"type\":\"string\"},\"url\":{\"type\":\"string\"},\"created\":{\"type\":\"string\",\"format\":\"date-time\"},\"modified\":{\"type\":\"string\",\"format\":\"date-time\"},\"specificationVersion\":{\"type\":\"string\"},\"offset\":{\"type\":\"integer\",\"format\":\"int32\"},\"totalCount\":{\"type\":\"integer\",\"format\":\"int64\"},\"apis\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\"},\"description\":{\"type\":\"string\"},\"tags\":{\"type\":\"array\",\"uniqueItems\":true,\"items\":{\"type\":\"string\"}},\"properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"type\":{\"type\":\"string\"}},\"description\":\"an API property\"}}}}}}}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "element": "resource",
+          "meta": {},
+          "attributes": {
+            "href": "/apis/{owner}/{api}"
+          },
+          "content": [
+            {
+              "element": "transition",
+              "meta": {
+                "title": "Retrieves an APIs.json listing for all API versions for this owner and API"
+              },
+              "attributes": {
+                "relation": "getApiVersions",
+                "hrefVariables": {
+                  "element": "hrefVariables",
+                  "meta": {},
+                  "attributes": {},
+                  "content": [
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "API owner identifier"
+                      },
+                      "attributes": {
+                        "typeAttributes": [
+                          "required"
+                        ]
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "owner"
+                        },
+                        "value": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": ""
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "API identifier"
+                      },
+                      "attributes": {
+                        "typeAttributes": [
+                          "required"
+                        ]
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "api"
+                        },
+                        "value": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": ""
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "page to return"
+                      },
+                      "attributes": {},
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "page"
+                        },
+                        "value": {
+                          "element": "number",
+                          "meta": {},
+                          "attributes": {},
+                          "content": null
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "number of results per page"
+                      },
+                      "attributes": {},
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "limit"
+                        },
+                        "value": {
+                          "element": "number",
+                          "meta": {},
+                          "attributes": {
+                            "default": 10
+                          },
+                          "content": null
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "sort criteria"
+                      },
+                      "attributes": {},
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "sort"
+                        },
+                        "value": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {
+                            "default": "NAME"
+                          },
+                          "content": ""
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "sort order"
+                      },
+                      "attributes": {},
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "order"
+                        },
+                        "value": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {
+                            "default": "ASC"
+                          },
+                          "content": ""
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "content": [
+                {
+                  "element": "httpTransaction",
+                  "meta": {},
+                  "attributes": {},
+                  "content": [
+                    {
+                      "element": "httpRequest",
+                      "meta": {},
+                      "attributes": {
+                        "method": "GET"
+                      },
+                      "content": []
+                    },
+                    {
+                      "element": "httpResponse",
+                      "meta": {},
+                      "attributes": {
+                        "statusCode": "200"
+                      },
+                      "content": [
+                        {
+                          "element": "copy",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "a list of API versions in APIs.json format"
+                        },
+                        {
+                          "element": "asset",
+                          "meta": {
+                            "classes": [
+                              "messageBodySchema"
+                            ]
+                          },
+                          "attributes": {
+                            "contentType": "application/schema+json"
+                          },
+                          "content": "{\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\"},\"description\":{\"type\":\"string\"},\"url\":{\"type\":\"string\"},\"created\":{\"type\":\"string\",\"format\":\"date-time\"},\"modified\":{\"type\":\"string\",\"format\":\"date-time\"},\"specificationVersion\":{\"type\":\"string\"},\"offset\":{\"type\":\"integer\",\"format\":\"int32\"},\"totalCount\":{\"type\":\"integer\",\"format\":\"int64\"},\"apis\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\"},\"description\":{\"type\":\"string\"},\"tags\":{\"type\":\"array\",\"uniqueItems\":true,\"items\":{\"type\":\"string\"}},\"properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"type\":{\"type\":\"string\"}},\"description\":\"an API property\"}}}}}}}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "element": "transition",
+              "meta": {
+                "title": "Saves the provided Swagger definition"
+              },
+              "attributes": {
+                "relation": "saveDefinition",
+                "hrefVariables": {
+                  "element": "hrefVariables",
+                  "meta": {},
+                  "attributes": {},
+                  "content": [
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "API owner identifier"
+                      },
+                      "attributes": {
+                        "typeAttributes": [
+                          "required"
+                        ]
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "owner"
+                        },
+                        "value": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": ""
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "API identifier"
+                      },
+                      "attributes": {
+                        "typeAttributes": [
+                          "required"
+                        ]
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "api"
+                        },
+                        "value": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": ""
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "content": [
+                {
+                  "element": "copy",
+                  "meta": {},
+                  "attributes": {},
+                  "content": "Saves the provided Swagger definition; the owner must match the token owner. The version will be extracted from the Swagger definitions itself."
+                },
+                {
+                  "element": "httpTransaction",
+                  "meta": {},
+                  "attributes": {},
+                  "content": [
+                    {
+                      "element": "httpRequest",
+                      "meta": {},
+                      "attributes": {
+                        "method": "POST"
+                      },
+                      "content": [
+                        {
+                          "element": "asset",
+                          "meta": {
+                            "classes": [
+                              "messageBodySchema"
+                            ]
+                          },
+                          "attributes": {
+                            "contentType": "application/schema+json"
+                          },
+                          "content": "{\"type\":\"string\"}"
+                        }
+                      ]
+                    },
+                    {
+                      "element": "httpResponse",
+                      "meta": {},
+                      "attributes": {
+                        "statusCode": "201"
+                      },
+                      "content": [
+                        {
+                          "element": "copy",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "the API was successfully saved"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "element": "httpTransaction",
+                  "meta": {},
+                  "attributes": {},
+                  "content": [
+                    {
+                      "element": "httpRequest",
+                      "meta": {},
+                      "attributes": {
+                        "method": "POST"
+                      },
+                      "content": [
+                        {
+                          "element": "asset",
+                          "meta": {
+                            "classes": [
+                              "messageBodySchema"
+                            ]
+                          },
+                          "attributes": {
+                            "contentType": "application/schema+json"
+                          },
+                          "content": "{\"type\":\"string\"}"
+                        }
+                      ]
+                    },
+                    {
+                      "element": "httpResponse",
+                      "meta": {},
+                      "attributes": {
+                        "statusCode": "400"
+                      },
+                      "content": [
+                        {
+                          "element": "copy",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "the Swagger definition was invalid"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "element": "httpTransaction",
+                  "meta": {},
+                  "attributes": {},
+                  "content": [
+                    {
+                      "element": "httpRequest",
+                      "meta": {},
+                      "attributes": {
+                        "method": "POST"
+                      },
+                      "content": [
+                        {
+                          "element": "asset",
+                          "meta": {
+                            "classes": [
+                              "messageBodySchema"
+                            ]
+                          },
+                          "attributes": {
+                            "contentType": "application/schema+json"
+                          },
+                          "content": "{\"type\":\"string\"}"
+                        }
+                      ]
+                    },
+                    {
+                      "element": "httpResponse",
+                      "meta": {},
+                      "attributes": {
+                        "statusCode": "403"
+                      },
+                      "content": [
+                        {
+                          "element": "copy",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "maximum number of APIs reached"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "element": "httpTransaction",
+                  "meta": {},
+                  "attributes": {},
+                  "content": [
+                    {
+                      "element": "httpRequest",
+                      "meta": {},
+                      "attributes": {
+                        "method": "POST"
+                      },
+                      "content": [
+                        {
+                          "element": "asset",
+                          "meta": {
+                            "classes": [
+                              "messageBodySchema"
+                            ]
+                          },
+                          "attributes": {
+                            "contentType": "application/schema+json"
+                          },
+                          "content": "{\"type\":\"string\"}"
+                        }
+                      ]
+                    },
+                    {
+                      "element": "httpResponse",
+                      "meta": {},
+                      "attributes": {
+                        "statusCode": "409"
+                      },
+                      "content": [
+                        {
+                          "element": "copy",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "can not overwrite a published API version"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "element": "httpTransaction",
+                  "meta": {},
+                  "attributes": {},
+                  "content": [
+                    {
+                      "element": "httpRequest",
+                      "meta": {},
+                      "attributes": {
+                        "method": "POST"
+                      },
+                      "content": [
+                        {
+                          "element": "asset",
+                          "meta": {
+                            "classes": [
+                              "messageBodySchema"
+                            ]
+                          },
+                          "attributes": {
+                            "contentType": "application/schema+json"
+                          },
+                          "content": "{\"type\":\"string\"}"
+                        }
+                      ]
+                    },
+                    {
+                      "element": "httpResponse",
+                      "meta": {},
+                      "attributes": {
+                        "statusCode": "415"
+                      },
+                      "content": [
+                        {
+                          "element": "copy",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "invalid content type"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "element": "resource",
+          "meta": {},
+          "attributes": {
+            "href": "/apis/{owner}/{api}/{version}"
+          },
+          "content": [
+            {
+              "element": "transition",
+              "meta": {
+                "title": "Retrieves the Swagger definition for the specified API and version"
+              },
+              "attributes": {
+                "relation": "getDefinition",
+                "hrefVariables": {
+                  "element": "hrefVariables",
+                  "meta": {},
+                  "attributes": {},
+                  "content": [
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "API owner identifier"
+                      },
+                      "attributes": {
+                        "typeAttributes": [
+                          "required"
+                        ]
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "owner"
+                        },
+                        "value": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": ""
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "API identifier"
+                      },
+                      "attributes": {
+                        "typeAttributes": [
+                          "required"
+                        ]
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "api"
+                        },
+                        "value": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": ""
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "version identifier"
+                      },
+                      "attributes": {
+                        "typeAttributes": [
+                          "required"
+                        ]
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "version"
+                        },
+                        "value": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": ""
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "content": [
+                {
+                  "element": "httpTransaction",
+                  "meta": {},
+                  "attributes": {},
+                  "content": [
+                    {
+                      "element": "httpRequest",
+                      "meta": {},
+                      "attributes": {
+                        "method": "GET"
+                      },
+                      "content": []
+                    },
+                    {
+                      "element": "httpResponse",
+                      "meta": {},
+                      "attributes": {
+                        "statusCode": "200"
+                      },
+                      "content": [
+                        {
+                          "element": "copy",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "the Swagger API in requested format"
+                        },
+                        {
+                          "element": "asset",
+                          "meta": {
+                            "classes": [
+                              "messageBodySchema"
+                            ]
+                          },
+                          "attributes": {
+                            "contentType": "application/schema+json"
+                          },
+                          "content": "{\"type\":\"object\"}"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "element": "httpTransaction",
+                  "meta": {},
+                  "attributes": {},
+                  "content": [
+                    {
+                      "element": "httpRequest",
+                      "meta": {},
+                      "attributes": {
+                        "method": "GET"
+                      },
+                      "content": []
+                    },
+                    {
+                      "element": "httpResponse",
+                      "meta": {},
+                      "attributes": {
+                        "statusCode": "404"
+                      },
+                      "content": [
+                        {
+                          "element": "copy",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "specified API not found"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "element": "resource",
+          "meta": {},
+          "attributes": {
+            "href": "/apis/{owner}/{api}/{version}/swagger.json"
+          },
+          "content": [
+            {
+              "element": "transition",
+              "meta": {
+                "title": "Retrieves the Swagger definition for the specified API and version in JSON format"
+              },
+              "attributes": {
+                "relation": "getJsonDefinition",
+                "hrefVariables": {
+                  "element": "hrefVariables",
+                  "meta": {},
+                  "attributes": {},
+                  "content": [
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "API owner identifier"
+                      },
+                      "attributes": {
+                        "typeAttributes": [
+                          "required"
+                        ]
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "owner"
+                        },
+                        "value": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": ""
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "API identifier"
+                      },
+                      "attributes": {
+                        "typeAttributes": [
+                          "required"
+                        ]
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "api"
+                        },
+                        "value": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": ""
+                        }
+                      }
+                    },
+                    {
+                      "element": "member",
+                      "meta": {
+                        "description": "API version"
+                      },
+                      "attributes": {
+                        "typeAttributes": [
+                          "required"
+                        ]
+                      },
+                      "content": {
+                        "key": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "version"
+                        },
+                        "value": {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": ""
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "content": [
+                {
+                  "element": "httpTransaction",
+                  "meta": {},
+                  "attributes": {},
+                  "content": [
+                    {
+                      "element": "httpRequest",
+                      "meta": {},
+                      "attributes": {
+                        "method": "GET"
+                      },
+                      "content": []
+                    },
+                    {
+                      "element": "httpResponse",
+                      "meta": {},
+                      "attributes": {
+                        "statusCode": "200"
+                      },
+                      "content": [
+                        {
+                          "element": "copy",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "the Swagger API in JSON format"
+                        },
+                        {
+                          "element": "asset",
+                          "meta": {
+                            "classes": [
+                              "messageBodySchema"
+                            ]
+                          },
+                          "attributes": {
+                            "contentType": "application/schema+json"
+                          },
+                          "content": "{\"type\":\"object\"}"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "element": "httpTransaction",
+                  "meta": {},
+                  "attributes": {},
+                  "content": [
+                    {
+                      "element": "httpRequest",
+                      "meta": {},
+                      "attributes": {
+                        "method": "GET"
+                      },
+                      "content": []
+                    },
+                    {
+                      "element": "httpResponse",
+                      "meta": {},
+                      "attributes": {
+                        "statusCode": "404"
+                      },
+                      "content": [
+                        {
+                          "element": "copy",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "specified API not found"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "element": "category",
+          "meta": {
+            "title": "APIs",
+            "classes": [
+              "resourceGroup"
+            ]
+          },
+          "attributes": {},
+          "content": [
+            {
+              "element": "resource",
+              "meta": {},
+              "attributes": {
+                "href": "/apis/{owner}/{api}/{version}/swagger.yaml"
+              },
+              "content": [
+                {
+                  "element": "transition",
+                  "meta": {
+                    "title": "Retrieves the Swagger definition for the specified API and version in YAML format"
+                  },
+                  "attributes": {
+                    "relation": "getYamlDefinition",
+                    "hrefVariables": {
+                      "element": "hrefVariables",
+                      "meta": {},
+                      "attributes": {},
+                      "content": [
+                        {
+                          "element": "member",
+                          "meta": {
+                            "description": "API owner identifier"
+                          },
+                          "attributes": {
+                            "typeAttributes": [
+                              "required"
+                            ]
+                          },
+                          "content": {
+                            "key": {
+                              "element": "string",
+                              "meta": {},
+                              "attributes": {},
+                              "content": "owner"
+                            },
+                            "value": {
+                              "element": "string",
+                              "meta": {},
+                              "attributes": {},
+                              "content": ""
+                            }
+                          }
+                        },
+                        {
+                          "element": "member",
+                          "meta": {
+                            "description": "API identifier"
+                          },
+                          "attributes": {
+                            "typeAttributes": [
+                              "required"
+                            ]
+                          },
+                          "content": {
+                            "key": {
+                              "element": "string",
+                              "meta": {},
+                              "attributes": {},
+                              "content": "api"
+                            },
+                            "value": {
+                              "element": "string",
+                              "meta": {},
+                              "attributes": {},
+                              "content": ""
+                            }
+                          }
+                        },
+                        {
+                          "element": "member",
+                          "meta": {
+                            "description": "API version"
+                          },
+                          "attributes": {
+                            "typeAttributes": [
+                              "required"
+                            ]
+                          },
+                          "content": {
+                            "key": {
+                              "element": "string",
+                              "meta": {},
+                              "attributes": {},
+                              "content": "version"
+                            },
+                            "value": {
+                              "element": "string",
+                              "meta": {},
+                              "attributes": {},
+                              "content": ""
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "content": [
+                    {
+                      "element": "httpTransaction",
+                      "meta": {},
+                      "attributes": {},
+                      "content": [
+                        {
+                          "element": "httpRequest",
+                          "meta": {},
+                          "attributes": {
+                            "method": "GET"
+                          },
+                          "content": []
+                        },
+                        {
+                          "element": "httpResponse",
+                          "meta": {},
+                          "attributes": {
+                            "statusCode": "200"
+                          },
+                          "content": [
+                            {
+                              "element": "copy",
+                              "meta": {},
+                              "attributes": {},
+                              "content": "the Swagger API in YAML format"
+                            },
+                            {
+                              "element": "asset",
+                              "meta": {
+                                "classes": [
+                                  "messageBodySchema"
+                                ]
+                              },
+                              "attributes": {
+                                "contentType": "application/schema+json"
+                              },
+                              "content": "{\"type\":\"object\"}"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "element": "httpTransaction",
+                      "meta": {},
+                      "attributes": {},
+                      "content": [
+                        {
+                          "element": "httpRequest",
+                          "meta": {},
+                          "attributes": {
+                            "method": "GET"
+                          },
+                          "content": []
+                        },
+                        {
+                          "element": "httpResponse",
+                          "meta": {},
+                          "attributes": {
+                            "statusCode": "404"
+                          },
+                          "content": [
+                            {
+                              "element": "copy",
+                              "meta": {},
+                              "attributes": {},
+                              "content": "specified API not found"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": [
+          "warning"
+        ]
+      },
+      "attributes": {
+        "code": 3,
+        "sourceMap": [
+          {
+            "element": "sourceMap",
+            "meta": {},
+            "attributes": {},
+            "content": [
+              [
+                8578,
+                93
+              ]
+            ]
+          }
+        ]
+      },
+      "content": "Authentication information is not yet supported"
+    }
+  ]
+}

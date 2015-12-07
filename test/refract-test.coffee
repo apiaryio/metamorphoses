@@ -33,10 +33,14 @@ describe('Transformations • Refract', ->
   describe('Title', ->
     [
         label: 'as primitive value'
-        ast: convertToApplicationAst(require('./fixtures/refract-parse-result-title-as-primitive-value.json'))
+        ast: convertToApplicationAst(
+          require('./fixtures/refract-parse-result-title-as-primitive-value.json')
+        )
       ,
         label: 'as refract element'
-        ast: convertToApplicationAst(require('./fixtures/refract-parse-result-title-as-refract-element.json'))
+        ast: convertToApplicationAst(
+          require('./fixtures/refract-parse-result-title-as-refract-element.json')
+        )
     ].forEach(({label, ast}) ->
       context(label, ->
         it('has name equal to `Title example`', ->
@@ -116,12 +120,8 @@ describe('Transformations • Refract', ->
         assert.isOk(ast.name)
       )
 
-      it('has one section', ->
-        assert.equal(ast.sections.length, 1)
-      )
-
-      it('section has no name', ->
-        assert.equal(ast.sections[0].name, '')
+      it('doesn\'t have any sections', ->
+        assert.equal(ast.sections.length, 0)
       )
     )
 
@@ -331,5 +331,28 @@ describe('Transformations • Refract', ->
         assert.equal(ast.sections[1].resources.length, 2)
       )
     )
+
+    describe('Mixed Resources and Resource Groups', ->
+      applicationAst = null
+
+      before(->
+        applicationAst = convertToApplicationAst(
+          require('./fixtures/refract-parse-result-tags.json')
+        )
+      )
+
+      it('Jas the correct sections', ->
+        assert.strictEqual(applicationAst.sections.length, 2)
+      )
+
+      it('First section has the correct resources', ->
+        assert.strictEqual(applicationAst.sections[0].resources.length, 6)
+      )
+
+      it('Second section has the correct resources', ->
+        assert.strictEqual(applicationAst.sections[1].resources.length, 1)
+      )
+    )
+
   )
 )
