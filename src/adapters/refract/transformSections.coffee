@@ -12,7 +12,7 @@ module.exports = (parentElement) ->
 
   # List of Application AST Resources (= already transformed
   # Refract Resources into the Application AST Resource).
-  applicationAstResources = []
+  resourcesWithoutGroup = []
 
   _.forEach(_.get(parentElement, 'content'), (element, index) ->
     # There might be two types of elements—resource and
@@ -21,20 +21,21 @@ module.exports = (parentElement) ->
     # pushed to a temporary array and then assigned to
     # an artificial section.
     if element.element is 'resource'
-      applicationAstResources = applicationAstResources.concat(
+      resourcesWithoutGroup = resourcesWithoutGroup.concat(
         transformResource(element)
       )
 
     if element.element is 'category'
       # First let's create an artificial resource group (section)
-      # for previous resources.
-      if applicationAstResources.length
+      # for resources without a group.
+      if resourcesWithoutGroup.length
         resourceGroups.push(new blueprintApi.Section({
           name: ''
-          resources: applicationAstResources
+          resources: resourcesWithoutGroup
         }))
 
-        applicationAstResources = []
+        # Resources have been added to a group, reset.
+        resourcesWithoutGroup = []
 
       description = getDescription(element)
 
@@ -52,11 +53,11 @@ module.exports = (parentElement) ->
 
   # Make sure tu flush the resources into an an artificial
   # resource group (section).
-  if applicationAstResources.length
+  if resourcesWithoutGroup.length
     resourceGroups.push(
       new blueprintApi.Section({
         name: ''
-        resources: applicationAstResources
+        resources: resourcesWithoutGroup
       })
     )
 
