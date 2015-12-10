@@ -341,7 +341,7 @@ describe('Transformations • Refract', ->
         )
       )
 
-      it('Jas the correct sections', ->
+      it('Has the correct sections', ->
         assert.strictEqual(applicationAst.sections.length, 2)
       )
 
@@ -375,5 +375,18 @@ describe('Transformations • Refract', ->
       )
     )
 
+    describe('Redundant requests', ->
+      applicationAst = null
+
+      before(->
+        applicationAst = convertToApplicationAst(
+          require('./fixtures/refract-parse-result-redundant-requests.json')
+        )
+      )
+
+      it('Has the correct HTTP request', ->
+        assert.strictEqual(applicationAst.sections[0].resources[0].requests.length, 1)
+      )
+    )
   )
 )

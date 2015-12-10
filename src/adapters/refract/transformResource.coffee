@@ -52,19 +52,11 @@ module.exports = (resourceElement) ->
     requests = []
     responses = []
 
-    _.httpTransactions(transitionElement).forEach((httpTransaction) ->
+    _.httpTransactions(transitionElement).forEach((httpTransaction, httpTransactionIndex, httpTransactions) ->
       httpRequest = _(httpTransaction).httpRequests().first()
-      httpResponse  = _(httpTransaction).httpResponses().first()
-
       httpRequestBody = _(httpRequest).messageBodies().first()
-      httpResponseBody = _(httpResponse).messageBodies().first()
-
       httpRequestBodySchemas = _(httpRequest).messageBodySchemas().first()
-      httpResponseBodySchemas = _(httpResponse).messageBodySchemas().first()
-
       httpRequestDescription = getDescription(httpRequest)
-      httpResponseDescription = getDescription(httpResponse)
-
       httpRequestBodyDataStructures = _.dataStructures(httpRequestBody)
 
       if _.isEmpty(httpRequestBodyDataStructures)
@@ -72,6 +64,10 @@ module.exports = (resourceElement) ->
       else
         requestAttributes = httpRequestBodyDataStructures
 
+      httpResponse  = _(httpTransaction).httpResponses().first()
+      httpResponseBody = _(httpResponse).messageBodies().first()
+      httpResponseBodySchemas = _(httpResponse).messageBodySchemas().first()
+      httpResponseDescription = getDescription(httpResponse)
       httpResponseBodyDataStructures = _.dataStructures(httpResponseBody)
 
       if _.isEmpty(httpResponseBodyDataStructures)
@@ -86,18 +82,26 @@ module.exports = (resourceElement) ->
       requestParameters = getUriParameters(_.get(httpRequest, 'attributes.hrefVariables'))
       actionParameters = actionParameters.concat(requestParameters)
 
-      request = new blueprintApi.Request({
-        name: _.chain(httpRequest).get('meta.title', '').contentOrValue().value()
-        description: httpRequestDescription.raw
-        htmlDescription: httpRequestDescription.html
-        headers: getHeaders(httpRequest)
-        # reference
-        body: if _.content(httpRequestBody) then _.content(httpRequestBody) else ''
-        schema: if _.content(httpRequestBodySchemas) then _.content(httpRequestBodySchemas) else ''
-        # exampleId
-        attributes: requestAttributes
-        resolvedAttributes: requestAttributes
-      })
+      httpRequestIsRedundant = _.every(httpTransactions, (httpTransaction) ->
+        httpRequestToCompareWith = _(httpTransaction).httpRequests().first()
+        _.isEqual(httpRequestToCompareWith, httpRequest)
+      )
+
+      if (httpTransactionIndex is 0) or (not httpRequestIsRedundant)
+        request = new blueprintApi.Request({
+          name: _.chain(httpRequest).get('meta.title', '').contentOrValue().value()
+          description: httpRequestDescription.raw
+          htmlDescription: httpRequestDescription.html
+          headers: getHeaders(httpRequest)
+          # reference
+          body: if _.content(httpRequestBody) then _.content(httpRequestBody) else ''
+          schema: if _.content(httpRequestBodySchemas) then _.content(httpRequestBodySchemas) else ''
+          # exampleId
+          attributes: requestAttributes
+          resolvedAttributes: requestAttributes
+        })
+
+        requests.push(request)
 
       response = new blueprintApi.Response({
         status: _.chain(httpResponse).get('attributes.statusCode').contentOrValue().value()
@@ -112,7 +116,6 @@ module.exports = (resourceElement) ->
         resolvedAttributes: responseAttributes
       })
 
-      requests.push(request)
       responses.push(response)
     )
 
