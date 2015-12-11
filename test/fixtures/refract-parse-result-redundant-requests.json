@@ -1,0 +1,218 @@
+{
+  "element": "parseResult",
+  "meta": {},
+  "attributes": {},
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": "Tradesmen API"
+      },
+      "attributes": {
+        "meta": {
+          "element": "object",
+          "meta": {},
+          "attributes": {},
+          "content": [
+            {
+              "element": "member",
+              "meta": {
+                "classes": [
+                  "user"
+                ]
+              },
+              "attributes": {},
+              "content": {
+                "key": {
+                  "element": "string",
+                  "meta": {},
+                  "attributes": {},
+                  "content": "HOST"
+                },
+                "value": {
+                  "element": "string",
+                  "meta": {},
+                  "attributes": {},
+                  "content": "https://st1tm.fixxbook.com"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "content": [
+        {
+          "element": "copy",
+          "meta": {},
+          "attributes": {},
+          "content": "Move your app forward with the Tradesmen API"
+        },
+        {
+          "element": "category",
+          "meta": {
+            "title": "Authentication",
+            "classes": [
+              "resourceGroup"
+            ]
+          },
+          "attributes": {},
+          "content": [
+            {
+              "element": "resource",
+              "meta": {},
+              "attributes": {
+                "href": "/oauth/token"
+              },
+              "content": [
+                {
+                  "element": "transition",
+                  "meta": {
+                    "title": "Get Token"
+                  },
+                  "attributes": {},
+                  "content": [
+                    {
+                      "element": "copy",
+                      "meta": {},
+                      "attributes": {},
+                      "content": "<p>This endpoint supports two flows:</p><p><b>1) Resource Owner Password Credentials Flow:</b> Issues new access and refresh tokens. Requests to this endpoint must be authenticated with HTTP Basic scheme. The following paramters are required for this flow:</p><ul style=\"margin:0 0 1em 2em\"><li><b>1) api_key</b></li><li><b>2) api_secret</b></li><li><b>3) email</b></li><li><b>4) password</b></li></ul><p>This flow can use all the parameters below except for the <b>refresh_token</b> parameter which is used for the Refresh Token Flow decribed below. Since 1.0.4 (Release 5.13)</p><p><b>2) Refresh Token Flow:</b> Issues new access and refresh tokens by previously issued refresh token. Requests to this endpoint must be authenticated with HTTP Basic scheme. The following parameters are required for this flow:</p><ul style=\"margin:0 0 1em 2em\"><li><b>1) api_key</b></li><li><b>2) api_secret</b></li><li><b>3) refresh_token</b></li></ul><p>The only formData paramter used for this flow is the <b>refresh_token</b> parameter. Since 1.0.4 (Release 5.13)</p>"
+                    },
+                    {
+                      "element": "httpTransaction",
+                      "meta": {},
+                      "attributes": {},
+                      "content": [
+                        {
+                          "element": "httpRequest",
+                          "meta": {},
+                          "attributes": {
+                            "method": "POST"
+                          },
+                          "content": []
+                        },
+                        {
+                          "element": "httpResponse",
+                          "meta": {},
+                          "attributes": {
+                            "statusCode": "400"
+                          },
+                          "content": [
+                            {
+                              "element": "copy",
+                              "meta": {},
+                              "attributes": {},
+                              "content": "<ul><li>1) invalid_request: Unsupported grant type</li><li>2) invalid_client: Bad Application Release Status: Blocked</li></ul>"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "element": "httpTransaction",
+                      "meta": {},
+                      "attributes": {},
+                      "content": [
+                        {
+                          "element": "httpRequest",
+                          "meta": {},
+                          "attributes": {
+                            "method": "POST"
+                          },
+                          "content": []
+                        },
+                        {
+                          "element": "httpResponse",
+                          "meta": {},
+                          "attributes": {
+                            "statusCode": "415"
+                          },
+                          "content": [
+                            {
+                              "element": "copy",
+                              "meta": {},
+                              "attributes": {},
+                              "content": "Unsupported Media Type"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "element": "httpTransaction",
+                      "meta": {},
+                      "attributes": {},
+                      "content": [
+                        {
+                          "element": "httpRequest",
+                          "meta": {},
+                          "attributes": {
+                            "method": "POST"
+                          },
+                          "content": []
+                        },
+                        {
+                          "element": "httpResponse",
+                          "meta": {},
+                          "attributes": {
+                            "statusCode": "429"
+                          },
+                          "content": [
+                            {
+                              "element": "copy",
+                              "meta": {},
+                              "attributes": {},
+                              "content": "Request rate exceeded"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "element": "annotation",
+      "meta": {
+        "classes": [
+          "warning"
+        ],
+        "links": [
+          {
+            "element": "link",
+            "meta": {},
+            "attributes": {
+              "relation": "origin",
+              "href": "http://docs.apiary.io/validations/swagger#refract-not-supported"
+            },
+            "content": []
+          }
+        ]
+      },
+      "attributes": {
+        "code": 3,
+        "sourceMap": [
+          {
+            "element": "sourceMap",
+            "meta": {},
+            "attributes": {},
+            "content": [
+              [
+                1485,
+                2575
+              ]
+            ]
+          }
+        ]
+      },
+      "content": "Form data parameters are not yet supported"
+    }
+  ]
+}
