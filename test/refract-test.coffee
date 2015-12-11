@@ -354,5 +354,26 @@ describe('Transformations • Refract', ->
       )
     )
 
+    describe('Support for x-summary and x-description', ->
+      applicationAst = null
+
+      before(->
+        applicationAst = convertToApplicationAst(
+          # TODO: Use Swagger Zoo when it is brought up to be in sync
+          # This file is copy/paste in fury-adapter-swagger currently
+          # File: test/fixtures/refract/x-summary-and-description.json
+          require('./fixtures/refract-parse-result-x-values.json')
+        )
+      )
+
+      it('Resource name is correct', ->
+        assert.strictEqual(applicationAst.sections[0].resources[0].name, 'Resource Title')
+      )
+
+      it('Resource description is correct', ->
+        assert.strictEqual(applicationAst.sections[0].resources[0].description, 'Resource Description')
+      )
+    )
+
   )
 )
