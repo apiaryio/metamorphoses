@@ -57,7 +57,7 @@ module.exports = (resourceElement) ->
       httpRequestBody = _(httpRequest).messageBodies().first()
       httpRequestBodySchemas = _(httpRequest).messageBodySchemas().first()
       httpRequestDescription = getDescription(httpRequest)
-      httpRequestBodyDataStructures = _.dataStructures(httpRequestBody)
+      httpRequestBodyDataStructures = _.dataStructures(httpRequest)
 
       if _.isEmpty(httpRequestBodyDataStructures)
         requestAttributes = undefined
@@ -68,7 +68,7 @@ module.exports = (resourceElement) ->
       httpResponseBody = _(httpResponse).messageBodies().first()
       httpResponseBodySchemas = _(httpResponse).messageBodySchemas().first()
       httpResponseDescription = getDescription(httpResponse)
-      httpResponseBodyDataStructures = _.dataStructures(httpResponseBody)
+      httpResponseBodyDataStructures = _.dataStructures(httpResponse)
 
       if _.isEmpty(httpResponseBodyDataStructures)
         responseAttributes = undefined
