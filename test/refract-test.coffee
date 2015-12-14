@@ -375,6 +375,26 @@ describe('Transformations • Refract', ->
       )
     )
 
+    describe('HTTP Payload Data Structures', ->
+      applicationAst = null
+
+      before(->
+        applicationAst = convertToApplicationAst(
+          require('./fixtures/refract-parse-result-payload-data-structures.json')
+        )
+      )
+
+      it('Data Structure is present for HTTP Requests', ->
+        dataStructureElement = applicationAst.sections[0].resources[0].requests[0].attributes[0].element
+        assert.strictEqual(dataStructureElement, 'dataStructure')
+      )
+
+      it('Data Structure is present for HTTP Responses', ->
+        dataStructureElement = applicationAst.sections[0].resources[0].responses[0].attributes[0].element
+        assert.strictEqual(dataStructureElement, 'dataStructure')
+      )
+    )
+
     describe('Redundant requests', ->
       applicationAst = null
 
