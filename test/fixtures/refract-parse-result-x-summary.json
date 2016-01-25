@@ -1,0 +1,44 @@
+{
+  "element": "parseResult",
+  "meta": {},
+  "attributes": {},
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": "foo"
+      },
+      "attributes": {},
+      "content": [
+        {
+          "element": "resource",
+          "meta": {},
+          "attributes": {
+            "href": "/test"
+          },
+          "content": [
+            {
+              "element": "copy",
+              "meta": {},
+              "attributes": {},
+              "content": "I am a description"
+            }
+          ]
+        },
+        {
+          "element": "resource",
+          "meta": {
+            "title": "I am a summary"
+          },
+          "attributes": {
+            "href": "/test2"
+          },
+          "content": []
+        }
+      ]
+    }
+  ]
+}

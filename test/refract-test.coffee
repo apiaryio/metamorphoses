@@ -408,5 +408,19 @@ describe('Transformations • Refract', ->
         assert.strictEqual(applicationAst.sections[0].resources[0].requests.length, 1)
       )
     )
+
+    describe('‘x-summary’ and ‘x-description’', ->
+      applicationAst = null
+
+      before(->
+        applicationAst = convertToApplicationAst(
+          require('./fixtures/refract-parse-result-x-summary.json')
+        )
+      )
+
+      it('Has the correct number of resources', ->
+        assert.strictEqual(applicationAst.sections[0].resources.length, 2)
+      )
+    )
   )
 )
