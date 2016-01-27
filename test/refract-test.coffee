@@ -408,5 +408,55 @@ describe('Transformations • Refract', ->
         assert.strictEqual(applicationAst.sections[0].resources[0].requests.length, 1)
       )
     )
+
+    describe('‘x-summary’ and ‘x-description’', ->
+      applicationAst = null
+
+      before(->
+        applicationAst = convertToApplicationAst(
+          require('./fixtures/refract-parse-result-x-summary.json')
+        )
+      )
+
+      it('Has the correct number of resources', ->
+        assert.strictEqual(applicationAst.sections[0].resources.length, 2)
+      )
+
+      it('First resource has the correct URL and URI Template', ->
+        assert.strictEqual(
+          applicationAst.sections[0].resources[0].url,
+          '/test'
+        )
+        assert.strictEqual(
+          applicationAst.sections[0].resources[0].uriTemplate,
+          '/test'
+        )
+      )
+
+      it('First resource has the correct description', ->
+        assert.strictEqual(
+          applicationAst.sections[0].resources[0].description,
+          'I am a description'
+        )
+      )
+
+      it('Second resource has the correct URL and URI Template', ->
+        assert.strictEqual(
+          applicationAst.sections[0].resources[1].url,
+          '/test2'
+        )
+        assert.strictEqual(
+          applicationAst.sections[0].resources[1].uriTemplate,
+          '/test2'
+        )
+      )
+
+      it('Second resource has the correct name', ->
+        assert.strictEqual(
+          applicationAst.sections[0].resources[1].name,
+          'I am a summary'
+        )
+      )
+    )
   )
 )
