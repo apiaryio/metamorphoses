@@ -394,10 +394,15 @@ legacyASTfrom1AAST = (ast) ->
 
   # Data Structures
   if ast.content and ast.content.length
-    legacyAST.dataStructures = (item.content[0] for item in ast.content when item.element is 'category' \
-                                                                              and item.content \
-                                                                              and item.content.length \
-                                                                              and item.content[0].element is 'dataStructure')
+    legacyAST.dataStructures = []
+
+    (ast.content).forEach((element) ->
+      isCategory = element.element is 'category'
+      containsDataStructures = element.content?[0].element is 'dataStructure'
+
+      if isCategory and containsDataStructures
+        legacyAST.dataStructures = legacyAST.dataStructures.concat(element.content)
+    )
 
   return legacyAST
 
