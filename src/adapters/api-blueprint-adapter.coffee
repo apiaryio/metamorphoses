@@ -398,7 +398,7 @@ legacyASTfrom1AAST = (ast) ->
 
     (ast.content).forEach((element) ->
       isCategory = element.element is 'category'
-      containsDataStructures = element.content?[0].element is 'dataStructure'
+      containsDataStructures = element.content?[0]?.element is 'dataStructure'
 
       if isCategory and containsDataStructures
         legacyAST.dataStructures = legacyAST.dataStructures.concat(element.content)
