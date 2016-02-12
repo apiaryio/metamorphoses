@@ -4,7 +4,8 @@ apiBlueprintAdapter = require('../src/adapters/api-blueprint-adapter')
 
 describe('Transformations • API Blueprint AST', ->
   describe('Multiple Data Structures', ->
-    applicationAst = null;
+    applicationAst = null
+
     before(->
       applicationAst = apiBlueprintAdapter.transformAst(
         require('./fixtures/api-blueprint-parse-result-data-structures.json')
