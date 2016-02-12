@@ -86,4 +86,21 @@ describe('Transformations • API Blueprint AST', ->
       )
     )
   )
+
+  describe('No Data Structures', ->
+    applicationAst = null
+
+    before(->
+      applicationAst = apiBlueprintAdapter.transformAst(
+        require('./fixtures/api-blueprint-parse-result-no-data-structures.json')
+      )
+    )
+
+    it('Has no Data Structure elements', ->
+      assert.strictEqual(
+        applicationAst.dataStructures.length,
+        0
+      )
+    )
+  )
 )
