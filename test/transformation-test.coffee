@@ -62,7 +62,7 @@ describe('Transformations', ->
       'ast',
       'refract'
     ].forEach((type) ->
-      context("Prased by protagonist as `#{type}`", ->
+      context("Parsed by protagonist as `#{type}`", ->
         describe('When I send in simple blueprint', ->
           ast = undefined
           before((done) ->
@@ -163,6 +163,43 @@ describe('Transformations', ->
             # temporary hack before new protagonist with fix for from classes array in messageBody will be relased
             if type isnt 'refract'
               assert.equal(ast.sections[0].resources[0].responses[0].body, 'Hello World')
+          )
+        )
+
+        describe('When I send a blueprint with attributes', ->
+          ast = undefined
+          before((done) ->
+            code = '''VERSION: 2
+                  # API Name
+                  ## Resource [/foo]
+                  ### Get a foo [GET]
+                  + Response 200
+                      + Attributes
+                          + status: ok
+                  '''
+            parseApiBlueprint(code, type, (err, newAst) ->
+              ast = newAst
+              done(err)
+            )
+          )
+
+          it('Contains a resource with an attributes object', ->
+            assert.deepEqual(ast.sections[0].resources[0].responses[0].attributes,
+              element: 'dataStructure'
+              content: [
+                element: 'object'
+                content: [
+                  element: 'member'
+                  content:
+                    key:
+                      element: 'string'
+                      content: 'status'
+                    value:
+                      element: 'string'
+                      content: 'ok'
+                ]
+              ]
+            )
           )
         )
       )
