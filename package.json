@@ -1,6 +1,6 @@
 {
   "name": "@apiaryio/metamorphoses",
-  "version": "0.7.9",
+  "version": "0.7.10",
   "description": "Transforms API Blueprint AST or legacy Apiary Blueprint AST into Apiary Application AST",
   "main": "./lib/metamorphoses",
   "scripts": {
