@@ -15,7 +15,7 @@ module.exports = (resourceElement) ->
   # resource (URI, URI Template, Name, Description and Attributes).
   if transitions.length is 0
     attributes = _.dataStructures(resourceElement)
-    attributes = undefined if _.isEmpty(attributes)
+    attributes = if _.isEmpty(attributes) then undefined else attributes[0]
 
     return [
       new blueprintApi.Resource({
@@ -38,7 +38,7 @@ module.exports = (resourceElement) ->
     actionParameters = getUriParameters(_.get(transitionElement, 'attributes.hrefVariables'))
 
     attributes = _.dataStructures(resourceElement)
-    attributes = undefined if _.isEmpty(attributes)
+    attributes = if _.isEmpty(attributes) then undefined else attributes[0]
 
     # Resource
     #
@@ -84,7 +84,7 @@ module.exports = (resourceElement) ->
       if _.isEmpty(httpRequestBodyDataStructures)
         requestAttributes = undefined
       else
-        requestAttributes = httpRequestBodyDataStructures
+        requestAttributes = httpRequestBodyDataStructures[0]
 
       httpResponse  = _(httpTransaction).httpResponses().first()
       httpResponseBody = _(httpResponse).messageBodies().first()
@@ -95,7 +95,7 @@ module.exports = (resourceElement) ->
       if _.isEmpty(httpResponseBodyDataStructures)
         responseAttributes = undefined
       else
-        responseAttributes = httpResponseBodyDataStructures
+        responseAttributes = httpResponseBodyDataStructures[0]
 
       # In refract just here we have method and href
       resource.method = _.chain(httpRequest).get('attributes.method', '').contentOrValue().value()

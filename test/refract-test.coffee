@@ -385,12 +385,12 @@ describe('Transformations • Refract', ->
       )
 
       it('Data Structure is present for HTTP Requests', ->
-        dataStructureElement = applicationAst.sections[0].resources[0].requests[0].attributes[0].element
+        dataStructureElement = applicationAst.sections[0].resources[0].requests[0].attributes.element
         assert.strictEqual(dataStructureElement, 'dataStructure')
       )
 
       it('Data Structure is present for HTTP Responses', ->
-        dataStructureElement = applicationAst.sections[0].resources[0].responses[0].attributes[0].element
+        dataStructureElement = applicationAst.sections[0].resources[0].responses[0].attributes.element
         assert.strictEqual(dataStructureElement, 'dataStructure')
       )
     )
