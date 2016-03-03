@@ -37,7 +37,8 @@ module.exports = (resourceElement) ->
     resourceParameters = getUriParameters(_.get(resourceElement, 'attributes.hrefVariables'))
     actionParameters = getUriParameters(_.get(transitionElement, 'attributes.hrefVariables'))
 
-    attributes = _.dataStructures(resourceElement)
+    attributes = _.dataStructures(transitionElement)
+    attributes = if _.isEmpty(attributes) then _.dataStructures(resourceElement) else attributes[0]
     attributes = if _.isEmpty(attributes) then undefined else attributes[0]
 
     # Resource
@@ -46,8 +47,8 @@ module.exports = (resourceElement) ->
     # * Dtto, `actionUriTemplate`
     resource = new blueprintApi.Resource({
       # TODO: `url` should contain a possible HOST suffix.
-      url: _.chain(resourceElement).get('attributes.href', '').contentOrValue().value()
-      uriTemplate: _.chain(resourceElement).get('attributes.href', '').contentOrValue().value()
+      url: _.chain(transitionElement).get('attributes.href', _.get(resourceElement, 'attributes.href')).contentOrValue().value()
+      uriTemplate: _.chain(transitionElement).get('attributes.href', _.get(resourceElement, 'attributes.href')).contentOrValue().value()
 
       name: _.chain(resourceElement).get('meta.title', '').contentOrValue().value()
 

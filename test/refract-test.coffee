@@ -292,6 +292,10 @@ describe('Transformations • Refract', ->
         resource = ast.sections[0].resources[0]
       )
 
+      it('URI template contains all parameters', ->
+        assert.equal(resource.uriTemplate, '/test/{id}{?search,arg}')
+      )
+
       it('resource have three paramters', ->
         assert.equal(resource.parameters.length, 3)
       )
