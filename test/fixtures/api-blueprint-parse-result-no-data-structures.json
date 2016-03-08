@@ -1,0 +1,170 @@
+{
+  "_version": "4.0",
+  "metadata": [],
+  "name": "Inheritance and Reference",
+  "description": "",
+  "element": "category",
+  "resourceGroups": [
+    {
+      "name": "",
+      "description": "",
+      "resources": [
+        {
+          "element": "resource",
+          "name": "Message Resource",
+          "description": "",
+          "uriTemplate": "/resource",
+          "model": {},
+          "parameters": [],
+          "actions": [
+            {
+              "name": "Create a Message",
+              "description": "",
+              "method": "POST",
+              "parameters": [],
+              "attributes": {
+                "relation": "",
+                "uriTemplate": ""
+              },
+              "content": [],
+              "examples": [
+                {
+                  "name": "",
+                  "description": "",
+                  "requests": [
+                    {
+                      "name": "",
+                      "description": "",
+                      "headers": [],
+                      "body": "",
+                      "schema": "",
+                      "content": [
+                        {
+                          "element": "dataStructure",
+                          "content": [
+                            {
+                              "element": "Message"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "responses": [
+                    {
+                      "name": "200",
+                      "description": "",
+                      "headers": [],
+                      "body": "",
+                      "schema": "",
+                      "content": [
+                        {
+                          "element": "dataStructure",
+                          "content": [
+                            {
+                              "element": "object",
+                              "content": [
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "id"
+                                    },
+                                    "value": {
+                                      "element": "string"
+                                    }
+                                  }
+                                },
+                                {
+                                  "element": "member",
+                                  "content": {
+                                    "key": {
+                                      "element": "string",
+                                      "content": "message"
+                                    },
+                                    "value": {
+                                      "element": "Message"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "content": []
+        },
+        {
+          "element": "resource",
+          "name": "Message Resource with a model",
+          "description": "",
+          "uriTemplate": "/another_uri",
+          "model": {},
+          "parameters": [],
+          "actions": [
+            {
+              "name": "Get a Message",
+              "description": "",
+              "method": "GET",
+              "parameters": [],
+              "attributes": {
+                "relation": "",
+                "uriTemplate": ""
+              },
+              "content": [],
+              "examples": [
+                {
+                  "name": "",
+                  "description": "",
+                  "requests": [],
+                  "responses": [
+                    {
+                      "name": "200",
+                      "description": "",
+                      "headers": [],
+                      "body": "",
+                      "schema": "",
+                      "content": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "content": [
+            {
+              "element": "dataStructure",
+              "content": [
+                {
+                  "element": "Message",
+                  "meta": {
+                    "id": "Message Resource with a model"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "content": [
+    {
+      "element": "category",
+      "content": [
+      ]
+    },
+    {
+      "element": "category",
+      "content": [
+      ]
+    }
+  ]
+}
