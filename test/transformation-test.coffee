@@ -32,6 +32,10 @@ parseApiaryBlueprint = (source, cb) ->
 # - 'ast-drafter'
 #   Uses Drafter.js and returns API Blueprint AST, which includes MSON returned
 #   as MSON AST.
+#
+# - 'ast-source-map'
+#   Uses Protagonist and returns API Blueprint AST, which includes MSON
+#   returned as Refract and also includes source maps.
 parseApiBlueprint = (source, type, cb) ->
   [cb, type] = [type, 'ast'] if typeof type is 'function'
 
@@ -44,15 +48,21 @@ parseApiBlueprint = (source, type, cb) ->
                 .content()
                 .find({element: 'category', meta: {classes: ['api']}})
 
+    sourcemap = result?.sourcemap
+
     err = adapter.transformError(source, err)
-    ast = adapter.transformAst(ast)
+    ast = adapter.transformAst(ast, sourcemap)
     cb(err, ast, result?.warnings or [])
 
   if type is 'ast-drafter'
     drafter = new Drafter({requireBlueprintName: true})
     drafter.make(source, transform)
   else
-    options = {requireBlueprintName: true, type}
+    options =
+      requireBlueprintName: true
+      type: if type.match(/refract/) then 'refract' else 'ast'
+    if type.match(/source-map/)
+      options.exportSourcemap = true
     protagonist.parse(source, options, transform)
 
 
@@ -60,6 +70,7 @@ describe('Transformations', ->
   describe('API Blueprint', ->
     [
       'ast',
+      'ast-source-map',
       'refract'
     ].forEach((type) ->
       context("Parsed by protagonist as `#{type}`", ->
@@ -164,6 +175,29 @@ describe('Transformations', ->
             if type isnt 'refract'
               assert.equal(ast.sections[0].resources[0].responses[0].body, 'Hello World')
           )
+          if type.match(/source-map/)
+            it('resource group has a valid source map', ->
+              assert.equal(ast.sections[0].sourcemap.length, 1)
+              assert.equal(ast.sections[0].sourcemap[0].length, 2)
+            )
+            it('resource has a valid source map', ->
+              assert.equal(ast.sections[0].resources[0].sourcemap.length, 1)
+              assert.equal(ast.sections[0].resources[0].sourcemap[0].length, 2)
+            )
+            it('action has a valid source map', ->
+              assert.equal(ast.sections[0].resources[0].actionSourcemap.length, 1)
+              assert.equal(ast.sections[0].resources[0].actionSourcemap[0].length, 2)
+            )
+          else
+            it('resource group has no source map', ->
+              assert.equal(ast.sections[0].sourcemap, undefined)
+            )
+            it('resource has no source map', ->
+              assert.equal(ast.sections[0].resources[0].sourcemap, undefined)
+            )
+            it('action has no source map', ->
+              assert.equal(ast.sections[0].resources[0].actionSourcemap, undefined)
+            )
         )
 
         describe('When I send a blueprint with attributes', ->
