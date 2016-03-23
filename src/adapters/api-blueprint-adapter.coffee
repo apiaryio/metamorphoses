@@ -2,6 +2,19 @@
 blueprintApi = require('../blueprint-api')
 markdown = require('./markdown')
 
+setSourcemap = (node, sourcemap, name = 'sourcemap') ->
+  value = null
+
+  # Try to find the closest source map to the top of the node block, e.g.
+  # the resource or action name, method, URI, description, etc.
+  if sourcemap.name?.length then value = sourcemap.name
+  else if sourcemap.method?.length then value = sourcemap.method
+  else if sourcemap.uriTemplate?.length then value = sourcemap.uriTemplate
+  else if sourcemap.description?.length then value = sourcemap.description
+
+  if value
+    node[name] = value
+
 
 countLines = (code, index) ->
   if index > 0
@@ -230,7 +243,7 @@ getParametersOf = (obj) ->
 #
 # Transform 1A Format Resource into 'legacy resources', squashing action and resource
 # NOTE: One 1A Resource might split into more legacy resources (actions[].transactions[].resource)
-legacyResourcesFrom1AResource = (legacyUrlConverterFn, resource) ->
+legacyResourcesFrom1AResource = (legacyUrlConverterFn, resource, sourcemap) ->
   legacyResources = []
 
   # resource-wide parameters
@@ -239,6 +252,13 @@ legacyResourcesFrom1AResource = (legacyUrlConverterFn, resource) ->
   for action, actionIndex in resource.actions or []
     # Combine resource & action section, preferring action
     legacyResource = new blueprintApi.Resource({responses: [], requests: []})
+
+    if sourcemap
+      setSourcemap(legacyResource, sourcemap)
+
+    actionSourcemap = sourcemap?.actions?[actionIndex]
+    if actionSourcemap
+      setSourcemap(legacyResource, actionSourcemap, 'actionSourcemap')
 
     legacyResource.url         = legacyUrlConverterFn(action.attributes?.uriTemplate or resource.uriTemplate)
     legacyResource.uriTemplate = resource.uriTemplate
@@ -318,7 +338,7 @@ legacyResourcesFrom1AResource = (legacyUrlConverterFn, resource) ->
 #
 # This method will hopefully be superseeded by transformOldAstToProtagonist
 # once we'll be comfortable with new format and it'll be our default.
-legacyASTfrom1AAST = (ast) ->
+legacyASTfrom1AAST = (ast, sourcemap) ->
   return null unless ast
 
   # Using current Application AST version only for API Blueprint ASTs
@@ -370,11 +390,14 @@ legacyASTfrom1AAST = (ast) ->
           "/" + urlPrefix + "/" + url.replace(/^\//, "")
 
   # Resource Group Section(s) (was: Section)
-  for resourceGroup in ast.resourceGroups
+  for resourceGroup, i in ast.resourceGroups
     legacySection = new blueprintApi.Section(
       name: resourceGroup.name
       resources: []
     )
+
+    if sourcemap?.resourceGroups?[i]?
+      setSourcemap(legacySection, sourcemap.resourceGroups[i])
 
     resourceGroupDescription = resourceGroup.description?.trim()
 
@@ -386,8 +409,9 @@ legacyASTfrom1AAST = (ast) ->
       legacySection.htmlDescription = ''
 
     # Resources
-    for resource in resourceGroup.resources
-      resources = legacyResourcesFrom1AResource(legacyUrlConverter, resource)
+    for resource, j in resourceGroup.resources
+      resources = legacyResourcesFrom1AResource(legacyUrlConverter, resource,
+        sourcemap?.resourceGroups?[i]?.resources?[j])
       legacySection.resources = legacySection.resources.concat(resources)
 
     legacyAST.sections.push(legacySection)
