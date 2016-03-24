@@ -72,6 +72,14 @@ module.exports = (resourceElement) ->
       actionRelation: _.chain(transitionElement).get('attributes.relation', '').contentOrValue().value()
     })
 
+    sourceMap = _.sourceMap(resourceElement)
+    if sourceMap.length
+      resource.sourcemap = sourceMap
+
+    actionSourceMap = _.sourceMap(transitionElement)
+    if actionSourceMap.length
+      resource.actionSourcemap = actionSourceMap
+
     requests = []
     responses = []
 
