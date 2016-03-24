@@ -48,6 +48,10 @@ module.exports = (parentElement) ->
         resources: transformResources(element)
       })
 
+      sourceMap = _.sourceMap(element)
+      if sourceMap.length
+        resourceGroup.sourcemap = sourceMap
+
       resourceGroups.push(resourceGroup)
   )
 

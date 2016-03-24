@@ -25,6 +25,9 @@ parseApiaryBlueprint = (source, cb) ->
 # - 'refract'
 #   Uses Protagonist v1.1 and returns everything as Refract.
 #
+# - 'refract-source-map'
+#   Uses Protagonist v1.1 and returns everythign as Refract with source maps.
+#
 # - 'ast' (default)
 #   Uses Protagonist v1.1 and returns API Blueprint AST, which includes MSON
 #   returned as Refract.
@@ -40,10 +43,10 @@ parseApiBlueprint = (source, type, cb) ->
   [cb, type] = [type, 'ast'] if typeof type is 'function'
 
   transform = (err, result) ->
-    adapter = if type is 'refract' then refractAdapter else apiBlueprintAdapter
+    adapter = if type.match(/refract/) then refractAdapter else apiBlueprintAdapter
 
     ast = result?.ast
-    if type is 'refract'
+    if type.match(/refract/)
       ast = apiNamespaceHelper(result)
                 .content()
                 .find({element: 'category', meta: {classes: ['api']}})
@@ -71,7 +74,8 @@ describe('Transformations', ->
     [
       'ast',
       'ast-source-map',
-      'refract'
+      'refract',
+      'refract-source-map',
     ].forEach((type) ->
       context("Parsed by protagonist as `#{type}`", ->
         describe('When I send in simple blueprint', ->
@@ -124,7 +128,7 @@ describe('Transformations', ->
             assert.equal(ast.name, 'API name')
           )
           it('I got API description', ->
-            expected = if type is 'refract' then 'Lorem ipsum 1\n' else 'Lorem ipsum 1'
+            expected = if type.match(/refract/) then 'Lorem ipsum 1\n' else 'Lorem ipsum 1'
             assert.equal(ast.description, expected)
           )
           it('I got API HTML description', ->
@@ -137,7 +141,7 @@ describe('Transformations', ->
             assert.equal(ast.sections[0].name, 'Name')
           )
           it('group has correct description', ->
-            expected = if type is 'refract' then 'Lorem ipsum 2\n' else 'Lorem ipsum 2'
+            expected = if type.match(/refract/) then 'Lorem ipsum 2\n' else 'Lorem ipsum 2'
             assert.equal(ast.sections[0].description, expected)
           )
           it('group has HTML description', ->
@@ -172,7 +176,7 @@ describe('Transformations', ->
           )
           it('response has correct body', ->
             # temporary hack before new protagonist with fix for from classes array in messageBody will be relased
-            if type isnt 'refract'
+            if not type.match(/refract/)
               assert.equal(ast.sections[0].resources[0].responses[0].body, 'Hello World')
           )
           if type.match(/source-map/)
@@ -218,7 +222,7 @@ describe('Transformations', ->
           )
 
           it('Contains a resource with an attributes object', ->
-            assert.deepEqual(ast.sections[0].resources[0].responses[0].attributes,
+            expected =
               element: 'dataStructure'
               content: [
                 element: 'object'
@@ -233,7 +237,24 @@ describe('Transformations', ->
                       content: 'ok'
                 ]
               ]
-            )
+
+            if type.match(/refract/) and type.match(/source-map/)
+              attributes =
+                sourceMap: [
+                  {
+                    content: [
+                      [
+                        101
+                        13
+                      ]
+                    ]
+                    element: 'sourceMap'
+                  }
+                ]
+              expected.content[0].content[0].content.key.attributes = attributes
+              expected.content[0].content[0].content.value.attributes = attributes
+
+            assert.deepEqual(ast.sections[0].resources[0].responses[0].attributes, expected)
           )
         )
       )
