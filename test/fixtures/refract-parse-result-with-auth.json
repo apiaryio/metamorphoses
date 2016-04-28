@@ -1,0 +1,110 @@
+  {
+    "element": "parseResult",
+    "content": [
+      {
+        "element": "category",
+        "meta": {
+          "classes": [
+            "api"
+          ],
+          "title": "Title example"
+        },
+        "attributes": {
+          "meta": [
+            {
+              "element": "member",
+              "meta": {
+                "classes": [
+                  "user"
+                ]
+              },
+              "content": {
+                "key": {
+                  "element": "string",
+                  "content": "FORMAT"
+                },
+                "value": {
+                  "element": "string",
+                  "content": "1A"
+                }
+              }
+            }
+          ]
+        },
+        "content": [
+          {
+            "element": "category",
+            "meta": {
+             "classes": ["authSchemes"]
+            },
+            "content": [
+             {
+               "element": "Basic Authentication Scheme",
+               "meta": {
+                 "id": "Custom Basic Auth"
+               },
+               "content": [
+                 {
+                   "element": "member",
+                   "content": {
+                     "key": {
+                       "element": "string",
+                       "content": "username"
+                     },
+                     "value": {
+                       "element": "string",
+                       "content": "john.doe"
+                     }
+                   }
+                 },
+                 {
+                   "element": "member",
+                   "content": {
+                     "key": {
+                       "element": "string",
+                       "content": "password"
+                     },
+                     "value": {
+                       "element": "string",
+                       "content": "1234password"
+                     }
+                   }
+                 }
+               ]
+             }
+            ]
+          },
+          {
+            "element": "category",
+            "meta": {
+              "classes": ["resourceGroup"]
+            },
+            "content": [
+              {
+                "element": "resource",
+                "content": [
+                  {
+                    "element": "transition",
+                    "content": [
+                      {
+                        "element": "httpTransaction",
+                        "attributes": {
+                          "authSchemes": [
+                            {
+                              "element": "Custom Basic Auth"
+                            }
+                          ]
+                        },
+                        "content": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "error": null
+  }

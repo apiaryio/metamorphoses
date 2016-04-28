@@ -3,6 +3,7 @@ blueprintApi = require('../../blueprint-api')
 getDescription = require('./getDescription')
 getHeaders = require('./getHeaders')
 getUriParameters = require('./getUriParameters')
+transformAuth = require('./transformAuth')
 
 module.exports = (resourceElement) ->
   resources = []
@@ -122,6 +123,7 @@ module.exports = (resourceElement) ->
           # exampleId
           attributes: requestAttributes
           resolvedAttributes: requestAttributes
+          authSchemes: transformAuth(httpTransaction)
         })
 
         requests.push(request)

@@ -40,6 +40,7 @@ class Blueprint
       version: json.version # Proprietary version of the Application AST (e.g. 17), see http://git.io/bbDJ
       description: json.description # Description of the API (in Markdown)
       htmlDescription: json.htmlDescription # Rendered description of the API
+      authDefinitions: json.authDefinitions
       sections: Section.fromJSON(s) for s in json.sections or [] # Array of resource groups
       validations: JsonSchemaValidation.fromJSON(v) for v in json.validations or [] # Array of JSON Schemas
       dataStructures: json.dataStructures # Array of data struture elements
@@ -53,6 +54,7 @@ class Blueprint
       version: 1.0
       description: null
       htmlDescription: null
+      authDefinitions: []
       sections: []
       validations: []
       dataStructures: []
@@ -85,6 +87,7 @@ class Blueprint
       @version
       @description
       @htmlDescription
+      @authDefinitions
       sections: s.toJSON() for s in @sections
       validations: v.toJSON() for v in @validations
       @dataStructures
@@ -305,6 +308,7 @@ class Request
       exampleId: json.exampleId
       attributes: json.attributes # Request attributes
       resolvedAttributes: json.resolvedAttributes # Expanded request attributes
+      authSchemes: json.authSchemes
     )
 
   constructor: (props = {}) ->
@@ -319,6 +323,7 @@ class Request
       exampleId: 0
       attributes: undefined
       resolvedAttributes: undefined
+      authSchemes: []
     )
 
   toJSON: -> return {
@@ -332,6 +337,7 @@ class Request
     @exampleId
     @attributes
     @resolvedAttributes
+    @authSchemes
   }
 
   # ### `toBlueprint`

@@ -462,5 +462,34 @@ describe('Transformations • Refract', ->
         )
       )
     )
+
+    describe('Authentication', ->
+      applicationAst = null
+
+      before(->
+        applicationAst = convertToApplicationAst(
+          require('./fixtures/refract-parse-result-with-auth.json')
+        )
+      )
+
+      it('Has the correct number of sections', ->
+        assert.strictEqual(applicationAst.sections.length, 1)
+      )
+
+      it('Has the correct number of resources', ->
+        assert.strictEqual(applicationAst.sections[0].resources.length, 1)
+      )
+
+      it('Has authentication definitions', ->
+        assert.strictEqual(applicationAst.authDefinitions[0].element, 'Basic Authentication Scheme')
+        assert.strictEqual(applicationAst.authDefinitions[0].content.length, 2)
+      )
+
+      it('Has authentication information for resource actions', ->
+        request = applicationAst.sections[0].resources[0].requests[0]
+        assert.strictEqual(request.authSchemes.length, 1)
+        assert.strictEqual(request.authSchemes[0].element, 'Custom Basic Auth')
+      )
+    )
   )
 )
