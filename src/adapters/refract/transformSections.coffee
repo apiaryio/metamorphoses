@@ -39,16 +39,18 @@ module.exports = (parentElement) ->
 
       description = getDescription(element)
 
-      # Then create a new section in the Application AST
-      # corresponding to the Category element.
-      resourceGroup = new blueprintApi.Section({
-        name: _.chain(element).get('meta.title', '').contentOrValue().value()
-        description: description.raw
-        htmlDescription: description.html
-        resources: transformResources(element)
-      })
+      classes = _.get(element, 'meta.classes', [])
+      if classes.length is 0 or classes.indexOf('resourceGroup') isnt -1
+        # Then create a new section in the Application AST
+        # corresponding to the Category element.
+        resourceGroup = new blueprintApi.Section({
+          name: _.chain(element).get('meta.title', '').contentOrValue().value()
+          description: description.raw
+          htmlDescription: description.html
+          resources: transformResources(element)
+        })
 
-      resourceGroups.push(resourceGroup)
+        resourceGroups.push(resourceGroup)
   )
 
   # Make sure tu flush the resources into an an artificial

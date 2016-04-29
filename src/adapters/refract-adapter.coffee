@@ -2,6 +2,7 @@ _ = require('./refract/helper')
 blueprintApi = require('../blueprint-api')
 
 getDescription = require('./refract/getDescription')
+transformAuth = require('./refract/transformAuth')
 transformSections = require('./refract/transformSections')
 
 transformAst = (element) ->
@@ -33,6 +34,9 @@ transformAst = (element) ->
 
   applicationAst.description = description.raw
   applicationAst.htmlDescription = description.html
+
+  # Authentication definitions
+  applicationAst.authDefinitions = transformAuth(element)
 
   # Sections
   applicationAst.sections = transformSections(element)
