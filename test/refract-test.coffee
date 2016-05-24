@@ -491,5 +491,11 @@ describe('Transformations • Refract', ->
         assert.strictEqual(request.authSchemes[0].element, 'Custom Basic Auth')
       )
     )
+
+    describe('Bad input', ->
+      it('Should not crash', ->
+        refractAdapter.transformAst()
+      )
+    )
   )
 )
