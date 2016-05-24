@@ -8,7 +8,7 @@ module.exports = (parentElement) ->
   # 2. An `authSchems` attribute that defines which definition to use
   authSchemes = []
 
-  if parentElement.element is 'category'
+  if parentElement and parentElement.element is 'category'
     for child in _.get(parentElement, 'content', [])
       if child and child.element is 'category' and _.get(child, 'meta.classes', []).indexOf('authSchemes') isnt -1
         authSchemes = authSchemes.concat(child.content)
