@@ -1,7 +1,7 @@
 lodash = require('./helper')
 markdown = require('../markdown')
 
-module.exports = (element) ->
+module.exports = (element, options) ->
   rawDescription = lodash
                     .chain(element)
                     .get('meta.description', '')
@@ -9,4 +9,4 @@ module.exports = (element) ->
                     .fixNewLines()
                     .value()
 
-  markdown.toHtmlSync(rawDescription)
+  markdown.toHtmlSync(rawDescription, options)

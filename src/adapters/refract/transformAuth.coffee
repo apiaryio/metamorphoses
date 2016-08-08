@@ -2,7 +2,7 @@ _ = require('./helper')
 
 getDescription = require('./getDescription')
 
-module.exports = (parentElement) ->
+module.exports = (parentElement, options) ->
   # Auth information can be present in two places:
   # 1. An `authSchemes` category that contains definitions
   # 2. An `authSchems` attribute that defines which definition to use

@@ -5,10 +5,10 @@ getHeaders = require('./getHeaders')
 getUriParameters = require('./getUriParameters')
 transformAuth = require('./transformAuth')
 
-module.exports = (resourceElement) ->
+module.exports = (resourceElement, options) ->
   resources = []
 
-  resourceDescription = getDescription(resourceElement)
+  resourceDescription = getDescription(resourceElement, options)
 
   transitions = _.transitions(resourceElement)
 
@@ -33,10 +33,10 @@ module.exports = (resourceElement) ->
     ]
 
   transitions.forEach((transitionElement) ->
-    description = getDescription(transitionElement)
+    description = getDescription(transitionElement, options)
 
-    resourceParameters = getUriParameters(_.get(resourceElement, 'attributes.hrefVariables'))
-    actionParameters = getUriParameters(_.get(transitionElement, 'attributes.hrefVariables'))
+    resourceParameters = getUriParameters(_.get(resourceElement, 'attributes.hrefVariables'), options)
+    actionParameters = getUriParameters(_.get(transitionElement, 'attributes.hrefVariables'), options)
 
     attributes = _.dataStructures(transitionElement)
     attributes = if _.isEmpty(attributes) then _.dataStructures(resourceElement) else attributes[0]
@@ -80,7 +80,7 @@ module.exports = (resourceElement) ->
       httpRequest = _(httpTransaction).httpRequests().first()
       httpRequestBody = _(httpRequest).messageBodies().first()
       httpRequestBodySchemas = _(httpRequest).messageBodySchemas().first()
-      httpRequestDescription = getDescription(httpRequest)
+      httpRequestDescription = getDescription(httpRequest, options)
       httpRequestBodyDataStructures = _.dataStructures(httpRequest)
 
       if _.isEmpty(httpRequestBodyDataStructures)
@@ -91,7 +91,7 @@ module.exports = (resourceElement) ->
       httpResponse  = _(httpTransaction).httpResponses().first()
       httpResponseBody = _(httpResponse).messageBodies().first()
       httpResponseBodySchemas = _(httpResponse).messageBodySchemas().first()
-      httpResponseDescription = getDescription(httpResponse)
+      httpResponseDescription = getDescription(httpResponse, options)
       httpResponseBodyDataStructures = _.dataStructures(httpResponse)
 
       if _.isEmpty(httpResponseBodyDataStructures)
@@ -103,7 +103,7 @@ module.exports = (resourceElement) ->
       resource.method = _.chain(httpRequest).get('attributes.method', '').contentOrValue().value()
       resource.actionUriTemplate = _.chain(httpRequest).get('attributes.href', '').contentOrValue().value()
 
-      requestParameters = getUriParameters(_.get(httpRequest, 'attributes.hrefVariables'))
+      requestParameters = getUriParameters(_.get(httpRequest, 'attributes.hrefVariables'), options)
       actionParameters = actionParameters.concat(requestParameters)
 
       httpRequestIsRedundant = _.every(httpTransactions, (httpTransaction) ->
@@ -123,7 +123,7 @@ module.exports = (resourceElement) ->
           # exampleId
           attributes: requestAttributes
           resolvedAttributes: requestAttributes
-          authSchemes: transformAuth(httpTransaction)
+          authSchemes: transformAuth(httpTransaction, options)
         })
 
         requests.push(request)
