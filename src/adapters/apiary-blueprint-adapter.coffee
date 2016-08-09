@@ -3,8 +3,8 @@ blueprintApi = require('../blueprint-api')
 markdown = require('./markdown')
 
 
-applymarkdownHtml = (obj, targetHtmlProperty) ->
-  obj[targetHtmlProperty] = markdown.toHtmlSync(obj.description or '').trim()
+applymarkdownHtml = (obj, targetHtmlProperty, options) ->
+  obj[targetHtmlProperty] = markdown.toHtmlSync(obj.description or '', options).trim()
   obj
 
 
@@ -14,17 +14,17 @@ applymarkdownHtml = (obj, targetHtmlProperty) ->
 #
 # Go through the AST object and render
 # markdown descriptions.
-apiaryAstToApplicationAst = (ast) ->
+apiaryAstToApplicationAst = (ast, sourcemap, options) ->
   return null unless ast
-  plainJsObject = applymarkdownHtml(ast, 'htmlDescription')
+  plainJsObject = applymarkdownHtml(ast, 'htmlDescription', options)
 
   for section, sectionKey in plainJsObject.sections or [] when section.resources?.length
     for resource, resourceKey in section.resources
       section.resources[resourceKey].uriTemplate = resolveUriTemplate(section.resources[resourceKey], plainJsObject.location)
-      section.resources[resourceKey] = applymarkdownHtml(resource, 'htmlDescription')
+      section.resources[resourceKey] = applymarkdownHtml(resource, 'htmlDescription', options)
       section.resources[resourceKey].requests = [section.resources[resourceKey].request]
 
-    plainJsObject.sections[sectionKey] = applymarkdownHtml(section, 'htmlDescription')
+    plainJsObject.sections[sectionKey] = applymarkdownHtml(section, 'htmlDescription', options)
 
   plainJsObject.version = blueprintApi.Version
   return blueprintApi.Blueprint.fromJSON(plainJsObject)

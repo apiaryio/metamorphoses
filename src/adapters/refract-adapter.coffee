@@ -5,7 +5,7 @@ getDescription = require('./refract/getDescription')
 transformAuth = require('./refract/transformAuth')
 transformSections = require('./refract/transformSections')
 
-transformAst = (element) ->
+transformAst = (element, sourcemap, options) ->
 
   applicationAst = new blueprintApi.Blueprint({
     name: _.chain(element).get('meta.title', '').contentOrValue().fixNewLines().value()
@@ -30,16 +30,16 @@ transformAst = (element) ->
     ).value()
 
   # description
-  description = getDescription(element)
+  description = getDescription(element, options)
 
   applicationAst.description = description.raw
   applicationAst.htmlDescription = description.html
 
   # Authentication definitions
-  applicationAst.authDefinitions = transformAuth(element)
+  applicationAst.authDefinitions = transformAuth(element, options)
 
   # Sections
-  applicationAst.sections = transformSections(element)
+  applicationAst.sections = transformSections(element, options)
 
   applicationAst
 

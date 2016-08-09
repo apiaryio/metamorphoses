@@ -132,21 +132,21 @@ getAttributesElements = (elementContent) ->
   elements
 
 
-legacyRequestsFrom1AExamples = (action, resource) ->
+legacyRequestsFrom1AExamples = (action, resource, options) ->
   requests = []
   for example, exampleIndex in action.examples or []
     for req in example.requests or []
-      requests.push(legacyRequestFrom1ARequest(req, action, resource, exampleId = exampleIndex))
+      requests.push(legacyRequestFrom1ARequest(req, action, resource, exampleId = exampleIndex, options))
 
   if requests.length < 1
-    return [legacyRequestFrom1ARequest({}, action, resource, exampleId = 0)]
+    return [legacyRequestFrom1ARequest({}, action, resource, exampleId = 0, options)]
   requests
 
 
 # ## `legacyRequestFrom1ARequest`
 #
 # Transform 1A Format Request into 'legacy request'
-legacyRequestFrom1ARequest = (request, action, resource, exampleId = undefined) ->
+legacyRequestFrom1ARequest = (request, action, resource, exampleId = undefined, options) ->
   legacyRequest = new blueprintApi.Request(
     headers: legacyHeadersCombinedFrom1A(request, action, resource)
     exampleId: exampleId
@@ -154,7 +154,7 @@ legacyRequestFrom1ARequest = (request, action, resource, exampleId = undefined) 
 
   if request.description
     legacyRequest.description     = trimLastNewline(request.description)
-    legacyRequest.htmlDescription = trimLastNewline(markdown.toHtmlSync(request.description))
+    legacyRequest.htmlDescription = trimLastNewline(markdown.toHtmlSync(request.description, options))
   else
     legacyRequest.description     = ''
     legacyRequest.htmlDescription = ''
@@ -185,7 +185,7 @@ legacyResponsesFrom1AExamples = (action, resource) ->
 # ## `legacyResponseFrom1AResponse`
 #
 # Transform 1A Format Response into 'legacy response'
-legacyResponseFrom1AResponse = (response, action, resource, exampleId = undefined) ->
+legacyResponseFrom1AResponse = (response, action, resource, exampleId = undefined, options) ->
   legacyResponse = new blueprintApi.Response(
     headers: legacyHeadersCombinedFrom1A(response, action, resource)
     exampleId: exampleId
@@ -193,7 +193,7 @@ legacyResponseFrom1AResponse = (response, action, resource, exampleId = undefine
 
   if response.description
     legacyResponse.description     = trimLastNewline(response.description)
-    legacyResponse.htmlDescription = trimLastNewline(markdown.toHtmlSync(response.description))
+    legacyResponse.htmlDescription = trimLastNewline(markdown.toHtmlSync(response.description, options))
   else
     legacyResponse.description     = ''
     legacyResponse.htmlDescription = ''
@@ -219,7 +219,7 @@ legacyResponseFrom1AResponse = (response, action, resource, exampleId = undefine
 # ## `getParametersOf`
 #
 # Produces an array of URI parameters.
-getParametersOf = (obj) ->
+getParametersOf = (obj, options) ->
   if not obj
     return undefined
 
@@ -229,7 +229,7 @@ getParametersOf = (obj) ->
   for own key, param of paramsObj
     param.key = key
     if param.description
-      param.description = markdown.toHtmlSync(param.description)
+      param.description = markdown.toHtmlSync(param.description, options)
     param.values = ((if typeof item is 'string' then item else item.value) for item in param.values)
     params.push(param)
 
@@ -243,11 +243,11 @@ getParametersOf = (obj) ->
 #
 # Transform 1A Format Resource into 'legacy resources', squashing action and resource
 # NOTE: One 1A Resource might split into more legacy resources (actions[].transactions[].resource)
-legacyResourcesFrom1AResource = (legacyUrlConverterFn, resource, sourcemap) ->
+legacyResourcesFrom1AResource = (legacyUrlConverterFn, resource, sourcemap, options) ->
   legacyResources = []
 
   # resource-wide parameters
-  resourceParameters = getParametersOf(resource)
+  resourceParameters = getParametersOf(resource, options)
 
   for action, actionIndex in resource.actions or []
     # Combine resource & action section, preferring action
@@ -273,7 +273,7 @@ legacyResourcesFrom1AResource = (legacyUrlConverterFn, resource, sourcemap) ->
     legacyResource.description = trimLastNewline(resource.description)
 
     if resource.description?.length
-      legacyResource.htmlDescription = trimLastNewline(markdown.toHtmlSync(resource.description.trim()))
+      legacyResource.htmlDescription = trimLastNewline(markdown.toHtmlSync(resource.description.trim(), options))
     else
       legacyResource.htmlDescription = ''
 
@@ -288,7 +288,7 @@ legacyResourcesFrom1AResource = (legacyUrlConverterFn, resource, sourcemap) ->
       legacyResource.model = resource.model
 
       if resource.model.description and resource.model.description.length
-        legacyResource.model.description = markdown.toHtmlSync(resource.model.description)
+        legacyResource.model.description = markdown.toHtmlSync(resource.model.description, options)
 
       if resource.model.headers and resource.model.headers.length
         legacyResource.model.headers = legacyHeadersFrom1AHeaders(resource.model.headers)
@@ -297,13 +297,13 @@ legacyResourcesFrom1AResource = (legacyUrlConverterFn, resource, sourcemap) ->
       legacyResource.model = {}
 
     legacyResource.resourceParameters = resourceParameters
-    legacyResource.actionParameters   = getParametersOf(action)
+    legacyResource.actionParameters   = getParametersOf(action, options)
 
     legacyResource.parameters = legacyResource.actionParameters or resourceParameters or undefined
 
     if action.description
       legacyResource.actionDescription     = trimLastNewline(action.description)
-      legacyResource.actionHtmlDescription = trimLastNewline(markdown.toHtmlSync(action.description))
+      legacyResource.actionHtmlDescription = trimLastNewline(markdown.toHtmlSync(action.description, options))
     else
       legacyResource.actionDescription     = ''
       legacyResource.actionHtmlDescription = ''
@@ -314,7 +314,7 @@ legacyResourcesFrom1AResource = (legacyUrlConverterFn, resource, sourcemap) ->
     legacyResource.request = requests[0]
 
     # Responses
-    legacyResource.responses = legacyResponsesFrom1AExamples(action, resource)
+    legacyResource.responses = legacyResponsesFrom1AExamples(action, resource, options)
 
     # Resource Attributes
     attributesElements = getAttributesElements(resource.content)
@@ -338,7 +338,7 @@ legacyResourcesFrom1AResource = (legacyUrlConverterFn, resource, sourcemap) ->
 #
 # This method will hopefully be superseeded by transformOldAstToProtagonist
 # once we'll be comfortable with new format and it'll be our default.
-legacyASTfrom1AAST = (ast, sourcemap) ->
+legacyASTfrom1AAST = (ast, sourcemap, options) ->
   return null unless ast
 
   # Using current Application AST version only for API Blueprint ASTs
@@ -359,7 +359,7 @@ legacyASTfrom1AAST = (ast, sourcemap) ->
   })
 
   legacyAST.description = "#{ast.description}".trim() or ''
-  legacyAST.htmlDescription = trimLastNewline(markdown.toHtmlSync(ast.description))
+  legacyAST.htmlDescription = trimLastNewline(markdown.toHtmlSync(ast.description, options))
 
   # Metadata
   metadata = []
@@ -403,7 +403,7 @@ legacyASTfrom1AAST = (ast, sourcemap) ->
 
     if resourceGroupDescription
       legacySection.description =     trimLastNewline(resourceGroupDescription)
-      legacySection.htmlDescription = trimLastNewline(markdown.toHtmlSync(resourceGroupDescription))
+      legacySection.htmlDescription = trimLastNewline(markdown.toHtmlSync(resourceGroupDescription, options))
     else
       legacySection.description     = ''
       legacySection.htmlDescription = ''
@@ -411,7 +411,7 @@ legacyASTfrom1AAST = (ast, sourcemap) ->
     # Resources
     for resource, j in resourceGroup.resources
       resources = legacyResourcesFrom1AResource(legacyUrlConverter, resource,
-        sourcemap?.resourceGroups?[i]?.resources?[j])
+        sourcemap?.resourceGroups?[i]?.resources?[j], options)
       legacySection.resources = legacySection.resources.concat(resources)
 
     legacyAST.sections.push(legacySection)
