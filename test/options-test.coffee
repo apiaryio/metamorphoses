@@ -63,7 +63,7 @@ describe('Options are passed to markdown renderer functions', ->
         assert.isTrue(markdownSpy.called)
         for callArgs in markdownSpy.args
           assert.equal(callArgs[0], 'I am a description')
-          assert.propertyVal(callArgs[1], 'commonMark', true)
+          assert.deepEqual(callArgs[1], {'commonMark': true})
         assert.isFalse(markdownAsyncSpy.called)
       )
     )
@@ -111,7 +111,7 @@ describe('Options are passed to markdown renderer functions', ->
       it('It does call CommonMark Markdown to HTML renderer', ->
         assert.isTrue(markdownSpy.called)
         for callArgs in markdownSpy.args
-          assert.propertyVal(callArgs[1], 'commonMark', true)
+          assert.deepEqual(callArgs[1], {'commonMark': true})
         assert.isFalse(markdownAsyncSpy.called)
       )
     )

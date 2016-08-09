@@ -2,7 +2,14 @@
 
 {renderHtml, renderRobotskirtHtml} = require('blueprint-markdown-renderer')
 
-parseMarkdown = (markdown, options = {}, cb) ->
+parseMarkdown = (markdown, params, cb) ->
+  # do not mutate passed-in argument "params", create our own options
+  options = {
+    sanitize: params?.sanitize
+    commonMark: params?.commonMark
+  }
+
+  # sanitize is enabled by default
   options.sanitize ?= true
 
   if options.commonMark
@@ -21,11 +28,17 @@ parseMarkdown = (markdown, options = {}, cb) ->
     return results
 
 
-toHtml = (markdown, options = {}, cb) ->
+toHtml = (markdown, params, cb) ->
+  options = {}
   # Allow for second arg to be the callback
-  if typeof options is 'function'
-    cb = options
-    options = {}
+  if typeof params is 'function'
+    cb = params
+  else
+    # do not mutate passed-in argument "params", create our own options
+    options = {
+      sanitize: params?.sanitize
+      commonMark: params?.commonMark
+    }
 
   unless cb
     return parseMarkdown(markdown, options)
@@ -37,10 +50,10 @@ toHtml = (markdown, options = {}, cb) ->
   return
 
 
-toHtmlSync = (markdown, options = {}) ->
+toHtmlSync = (markdown, params) ->
   if not markdown
     return ''
-  return parseMarkdown(markdown, options)
+  return parseMarkdown(markdown, params)
 
 module.exports = {
   toHtml
