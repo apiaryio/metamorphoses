@@ -4,6 +4,7 @@ blueprintApi = require('../blueprint-api')
 getDescription = require('./refract/getDescription')
 transformAuth = require('./refract/transformAuth')
 transformSections = require('./refract/transformSections')
+transformDataStructures = require('./refract/transformDataStructures')
 
 transformAst = (element, sourcemap, options) ->
 
@@ -40,6 +41,7 @@ transformAst = (element, sourcemap, options) ->
 
   # Sections
   applicationAst.sections = transformSections(element, options)
+  applicationAst.dataStructures = transformDataStructures(element, options)
 
   applicationAst
 
