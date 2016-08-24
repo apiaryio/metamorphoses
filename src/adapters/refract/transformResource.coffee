@@ -6,6 +6,14 @@ getHeaders = require('./getHeaders')
 getUriParameters = require('./getUriParameters')
 transformAuth = require('./transformAuth')
 
+
+trimLastNewline = (s) ->
+  unless s
+    return
+
+  if s[s.length - 1] is '\n' then s.slice(0, -1) else s
+
+
 module.exports = (resourceElement, location, options) ->
   resources = []
 
@@ -39,7 +47,6 @@ module.exports = (resourceElement, location, options) ->
         htmlDescription: resourceDescription.html
 
         attributes
-        resolvedAttributes: attributes
       })
     ]
 
@@ -82,7 +89,6 @@ module.exports = (resourceElement, location, options) ->
       actionDescription: description.raw
       actionHtmlDescription: description.html
       attributes
-      resolvedAttributes: attributes
 
       actionRelation: _.chain(transitionElement).get('attributes.relation', '').contentOrValue().value()
     })
@@ -132,11 +138,10 @@ module.exports = (resourceElement, location, options) ->
           htmlDescription: httpRequestDescription.html
           headers: getHeaders(httpRequest)
           # reference
-          body: if _.content(httpRequestBody) then _.content(httpRequestBody) else ''
-          schema: if _.content(httpRequestBodySchemas) then _.content(httpRequestBodySchemas) else ''
+          body: trimLastNewline(if _.content(httpRequestBody) then _.content(httpRequestBody) else '')
+          schema: trimLastNewline(if _.content(httpRequestBodySchemas) then _.content(httpRequestBodySchemas) else '')
           # exampleId
           attributes: requestAttributes
-          resolvedAttributes: requestAttributes
           authSchemes: transformAuth(httpTransaction, options)
         })
 
@@ -148,11 +153,10 @@ module.exports = (resourceElement, location, options) ->
         htmlDescription: httpResponseDescription.html
         headers: getHeaders(httpResponse)
         # reference
-        body: if _.content(httpResponseBody) then _.content(httpResponseBody) else ''
-        schema: if _.content(httpResponseBodySchemas) then _.content(httpResponseBodySchemas) else ''
+        body: trimLastNewline(if _.content(httpResponseBody) then _.content(httpResponseBody) else '')
+        schema: trimLastNewline(if _.content(httpResponseBodySchemas) then _.content(httpResponseBodySchemas) else '')
         # exampleId
         attributes: responseAttributes
-        resolvedAttributes: responseAttributes
       })
 
       responses.push(response)

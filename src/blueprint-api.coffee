@@ -318,8 +318,8 @@ class Request
       htmlDescription: undefined
       headers: {}
       reference: undefined
-      body: undefined
-      schema: undefined
+      body: ''
+      schema: ''
       exampleId: 0
       attributes: undefined
       resolvedAttributes: undefined
@@ -373,8 +373,8 @@ class Response
       htmlDescription: undefined
       headers: {}
       reference: undefined
-      body: undefined
-      schema: undefined
+      body: ''
+      schema: ''
       exampleId: 0
       attributes: undefined
       resolvedAttributes: undefined

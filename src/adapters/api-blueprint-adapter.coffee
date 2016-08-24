@@ -252,6 +252,7 @@ legacyResourcesFrom1AResource = (legacyUrlConverterFn, resource, sourcemap, opti
   for action, actionIndex in resource.actions or []
     # Combine resource & action section, preferring action
     legacyResource = new blueprintApi.Resource({responses: [], requests: []})
+    actionParameters = getParametersOf(action, options)
 
     if sourcemap
       setSourcemap(legacyResource, sourcemap)
@@ -270,7 +271,7 @@ legacyResourcesFrom1AResource = (legacyUrlConverterFn, resource, sourcemap, opti
     legacyResource.actionHeaders = legacyHeadersFrom1AHeaders(action.headers)
 
 
-    legacyResource.description = trimLastNewline(resource.description)
+    legacyResource.description = trimLastNewline(resource.description) or ''
 
     if resource.description?.length
       legacyResource.htmlDescription = trimLastNewline(markdown.toHtmlSync(resource.description.trim(), options))
@@ -296,10 +297,10 @@ legacyResourcesFrom1AResource = (legacyUrlConverterFn, resource, sourcemap, opti
     else
       legacyResource.model = {}
 
-    legacyResource.resourceParameters = resourceParameters
-    legacyResource.actionParameters   = getParametersOf(action, options)
+    legacyResource.resourceParameters = resourceParameters or []
+    legacyResource.actionParameters   = actionParameters or []
 
-    legacyResource.parameters = legacyResource.actionParameters or resourceParameters or undefined
+    legacyResource.parameters = actionParameters or resourceParameters or []
 
     if action.description
       legacyResource.actionDescription     = trimLastNewline(action.description)
@@ -352,7 +353,7 @@ legacyASTfrom1AAST = (ast, sourcemap, options) ->
   })
 
   legacyAST.description = "#{ast.description}".trim() or ''
-  legacyAST.htmlDescription = trimLastNewline(markdown.toHtmlSync(ast.description, options))
+  legacyAST.htmlDescription = trimLastNewline(markdown.toHtmlSync(ast.description, options)) or ''
 
   # Metadata
   metadata = []
