@@ -1,5 +1,6 @@
 {assert} = require('chai')
 sinon = require('sinon')
+protagonist = require('protagonist')
 
 markdown = require('../src/adapters/markdown')
 
@@ -70,13 +71,9 @@ describe('Options are passed to markdown renderer functions', ->
   )
 
   context('API Blueprint adapter passes options to markdown renderer', ->
-    parseResultElement = JSON.parse(JSON.stringify(require('./fixtures/refract-parse-result-x-summary.json')))
-    apiDescriptionElement = null
     options = undefined
 
     beforeEach((done) ->
-      Drafter = require('drafter')
-      drafter = new Drafter({requireBlueprintName: false})
       source = """
         FORMAT: 1A
         # apiName
@@ -84,7 +81,8 @@ describe('Options are passed to markdown renderer functions', ->
         ## GET [/api]
         Yours lines are good!
       """
-      drafter.make(source, (err, result = {}) ->
+
+      protagonist.parse(source, {type: 'ast'}, (err, result = {}) ->
         return done(err) if err
         apiBlueprintAdapter.transformAst(result.ast, sourcemaps, options)
         done(err)
