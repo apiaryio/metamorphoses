@@ -1,5 +1,5 @@
 {assert} = require('chai')
-swaggerZoo = require('@apiaryio/swagger-zoo')
+swaggerZoo = require('swagger-zoo')
 
 lodash = require('../src/adapters/refract/helper')
 refractAdapter = require('../src/adapters/refract-adapter')
@@ -16,7 +16,10 @@ convertToApplicationAst = (parseResultElement) ->
   refractAdapter.transformAst(apiDescriptionElement)
 
 getZooFeature = (name, debug) ->
-  {refract, swagger} = lodash.chain(swaggerZoo.features()).find({name}).value()
+  fixture = lodash.chain(swaggerZoo.features()).find({name}).value()
+
+  swagger = fixture.swagger
+  refract = fixture.apiElements
   ast = convertToApplicationAst(refract)
 
   if debug
@@ -156,10 +159,6 @@ describe('Transformations • Refract', ->
         it('has actionDescription', ->
           assert.isOk(resource.actionDescription)
         )
-
-        it('has actionRelation', ->
-          assert.isOk(resource.actionRelation)
-        )
       )
     )
 
@@ -195,15 +194,20 @@ describe('Transformations • Refract', ->
       )
     )
 
-    describe('Parameter and No Response', ->
+    describe('Body and Schema', ->
       ast = null
       before( ->
-        {ast} = getZooFeature('param-no-response')
+        {ast} = getZooFeature('body-schema-example')
       )
 
-      it('resource has reqest schema', ->
-        expected = '{\"type\":\"string\"}'
-        assert.equal(ast.sections[0].resources[0].requests[0].schema, expected)
+      it('resource has response body', ->
+        expected = '{\n  "id": 123,\n  "name": "Resource 1"\n}'
+        assert.equal(ast.sections[0].resources[0].responses[0].body, expected)
+      )
+
+      it('resource has response schema', ->
+        expected = '{}'
+        assert.equal(ast.sections[0].resources[0].responses[0].schema, expected)
       )
     )
 
@@ -255,8 +259,8 @@ describe('Transformations • Refract', ->
           assert.equal(resource.parameters[1].key, 'arg')
         )
 
-        it('second parameter isn\'t required', ->
-          assert.isFalse(resource.parameters[1].required)
+        it('second parameter is required', ->
+          assert.isTrue(resource.parameters[1].required)
         )
       )
 

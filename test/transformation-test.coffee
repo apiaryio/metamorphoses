@@ -1,7 +1,6 @@
 {assert} = require('chai')
 ApiaryBlueprintParser = require('apiary-blueprint-parser')
 protagonist = require('protagonist')
-Drafter = require('drafter')
 
 CURRENT_APPLICATION_AST_VERSION = require('../src/blueprint-api').Version
 apiBlueprintAdapter = require('../src/adapters/api-blueprint-adapter')
@@ -23,15 +22,11 @@ parseApiaryBlueprint = (source, cb) ->
 # Supported types:
 #
 # - 'refract'
-#   Uses Protagonist v1.1 and returns everything as Refract.
+#   Uses Protagonist and returns everything as Refract.
 #
 # - 'ast' (default)
-#   Uses Protagonist v1.1 and returns API Blueprint AST, which includes MSON
+#   Uses Protagonist and returns API Blueprint AST, which includes MSON
 #   returned as Refract.
-#
-# - 'ast-drafter'
-#   Uses Drafter.js and returns API Blueprint AST, which includes MSON returned
-#   as MSON AST.
 #
 # - 'ast-source-map'
 #   Uses Protagonist and returns API Blueprint AST, which includes MSON
@@ -54,16 +49,14 @@ parseApiBlueprint = (source, type, cb) ->
     ast = adapter.transformAst(ast, sourcemap)
     cb(err, ast, result?.warnings or [])
 
-  if type is 'ast-drafter'
-    drafter = new Drafter({requireBlueprintName: true})
-    drafter.make(source, transform)
-  else
-    options =
-      requireBlueprintName: true
-      type: if type.match(/refract/) then 'refract' else 'ast'
-    if type.match(/source-map/)
-      options.exportSourcemap = true
-    protagonist.parse(source, options, transform)
+  options =
+    requireBlueprintName: true
+    type: if type.match(/refract/) then 'refract' else 'ast'
+
+  if type.match(/source-map/)
+    options.exportSourcemap = true
+
+  protagonist.parse(source, options, transform)
 
 
 describe('Transformations', ->
@@ -239,7 +232,7 @@ describe('Transformations', ->
       )
     )
 
-    describe('Blueprint with HOST suffix', ->
+    describe('Legacy Apiary Blueprint with HOST suffix', ->
       resource = undefined
       resourceJSON = undefined
 
@@ -426,110 +419,6 @@ describe('Transformations', ->
           )
         )
     )
-
-    describe('Replacement of Drafter.js by Protagonist v1.1 (upgrade from MSON AST to Data Structure Namespace)', ->
-      source = '''
-        FORMAT: 1A
-
-        # Attributes API
-
-        # Group Coupons
-
-        ## Coupon [/coupons/{id}]
-        A coupon contains information about a percent-off or amount-off
-        discount you might want to apply to a customer.
-
-        ### Retrieve a Coupon [GET]
-        Retrieves the coupon with the given ID.
-
-        + Response 200 (application/json)
-
-            + Attributes (object)
-                + id: 250FF (string)
-                + created: 1415203908 (number) - Time stamp
-                + percent_off: 25 (number)
-
-                    A positive integer between 1 and 100 that represents the discount the coupon will apply.
-
-                + redeem_by (number) - Date after which the coupon can no longer be redeemed
-
-            + Body
-
-                    {
-                        "id": "250FF",
-                        "created": 1415203908,
-                        "percent_off": 25,
-                        "redeem_by:" null
-                    }
-      '''
-      astCaches = []
-
-      describe('When I transform API Blueprint AST produced by Drafter.js', ->
-        version = undefined
-        attributes = undefined
-
-        before((done) ->
-          parseApiBlueprint(source, 'ast-drafter', (err, ast) ->
-            version = ast.version
-            attributes = ast.sections[0].resources[0].responses[0].attributes
-            astCaches.push(ast)
-            done(err)
-          )
-        )
-
-        it('version of the Application AST is 18', ->
-          assert.equal(version, 18)
-        )
-
-        it('Application AST contains MSON AST', ->
-          assert.ok(attributes.element)
-          assert.ok(attributes.sections)
-          assert.ok(attributes.sections[0].class)
-        )
-      )
-
-      describe('When I transform API Blueprint AST produced by Protagonist v1.1', ->
-        version = undefined
-        attributes = undefined
-
-        before((done) ->
-          parseApiBlueprint(source, 'ast', (err, ast) ->
-            version = ast.version
-            attributes = ast.sections[0].resources[0].responses[0].attributes
-            astCaches.push(ast)
-            done(err)
-          )
-        )
-
-        it("version of the Application AST is #{CURRENT_APPLICATION_AST_VERSION}", ->
-          assert.equal(version, CURRENT_APPLICATION_AST_VERSION)
-        )
-
-        it('Application AST contains Data Structure Namespace (Refract)', ->
-          assert.ok(attributes.content)
-          assert.ok(attributes.content[0].content)
-          assert.ok(attributes.content[0].content[0].content)
-        )
-      )
-
-      describe('When I compare those two ASTs without version, attributes and schema', ->
-        before( ->
-          astCaches.forEach((astCache) ->
-            delete astCache.version
-            delete astCache.sections[0].resources[0].responses[0].attributes
-
-            # Missing Schema is a known regression bug! The Schema should
-            # be there in the future and the test should be corrected
-            # (following line removed) once we have it back!
-            delete astCache.sections[0].resources[0].responses[0].schema
-          )
-        )
-
-        it('they are the same', ->
-          assert.deepEqual(astCaches[0], astCaches[1])
-        )
-      )
-    )
   )
 
   describe('Legacy Apiary Blueprint', ->
@@ -569,7 +458,7 @@ describe('Transformations', ->
       )
     )
 
-    describe('When I send in simple blueprint with one POST resource and headers', ->
+    describe('When I send in simple legacy apiary blueprint with one POST resource and headers', ->
       ast = undefined
       before((done) ->
         code = '''--- Name ---
@@ -609,7 +498,7 @@ describe('Transformations', ->
       )
     )
 
-    describe('When I send in blueprint with many empty sections', ->
+    describe('When I send in legacy apiary blueprint with many empty sections', ->
       it('should parse in less than 2000ms', (done) ->
         code = '''
 --- API ---
@@ -807,7 +696,7 @@ describe('Test errors and warnings', ->
     )
   )
 
-  describe('When I send in simple blueprint with one resource and error', ->
+  describe('When I send in simple legacy apiary blueprint with one resource and error', ->
     ast = null
     errors = null
     before((done) ->

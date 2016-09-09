@@ -28,20 +28,19 @@
   "homepage": "https://github.com/apiaryio/metamorphoses",
   "dependencies": {
     "blueprint-markdown-renderer": "^0.2.3",
-    "lodash": "^3.10.1",
+    "lodash": "^4.15.0",
     "lodash-api-description": "0.0.2",
     "media-typer": "^0.3.0"
   },
   "devDependencies": {
-    "@apiaryio/swagger-zoo": "1.0.0",
+    "swagger-zoo": "^2.2.1",
     "apiary-blueprint-parser": "^0.5.3",
     "chai": "^3.2.0",
     "coffee-script": "~1.9",
     "coffeeify": "^1.1.0",
     "coffeelint": "^1.11.1",
-    "drafter": "^0.2.8",
+    "protagonist": "^1.5.0",
     "mocha": "^2.3.0",
-    "protagonist": "1.4.1",
     "sinon": "^1.17.2"
   }
 }
