@@ -53,6 +53,24 @@ describe('Transformations • Refract', ->
     )
   )
 
+  describe('Metadata', ->
+    ast = null
+
+    before( ->
+      ast = convertToApplicationAst(require('./fixtures/refract-parse-result-metadata.json'))
+    )
+
+    it('has location', ->
+      assert.equal(ast.location, 'https://example.com')
+    )
+
+    it('has metadata without the HOST', ->
+      assert.equal(ast.metadata.length, 1)
+      assert.equal(ast.metadata[0].name, 'FORMAT')
+      assert.equal(ast.metadata[0].value, '1A')
+    )
+  )
+
   describe('Resources', ->
     [
         label: 'Parse Result with Resource Group'
