@@ -147,19 +147,20 @@ module.exports = (resourceElement, location, options) ->
 
         requests.push(request)
 
-      response = new blueprintApi.Response({
-        status: _.chain(httpResponse).get('attributes.statusCode').contentOrValue().value()
-        description: httpResponseDescription.raw
-        htmlDescription: httpResponseDescription.html
-        headers: getHeaders(httpResponse)
-        # reference
-        body: trimLastNewline(if _.content(httpResponseBody) then _.content(httpResponseBody) else '')
-        schema: trimLastNewline(if _.content(httpResponseBodySchemas) then _.content(httpResponseBodySchemas) else '')
-        # exampleId
-        attributes: responseAttributes
-      })
+      if httpResponse?.content.length or (not _.isEmpty(httpResponse?.attributes))
+        response = new blueprintApi.Response({
+          status: _.chain(httpResponse).get('attributes.statusCode').contentOrValue().value()
+          description: httpResponseDescription.raw
+          htmlDescription: httpResponseDescription.html
+          headers: getHeaders(httpResponse)
+          # reference
+          body: trimLastNewline(if _.content(httpResponseBody) then _.content(httpResponseBody) else '')
+          schema: trimLastNewline(if _.content(httpResponseBodySchemas) then _.content(httpResponseBodySchemas) else '')
+          # exampleId
+          attributes: responseAttributes
+        })
 
-      responses.push(response)
+        responses.push(response)
     )
 
     resource.requests = requests

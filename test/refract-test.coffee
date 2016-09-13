@@ -130,6 +130,20 @@ describe('Transformations • Refract', ->
     )
   )
 
+  describe('With no response', ->
+    ast = null
+    resource = null
+
+    before( ->
+      ast = convertToApplicationAst(require('./fixtures/refract-parse-result-no-response.json'))
+      resource = ast.sections[0].resources[0]
+    )
+
+    it('resource has no responses', ->
+      assert.equal(resource.responses.length, 0)
+    )
+  )
+
   context('Features', ->
     describe('Minimal JSON', ->
       ast = null
