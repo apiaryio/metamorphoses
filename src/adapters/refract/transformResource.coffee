@@ -1,3 +1,4 @@
+url = require('url')
 _ = require('./helper')
 blueprintApi = require('../../blueprint-api')
 getDescription = require('./getDescription')
@@ -5,12 +6,22 @@ getHeaders = require('./getHeaders')
 getUriParameters = require('./getUriParameters')
 transformAuth = require('./transformAuth')
 
-module.exports = (resourceElement, options) ->
+module.exports = (resourceElement, location, options) ->
   resources = []
 
   resourceDescription = getDescription(resourceElement, options)
 
   transitions = _.transitions(resourceElement)
+
+  urlPrefix = ''
+  if location
+    host = url.parse(location)
+
+    if host.path and host.path isnt '/'
+      urlPrefix = host.path.replace(/\/$/, '')
+
+  resourceUriTemplate = _.chain(resourceElement).get('attributes.href', '').contentOrValue().value()
+  resourceUrl = urlPrefix + resourceUriTemplate
 
   # If a resources doesn't have any transitions, create a very minimal
   # resource (URI, URI Template, Name, Description and Attributes).
@@ -20,8 +31,8 @@ module.exports = (resourceElement, options) ->
 
     return [
       new blueprintApi.Resource({
-        url: _.chain(resourceElement).get('attributes.href', '').contentOrValue().value()
-        uriTemplate: _.chain(resourceElement).get('attributes.href', '').contentOrValue().value()
+        url: resourceUrl
+        uriTemplate: resourceUriTemplate
         name: _.chain(resourceElement).get('meta.title', '').contentOrValue().value()
 
         description: resourceDescription.raw
@@ -46,10 +57,13 @@ module.exports = (resourceElement, options) ->
     #
     # * `method` is set when iterating `httpTransaction`
     # * Dtto, `actionUriTemplate`
+    #
+    transitionUriTemplate = _.chain(transitionElement).get('attributes.href', resourceUriTemplate).contentOrValue().value()
+    transitionUrl = urlPrefix + transitionUriTemplate
+
     resource = new blueprintApi.Resource({
-      # TODO: `url` should contain a possible HOST suffix.
-      url: _.chain(transitionElement).get('attributes.href', _.get(resourceElement, 'attributes.href')).contentOrValue().value()
-      uriTemplate: _.chain(transitionElement).get('attributes.href', _.get(resourceElement, 'attributes.href')).contentOrValue().value()
+      url: transitionUrl
+      uriTemplate: transitionUriTemplate
 
       name: _.chain(resourceElement).get('meta.title', '').contentOrValue().value()
 

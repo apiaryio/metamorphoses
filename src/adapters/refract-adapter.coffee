@@ -40,7 +40,7 @@ transformAst = (element, sourcemap, options) ->
   applicationAst.authDefinitions = transformAuth(element, options)
 
   # Sections
-  applicationAst.sections = transformSections(element, options)
+  applicationAst.sections = transformSections(element, applicationAst.location, options)
   applicationAst.dataStructures = transformDataStructures(element, options)
 
   applicationAst
