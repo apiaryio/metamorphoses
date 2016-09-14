@@ -117,16 +117,16 @@ describe('Transformations • Refract', ->
       resource = ast.sections[0].resources[0]
     )
 
-    it('resource has two parameters', ->
-      assert.equal(resource.parameters.length, 2)
-    )
-
     it('resource has one resource parameter', ->
       assert.equal(resource.resourceParameters.length, 1)
     )
 
     it('resource has one action parameter', ->
       assert.equal(resource.actionParameters.length, 1)
+    )
+
+    it('resource has 1 parameters from action parameters', ->
+      assert.equal(resource.parameters.length, 1)
     )
   )
 
@@ -340,16 +340,16 @@ describe('Transformations • Refract', ->
         assert.equal(resource.uriTemplate, '/test/{id}{?search,arg}')
       )
 
-      it('resource have three paramters', ->
-        assert.equal(resource.parameters.length, 3)
-      )
-
       it('2 paramters are resource paramters', ->
         assert.equal(resource.resourceParameters.length, 2)
       )
 
       it('1 paramter is action paramter', ->
         assert.equal(resource.actionParameters.length, 1)
+      )
+
+      it('resource have one paramters from action parameter', ->
+        assert.equal(resource.parameters.length, 1)
       )
     )
 
