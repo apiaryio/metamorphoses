@@ -7,7 +7,7 @@ transformResources = require('./transformResources')
 transformResource = require('./transformResource')
 
 
-module.exports = (parentElement, options) ->
+module.exports = (parentElement, location, options) ->
   resourceGroups = []
 
   # List of Application AST Resources (= already transformed
@@ -22,7 +22,7 @@ module.exports = (parentElement, options) ->
     # an artificial section.
     if element.element is 'resource'
       resourcesWithoutGroup = resourcesWithoutGroup.concat(
-        transformResource(element, options)
+        transformResource(element, location, options)
       )
 
     if element.element is 'category'
@@ -47,7 +47,7 @@ module.exports = (parentElement, options) ->
           name: _.chain(element).get('meta.title', '').contentOrValue().value()
           description: description.raw
           htmlDescription: description.html
-          resources: transformResources(element, options)
+          resources: transformResources(element, location, options)
         })
 
         resourceGroups.push(resourceGroup)
