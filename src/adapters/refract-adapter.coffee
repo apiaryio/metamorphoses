@@ -26,9 +26,13 @@ transformAst = (element, sourcemap, options) ->
       name = _.chain(entry).content().get('key').contentOrValue().value()
       value = _.chain(entry).content().get('value', '').contentOrValue().value()
 
-      applicationAst.location = value if name is 'HOST'
-      {name, value}
-    ).value()
+      if name is 'HOST'
+        applicationAst.location = value if name is 'HOST'
+        return null
+      else
+        {name, value}
+    ).compact()
+    .value()
 
   # description
   description = getDescription(element, options)

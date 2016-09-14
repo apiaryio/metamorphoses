@@ -35,13 +35,13 @@ getUriParameters = (hrefVariables, options) ->
       ).value()
 
     return {
-      key
-      values
-      example: exampleValue
-      default: defaultValue
-      required
-      type
       description: getMetaDescription(hrefVariable, options)
+      type
+      required
+      default: defaultValue
+      example: exampleValue
+      values
+      key
     }
   )
 

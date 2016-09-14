@@ -450,7 +450,7 @@ describe('Transformations', ->
         assert.equal(200, ast.sections[0].resources[0].responses[0].status)
       )
       it('I have send nothing in request body', ->
-        assert.equal(null, ast.sections[0].resources[0].request.body)
+        assert.equal('', ast.sections[0].resources[0].request.body)
       )
 
       it('I have send nothing in request headers', ->
