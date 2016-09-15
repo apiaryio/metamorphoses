@@ -1,6 +1,6 @@
 {
   "name": "metamorphoses",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "description": "Transforms API Blueprint AST or legacy Apiary Blueprint AST into Apiary Application AST",
   "main": "./lib/metamorphoses",
   "scripts": {
@@ -28,7 +28,7 @@
   "homepage": "https://github.com/apiaryio/metamorphoses",
   "dependencies": {
     "blueprint-markdown-renderer": "^0.2.3",
-    "lodash": "^4.15.0",
+    "lodash": ">=3.10.1",
     "lodash-api-description": "0.0.2",
     "media-typer": "^0.3.0"
   },
