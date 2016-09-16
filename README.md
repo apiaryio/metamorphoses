@@ -13,7 +13,7 @@ Really! We needed to create it for internal use within [Apiary](https://apiary.i
 You ended up here for some reason though:
 
 - Looking for [API Blueprint spec](https://github.com/apiaryio/api-blueprint/)?
-- Looking for [Refract spec](https://github.com/refractproject/refract-spec)
+- Looking for [API Elements](http://api-elements.readthedocs.io/en/latest/)
 - Looking for [Apiary](https://apiary.io/)?
 - Looking for [API Blueprint parser](https://github.com/apiaryio/drafter)?
 - Looking for [API Description SDK](https://github.com/apiaryio/fury.js)?
@@ -21,7 +21,7 @@ You ended up here for some reason though:
 
 ## Purpose
 
-Apiary supports two API description formats as of now:
+Apiary supports three API description formats as of now:
 
 #### API Blueprint - `text/vnd.apiblueprint`
 
@@ -29,13 +29,21 @@ Apiary supports two API description formats as of now:
 -   **Parser:** [Drafter](https://github.com/apiaryio/drafter)
 -   **Parser Outputs:**
     - [API Blueprint AST](https://github.com/apiaryio/api-blueprint-ast) - `application/vnd.apiblueprint.ast+json` or `+yaml`
-    - [Refract](https://github.com/refractproject/refract-spec) - `application/vnd.refract.api-description+json` or `+yaml`
+    - [API Elements](http://api-elements.readthedocs.io/en/latest/) - `application/vnd.refract.parse-result+json` or `+yaml`
+
+#### Swagger - `application/swagger+json` or `+yaml`
+
+-   **Parser:** [fury-adapter-swagger](https://github.com/apiaryio/fury-adapter-swagger)
+-   **Parser Outputs:**
+    - [API Elements](http://api-elements.readthedocs.io/en/latest/) - `application/vnd.refract.parse-result+json` or `+yaml`
 
 #### legacy Apiary Blueprint - `text/vnd.legacyblueprint`
 
 -   **Status:** deprecated and supported only for backward compatibility
 -   **Parser:** PEG.js-based [blueprint-parser](https://github.com/apiaryio/blueprint-parser)
--   **Parser Output:** legacy Apiary Blueprint AST - `application/vnd.legacyblueprint.ast+json`
+-   **Parser Output:**
+    - legacy Apiary Blueprint AST - `application/vnd.legacyblueprint.ast+json`
+    - [API Elements](http://api-elements.readthedocs.io/en/latest/) - `application/vnd.refract.parse-result+json` or `+yaml`
 
 To be able to work with both of these formats through some sort of uniform interface, *Apiary* internally transforms ASTs to a so-called *Application AST*. The Metamorphoses library does exactly this job, i.e. transforms any AST to the internal *Apiary Application AST*.
 
