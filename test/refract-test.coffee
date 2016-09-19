@@ -394,6 +394,24 @@ describe('Transformations • Refract', ->
       )
     )
 
+    describe('Resource without Action', ->
+      applicationAst = null
+
+      before(->
+        applicationAst = convertToApplicationAst(
+          require('./fixtures/refract-parse-result-no-action.json')
+        )
+      )
+
+      it('Has one section', ->
+        assert.strictEqual(applicationAst.sections.length, 1)
+      )
+
+      it('Has no resources', ->
+        assert.strictEqual(applicationAst.sections[0].resources.length, 0)
+      )
+    )
+
     describe('Support for x-summary and x-description', ->
       applicationAst = null
 
@@ -452,17 +470,15 @@ describe('Transformations • Refract', ->
     describe('‘x-summary’ and ‘x-description’', ->
       applicationAst = null
 
-      before(->
-        applicationAst = convertToApplicationAst(
-          require('./fixtures/refract-parse-result-x-summary.json')
-        )
+      before( ->
+        applicationAst = getZooFeature('x-summary-and-description').ast
       )
 
       it('Has the correct number of resources', ->
-        assert.strictEqual(applicationAst.sections[0].resources.length, 2)
+        assert.strictEqual(applicationAst.sections[0].resources.length, 1)
       )
 
-      it('First resource has the correct URL and URI Template', ->
+      it('Resource has the correct URL and URI Template', ->
         assert.strictEqual(
           applicationAst.sections[0].resources[0].url,
           '/test'
@@ -473,28 +489,17 @@ describe('Transformations • Refract', ->
         )
       )
 
-      it('First resource has the correct description', ->
+      it('Resource has the correct description', ->
         assert.strictEqual(
           applicationAst.sections[0].resources[0].description,
-          'I am a description'
+          'Resource Description'
         )
       )
 
-      it('Second resource has the correct URL and URI Template', ->
+      it('Resource has the correct name', ->
         assert.strictEqual(
-          applicationAst.sections[0].resources[1].url,
-          '/test2'
-        )
-        assert.strictEqual(
-          applicationAst.sections[0].resources[1].uriTemplate,
-          '/test2'
-        )
-      )
-
-      it('Second resource has the correct name', ->
-        assert.strictEqual(
-          applicationAst.sections[0].resources[1].name,
-          'I am a summary'
+          applicationAst.sections[0].resources[0].name,
+          'Resource Title'
         )
       )
     )

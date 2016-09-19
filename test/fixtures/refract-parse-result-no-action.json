@@ -1,0 +1,42 @@
+{
+  "element": "parseResult",
+  "content": [
+    {
+      "element": "category",
+      "meta": {
+        "classes": [
+          "api"
+        ],
+        "title": ""
+      },
+      "content": [
+        {
+          "element": "category",
+          "meta": {
+            "classes": [
+              "resourceGroup"
+            ],
+            "title": ""
+          },
+          "content": [
+            {
+              "element": "resource",
+              "meta": {
+                "title": "User"
+              },
+              "attributes": {
+                "href": "/user"
+              },
+              "content": [
+                {
+                  "element": "copy",
+                  "content": "User resource\n"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
