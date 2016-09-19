@@ -152,12 +152,8 @@ legacyRequestFrom1ARequest = (request, action, resource, exampleId = undefined, 
     exampleId: exampleId
   )
 
-  if request.description
-    legacyRequest.description     = trimLastNewline(request.description)
-    legacyRequest.htmlDescription = trimLastNewline(markdown.toHtmlSync(request.description, options))
-  else
-    legacyRequest.description     = ''
-    legacyRequest.htmlDescription = ''
+  legacyRequest.description     = trimLastNewline(request.description) or ''
+  legacyRequest.htmlDescription = trimLastNewline(markdown.toHtmlSync(request.description, options)) or ''
 
   legacyRequest.reference = request.reference
 
@@ -191,12 +187,8 @@ legacyResponseFrom1AResponse = (response, action, resource, exampleId = undefine
     exampleId: exampleId
   )
 
-  if response.description
-    legacyResponse.description     = trimLastNewline(response.description)
-    legacyResponse.htmlDescription = trimLastNewline(markdown.toHtmlSync(response.description, options))
-  else
-    legacyResponse.description     = ''
-    legacyResponse.htmlDescription = ''
+  legacyResponse.description     = trimLastNewline(response.description) or ''
+  legacyResponse.htmlDescription = trimLastNewline(markdown.toHtmlSync(response.description, options)) or ''
 
   legacyResponse.reference = response.reference
 
@@ -270,20 +262,10 @@ legacyResourcesFrom1AResource = (legacyUrlConverterFn, resource, sourcemap, opti
     legacyResource.headers       = legacyHeadersFrom1AHeaders(resource.headers)
     legacyResource.actionHeaders = legacyHeadersFrom1AHeaders(action.headers)
 
-
     legacyResource.description = trimLastNewline(resource.description) or ''
+    legacyResource.htmlDescription = trimLastNewline(markdown.toHtmlSync(resource.description, options)) or ''
 
-    if resource.description?.length
-      legacyResource.htmlDescription = trimLastNewline(markdown.toHtmlSync(resource.description.trim(), options))
-    else
-      legacyResource.htmlDescription = ''
-
-
-    if action.name?.length
-      legacyResource.actionName = action.name.trim()
-    else
-      legacyResource.actionName = ''
-
+    legacyResource.actionName = action.name?.trim() or ''
 
     unless not resource.model
       legacyResource.model = resource.model
@@ -302,12 +284,8 @@ legacyResourcesFrom1AResource = (legacyUrlConverterFn, resource, sourcemap, opti
 
     legacyResource.parameters = actionParameters or resourceParameters or []
 
-    if action.description
-      legacyResource.actionDescription     = trimLastNewline(action.description)
-      legacyResource.actionHtmlDescription = trimLastNewline(markdown.toHtmlSync(action.description, options))
-    else
-      legacyResource.actionDescription     = ''
-      legacyResource.actionHtmlDescription = ''
+    legacyResource.actionDescription     = trimLastNewline(action.description) or ''
+    legacyResource.actionHtmlDescription = trimLastNewline(markdown.toHtmlSync(action.description, options)) or ''
 
     # Requests - for legacy usage, please, save '.request' too
     requests = legacyRequestsFrom1AExamples(action, resource)
@@ -352,7 +330,7 @@ legacyASTfrom1AAST = (ast, sourcemap, options) ->
     metadata: []
   })
 
-  legacyAST.description = "#{ast.description}".trim() or ''
+  legacyAST.description = trimLastNewline(ast.description) or ''
   legacyAST.htmlDescription = trimLastNewline(markdown.toHtmlSync(ast.description, options)) or ''
 
   # Metadata
@@ -393,14 +371,8 @@ legacyASTfrom1AAST = (ast, sourcemap, options) ->
     if sourcemap?.resourceGroups?[i]?
       setSourcemap(legacySection, sourcemap.resourceGroups[i])
 
-    resourceGroupDescription = resourceGroup.description?.trim()
-
-    if resourceGroupDescription
-      legacySection.description =     trimLastNewline(resourceGroupDescription)
-      legacySection.htmlDescription = trimLastNewline(markdown.toHtmlSync(resourceGroupDescription, options))
-    else
-      legacySection.description     = ''
-      legacySection.htmlDescription = ''
+    legacySection.description     = trimLastNewline(resourceGroup.description) or ''
+    legacySection.htmlDescription = trimLastNewline(markdown.toHtmlSync(resourceGroup.description, options)) or ''
 
     # Resources
     for resource, j in resourceGroup.resources

@@ -96,7 +96,8 @@ describe('Options are passed to markdown renderer functions', ->
       it('It does call Robotskirt Markdown to HTML renderer', ->
         assert.isTrue(markdownSpy.called)
         for callArgs in markdownSpy.args
-          assert.oneOf(callArgs[0], ['Yours lines are good!', 'such _description_.\n'])
+          # Allow empty string because resource group description
+          assert.oneOf(callArgs[0], ['Yours lines are good!', 'such _description_.\n', ''])
           assert.isUndefined(callArgs[1])
         assert.isFalse(markdownAsyncSpy.called)
       )

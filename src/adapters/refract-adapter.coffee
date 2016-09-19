@@ -9,7 +9,7 @@ transformDataStructures = require('./refract/transformDataStructures')
 transformAst = (element, sourcemap, options) ->
 
   applicationAst = new blueprintApi.Blueprint({
-    name: _.chain(element).get('meta.title', '').contentOrValue().fixNewLines().value()
+    name: _.chain(element).get('meta.title', '').contentOrValue().trimLastNewline().value()
     version: blueprintApi.Version
     metadata: []
   })

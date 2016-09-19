@@ -6,7 +6,7 @@ module.exports = (element, options) ->
                     .chain(element)
                     .get('meta.description', '')
                     .contentOrValue()
-                    .fixNewLines()
+                    .trimLastNewline()
                     .value()
 
   markdown.toHtmlSync(rawDescription, options)
