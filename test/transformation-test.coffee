@@ -117,8 +117,7 @@ describe('Transformations', ->
             assert.equal(ast.name, 'API name')
           )
           it('I got API description', ->
-            expected = if type is 'refract' then 'Lorem ipsum 1\n' else 'Lorem ipsum 1'
-            assert.equal(ast.description, expected)
+            assert.equal(ast.description, 'Lorem ipsum 1\n')
           )
           it('I got API HTML description', ->
             assert.equal(ast.htmlDescription, '<p>Lorem ipsum 1</p>')
@@ -130,8 +129,7 @@ describe('Transformations', ->
             assert.equal(ast.sections[0].name, 'Name')
           )
           it('group has correct description', ->
-            expected = if type is 'refract' then 'Lorem ipsum 2\n' else 'Lorem ipsum 2'
-            assert.equal(ast.sections[0].description, expected)
+            assert.equal(ast.sections[0].description, 'Lorem ipsum 2\n')
           )
           it('group has HTML description', ->
             assert.equal(ast.sections[0].htmlDescription, '<p>Lorem ipsum 2</p>')

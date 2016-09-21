@@ -1,12 +1,12 @@
 lodash = require('lodash')
 require('lodash-api-description')(lodash)
 
-fixNewLines = (str) ->
+trimLastNewline = (str) ->
   return unless lodash.isString(str)
   str.replace(/\n$/, '')
 
 lodash.mixin({
-  fixNewLines
+  trimLastNewline
 })
 
 module.exports = lodash

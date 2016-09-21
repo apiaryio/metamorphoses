@@ -1,5 +1,15 @@
 # Metamorphoses Changelog
 
+# Master
+
+### Enhancements
+
+- Streamlined the trimming of newlines in all descriptions just to trim one newline character
+
+### Bug Fixes
+
+- Action name and Resource name are now completely trimmed in Refract adapter to be consistent with APIB AST adapter.
+
 ## 0.9.1
 
 ### Bug Fixes

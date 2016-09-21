@@ -72,7 +72,7 @@ module.exports = (resourceElement, location, options) ->
       url: transitionUrl
       uriTemplate: transitionUriTemplate
 
-      name: _.chain(resourceElement).get('meta.title', '').contentOrValue().value()
+      name: _.chain(resourceElement).get('meta.title', '').contentOrValue().value().trim()
 
       # We can safely leave these empty for now.
       headers: {}
@@ -80,7 +80,7 @@ module.exports = (resourceElement, location, options) ->
 
       description: resourceDescription.raw
       htmlDescription: resourceDescription.html
-      actionName: _.chain(transitionElement).get('meta.title', '').contentOrValue().value()
+      actionName: _.chain(transitionElement).get('meta.title', '').contentOrValue().value().trim()
 
       # Model has been deprecated in the API Blueprint format,
       # therfore we can safely skip it.
