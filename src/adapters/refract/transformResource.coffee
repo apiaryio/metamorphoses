@@ -31,24 +31,8 @@ module.exports = (resourceElement, location, options) ->
   resourceUriTemplate = _.chain(resourceElement).get('attributes.href', '').contentOrValue().value()
   resourceUrl = urlPrefix + resourceUriTemplate
 
-  # If a resources doesn't have any transitions, create a very minimal
-  # resource (URI, URI Template, Name, Description and Attributes).
   if transitions.length is 0
-    attributes = _.dataStructures(resourceElement)
-    attributes = if _.isEmpty(attributes) then undefined else attributes[0]
-
-    return [
-      new blueprintApi.Resource({
-        url: resourceUrl
-        uriTemplate: resourceUriTemplate
-        name: _.chain(resourceElement).get('meta.title', '').contentOrValue().value()
-
-        description: resourceDescription.raw
-        htmlDescription: resourceDescription.html
-
-        attributes
-      })
-    ]
+    return []
 
   transitions.forEach((transitionElement) ->
     description = getDescription(transitionElement, options)

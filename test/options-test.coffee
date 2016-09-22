@@ -31,7 +31,7 @@ describe('Options are passed to markdown renderer functions', ->
   )
 
   context('Refract adapter passes options to markdown renderer', ->
-    parseResultElement = JSON.parse(JSON.stringify(require('./fixtures/refract-parse-result-x-summary.json')))
+    parseResultElement = JSON.parse(JSON.stringify(require('./fixtures/refract-parse-result-x-values.json')))
     apiDescriptionElement = null
     options = undefined
 
@@ -63,7 +63,7 @@ describe('Options are passed to markdown renderer functions', ->
       it('It does call CommonMark Markdown to HTML renderer', ->
         assert.isTrue(markdownSpy.called)
         for callArgs in markdownSpy.args
-          assert.equal(callArgs[0], 'I am a description')
+          assert.equal(callArgs[0], 'Resource Description')
           assert.deepEqual(callArgs[1], {'commonMark': true})
         assert.isFalse(markdownAsyncSpy.called)
       )
