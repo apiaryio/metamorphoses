@@ -40,9 +40,9 @@ module.exports = (resourceElement, location, options) ->
     resourceParameters = getUriParameters(_.get(resourceElement, 'attributes.hrefVariables'), options)
     actionParameters = getUriParameters(_.get(transitionElement, 'attributes.hrefVariables'), options)
 
-    attributes = _.dataStructures(transitionElement)
-    attributes = if _.isEmpty(attributes) then _.dataStructures(resourceElement) else attributes[0]
+    attributes = _.dataStructures(resourceElement)
     attributes = if _.isEmpty(attributes) then undefined else attributes[0]
+    actionAttributes = _.get(transitionElement, 'attributes.data')
 
     # Resource
     #
@@ -73,6 +73,7 @@ module.exports = (resourceElement, location, options) ->
       actionDescription: description.raw
       actionHtmlDescription: description.html
       attributes
+      actionAttributes: actionAttributes
 
       actionRelation: _.chain(transitionElement).get('attributes.relation', '').contentOrValue().value()
     })
