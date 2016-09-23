@@ -66,6 +66,12 @@ describe('Transformation • Refract • getUriParameters' , ->
                 'value': {
                   'element': 'enum',
                   'attributes': {
+                    'samples': [
+                      {
+                        'element': 'number',
+                        'content': 2
+                      }
+                    ],
                     'default': 1
                   },
                   'content': [
@@ -94,7 +100,7 @@ describe('Transformation • Refract • getUriParameters' , ->
             'type': 'enum',
             'required': false,
             'default': '1',
-            'example': '',
+            'example': '2',
             'values': [
                 '1',
                 '2',

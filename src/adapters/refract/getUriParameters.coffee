@@ -21,14 +21,18 @@ getUriParameters = (hrefVariables, options) ->
     memberContentValue = memberContent.get('value')
     type = memberContentValue.get('element').value()
 
+    sampleValues = memberContentValue.get('attributes.samples', '').contentOrValue()
     defaultValue = memberContentValue.get('attributes.default', '').contentOrValue().value().toString()
     exampleValue = ''
     values = []
 
+    if lodash.isArray(sampleValues.value())
+      exampleValue = sampleValues.first().contentOrValue().value().toString()
+
     memberContentValueContent = memberContentValue.content()
 
     if not lodash.isArray(memberContentValueContent.value())
-      exampleValue = memberContentValueContent.value()?.toString()
+      exampleValue = memberContentValueContent.value()?.toString() or ''
     else
       values = memberContentValueContent.map((element) ->
         lodash(element).content().value()?.toString()
