@@ -11,6 +11,8 @@
 - Action name and Resource name are now completely trimmed in Refract adapter to be consistent with APIB AST adapter.
 - Do not add resource to Apiary AST if no transition exists for that resource in Refract adapter.
 - Provide actionAttributes in Refract adapter just like the API Blueprint AST
+- Prevent wrapping parameter values in dictionaries inside the values list in
+  the Refract Adapter. This aligns the behaviour with the API Blueprint
   adapter.
 
 ## 0.9.1

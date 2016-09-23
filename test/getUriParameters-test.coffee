@@ -96,15 +96,9 @@ describe('Transformation • Refract • getUriParameters' , ->
             'default': '1',
             'example': '',
             'values': [
-                {
-                    'value': '1'
-                },
-                {
-                    'value': '2'
-                },
-                {
-                    'value': '3'
-                }
+                '1',
+                '2',
+                '3'
             ]
           }
         ]

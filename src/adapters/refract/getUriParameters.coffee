@@ -31,7 +31,7 @@ getUriParameters = (hrefVariables, options) ->
       exampleValue = memberContentValueContent.value()?.toString()
     else
       values = memberContentValueContent.map((element) ->
-        {value: lodash(element).content().value()?.toString()}
+        lodash(element).content().value()?.toString()
       ).value()
 
     return {
