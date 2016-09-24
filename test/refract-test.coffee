@@ -267,6 +267,10 @@ describe('Transformations • Refract', ->
           assert.equal(resource.uriTemplate, '/test/{id}{?arg}')
         )
 
+        it('actionUriTemplate equals to `/test/{id}{?arg}`', ->
+          assert.equal(resource.actionUriTemplate, '/test/{id}{?arg}')
+        )
+
         it('has two parameters', ->
           assert.equal(resource.parameters.length, 2)
         )
@@ -312,6 +316,10 @@ describe('Transformations • Refract', ->
 
         it('uriTemplate equals to `/test`', ->
           assert.equal(resource.uriTemplate, '/test')
+        )
+
+        it('actionUriTemplate is empty', ->
+          assert.equal(resource.actionUriTemplate, '')
         )
 
         it('has schema', ->
