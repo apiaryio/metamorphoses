@@ -109,6 +109,39 @@ describe('Transformation • Refract • getUriParameters' , ->
           }
         ]
       },
+      # Parameter is required by default with no type attributes
+      {
+        hrefVariables: {
+          'element': 'hrefVariables',
+          'content': [
+            {
+              'element': 'member',
+              'content': {
+                'key': {
+                  'element': 'string',
+                  'content': 'question_id'
+                },
+                'value': {
+                  'element': 'number',
+                  'content': 1
+                }
+              }
+            }
+          ]
+        },
+        parameters: [
+          {
+            'key': 'question_id',
+            'description': '',
+            'type': 'number',
+            'required': true,
+            'default': '',
+            'example': '1',
+            'values': [
+            ]
+          }
+        ]
+      },
     ]
 
     it('should be transformed into a `parameter` object', ->

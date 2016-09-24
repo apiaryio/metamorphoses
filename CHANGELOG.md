@@ -14,6 +14,8 @@
 - Prevent wrapping parameter values in dictionaries inside the values list in
   the Refract Adapter. This aligns the behaviour with the API Blueprint
   adapter.
+- A parameter is optional by default when there are no type attributes and
+  required attribute in the Refract Adapter.
 
 ## 0.9.1
 
