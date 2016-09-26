@@ -49,12 +49,12 @@ module.exports = (resourceElement, location, options) ->
     # * `method` is set when iterating `httpTransaction`
     # * Dtto, `actionUriTemplate`
     #
-    transitionUriTemplate = _.chain(transitionElement).get('attributes.href', resourceUriTemplate).contentOrValue().value()
-    transitionUrl = urlPrefix + transitionUriTemplate
+    transitionUriTemplate = _.chain(transitionElement).get('attributes.href', '').contentOrValue().value()
 
     resource = new blueprintApi.Resource({
-      url: transitionUrl
-      uriTemplate: transitionUriTemplate
+      url: urlPrefix + (transitionUriTemplate or resourceUriTemplate)
+      uriTemplate: transitionUriTemplate or resourceUriTemplate
+      actionUriTemplate: transitionUriTemplate
 
       name: _.chain(resourceElement).get('meta.title', '').contentOrValue().value().trim()
 
@@ -104,9 +104,8 @@ module.exports = (resourceElement, location, options) ->
       else
         responseAttributes = httpResponseBodyDataStructures[0]
 
-      # In refract just here we have method and href
+      # In refract just here we have method
       resource.method = _.chain(httpRequest).get('attributes.method', '').contentOrValue().value()
-      resource.actionUriTemplate = _.chain(httpRequest).get('attributes.href', '').contentOrValue().value()
 
       requestParameters = getUriParameters(_.get(httpRequest, 'attributes.hrefVariables'), options)
       actionParameters = actionParameters.concat(requestParameters)

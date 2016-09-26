@@ -16,6 +16,10 @@
   adapter.
 - A parameter is optional by default when there are no type attributes and
   required attribute in the Refract Adapter.
+- Set the action uri template to the actual uri template for an action instead
+  of the resource in the API Blueprint Adapter.
+- Expose the transition's href as the action uri template in the
+  Refract Adapter.
 
 ## 0.9.1
 
