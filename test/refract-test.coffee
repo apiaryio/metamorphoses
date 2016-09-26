@@ -462,8 +462,53 @@ describe('Transformations • Refract', ->
         )
       )
 
+      it('Has a request', ->
+        assert.isObject(applicationAst.sections[0].resources[0].request)
+      )
+
       it('Has the correct HTTP request', ->
         assert.strictEqual(applicationAst.sections[0].resources[0].requests.length, 1)
+      )
+    )
+
+    describe('Empty request', ->
+      applicationAst = null
+
+      before(->
+        applicationAst = convertToApplicationAst(
+          require('./fixtures/refract-parse-result-empty-request.json')
+        )
+      )
+
+      it('Has a request', ->
+        assert.isObject(applicationAst.sections[0].resources[0].request)
+        assert.strictEqual(applicationAst.sections[0].resources[0].request.name, 'Only one user')
+      )
+
+      it('Has the correct HTTP request', ->
+        assert.strictEqual(applicationAst.sections[0].resources[0].requests.length, 1)
+        assert.strictEqual(applicationAst.sections[0].resources[0].requests[0].name, 'Only one user')
+      )
+    )
+
+    describe('Request and Response exampleId', ->
+      applicationAst = null
+
+      before(->
+        applicationAst = convertToApplicationAst(
+          require('./fixtures/refract-parse-result-empty-request.json')
+        )
+      )
+
+      it('has a single request with correct exampleId', ->
+        assert.strictEqual(applicationAst.sections[0].resources[0].requests.length, 1)
+        assert.strictEqual(applicationAst.sections[0].resources[0].requests[0].exampleId, 1)
+      )
+
+      it('has two responses with correct exampleId', ->
+        assert.strictEqual(applicationAst.sections[0].resources[0].responses.length, 2)
+        assert.strictEqual(applicationAst.sections[0].resources[0].responses[0].exampleId, 0)
+        assert.strictEqual(applicationAst.sections[0].resources[0].responses[1].exampleId, 1)
       )
     )
 
