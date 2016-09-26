@@ -107,9 +107,6 @@ module.exports = (resourceElement, location, options) ->
       # In refract just here we have method
       resource.method = _.chain(httpRequest).get('attributes.method', '').contentOrValue().value()
 
-      requestParameters = getUriParameters(_.get(httpRequest, 'attributes.hrefVariables'), options)
-      actionParameters = actionParameters.concat(requestParameters)
-
       httpRequestIsRedundant = _.every(httpTransactions, (httpTransaction) ->
         httpRequestToCompareWith = _(httpTransaction).httpRequests().first()
         _.isEqual(httpRequestToCompareWith, httpRequest)
