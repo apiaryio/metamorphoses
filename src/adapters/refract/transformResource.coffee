@@ -115,18 +115,32 @@ module.exports = (resourceElement, location, options) ->
         _.isEqual(httpRequestToCompareWith, httpRequest)
       )
 
-      if (httpTransactionIndex is 0) or (not httpRequestIsRedundant)
+      requestName = _.chain(httpRequest).get('meta.title', '').contentOrValue().value()
+      requestHeaders = getHeaders(httpRequest)
+      requestBody = trimLastNewline(if _.content(httpRequestBody) then _.content(httpRequestBody) else '')
+      requestSchema = trimLastNewline(if _.content(httpRequestBodySchemas) then _.content(httpRequestBodySchemas) else '')
+      requestAuthSchemes = transformAuth(httpTransaction, options)
+
+      httpRequestIsEmpty = _.isEmpty(requestName) \
+        and _.isEmpty(httpRequestDescription.raw) \
+        and _.isEmpty(requestHeaders) \
+        and _.isEmpty(requestBody) \
+        and _.isEmpty(requestSchema) \
+        and _.isEmpty(requestAttributes) \
+        and _.isEmpty(requestAuthSchemes)
+
+      if (not httpRequestIsEmpty) and (httpTransactionIndex is 0 or not httpRequestIsRedundant)
         request = new blueprintApi.Request({
-          name: _.chain(httpRequest).get('meta.title', '').contentOrValue().value()
+          name: requestName
           description: httpRequestDescription.raw
           htmlDescription: httpRequestDescription.html
-          headers: getHeaders(httpRequest)
+          headers: requestHeaders
           # reference
-          body: trimLastNewline(if _.content(httpRequestBody) then _.content(httpRequestBody) else '')
-          schema: trimLastNewline(if _.content(httpRequestBodySchemas) then _.content(httpRequestBodySchemas) else '')
+          body: requestBody
+          schema: requestSchema
           # exampleId
           attributes: requestAttributes
-          authSchemes: transformAuth(httpTransaction, options)
+          authSchemes: requestAuthSchemes
         })
 
         requests.push(request)
@@ -150,6 +164,15 @@ module.exports = (resourceElement, location, options) ->
     resource.requests = requests
     resource.request = requests[0]
     resource.responses = responses
+
+    if not resource.request
+      resource.request = new blueprintApi.Request({
+        name: ''
+        description: ''
+        htmlDescription: ''
+      })
+
+      resource.requests.push(resource.request)
 
     resource.resourceParameters = resourceParameters
     resource.actionParameters = actionParameters

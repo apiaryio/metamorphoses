@@ -444,6 +444,7 @@ describe('Transformations • Refract', ->
 
       it('Data Structure is present for HTTP Requests', ->
         dataStructureElement = applicationAst.sections[0].resources[0].requests[0].attributes.element
+        console.log(dataStructureElement)
         assert.strictEqual(dataStructureElement, 'dataStructure')
       )
 
@@ -462,8 +463,32 @@ describe('Transformations • Refract', ->
         )
       )
 
+      it('Has a request', ->
+        assert.isObject(applicationAst.sections[0].resources[0].request)
+      )
+
       it('Has the correct HTTP request', ->
         assert.strictEqual(applicationAst.sections[0].resources[0].requests.length, 1)
+      )
+    )
+
+    describe('Empty request', ->
+      applicationAst = null
+
+      before(->
+        applicationAst = convertToApplicationAst(
+          require('./fixtures/refract-parse-result-empty-request.json')
+        )
+      )
+
+      it('Has a request', ->
+        assert.isObject(applicationAst.sections[0].resources[0].request)
+        assert.strictEqual(applicationAst.sections[0].resources[0].request.name, 'Only one user')
+      )
+
+      it('Has the correct HTTP request', ->
+        assert.strictEqual(applicationAst.sections[0].resources[0].requests.length, 1)
+        assert.strictEqual(applicationAst.sections[0].resources[0].requests[0].name, 'Only one user')
       )
     )
 
