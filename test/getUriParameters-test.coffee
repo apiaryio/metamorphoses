@@ -66,7 +66,20 @@ describe('Transformation • Refract • getUriParameters' , ->
                 'value': {
                   'element': 'enum',
                   'attributes': {
-                    'default': 1
+                    'samples': [
+                      [
+                        {
+                          'element': 'number',
+                          'content': 2
+                        }
+                      ]
+                    ],
+                    'default': [
+                      {
+                        'element': 'number',
+                        'content': 1
+                      }
+                    ]
                   },
                   'content': [
                     {
@@ -91,20 +104,47 @@ describe('Transformation • Refract • getUriParameters' , ->
           {
             'key': 'page',
             'description': '',
-            'type': 'enum',
+            'type': 'number',
             'required': false,
             'default': '1',
-            'example': '',
+            'example': '2',
             'values': [
-                {
-                    'value': '1'
+                '1',
+                '2',
+                '3'
+            ]
+          }
+        ]
+      },
+      # Parameter is required by default with no type attributes
+      {
+        hrefVariables: {
+          'element': 'hrefVariables',
+          'content': [
+            {
+              'element': 'member',
+              'content': {
+                'key': {
+                  'element': 'string',
+                  'content': 'question_id'
                 },
-                {
-                    'value': '2'
-                },
-                {
-                    'value': '3'
+                'value': {
+                  'element': 'number',
+                  'content': 1
                 }
+              }
+            }
+          ]
+        },
+        parameters: [
+          {
+            'key': 'question_id',
+            'description': '',
+            'type': 'number',
+            'required': true,
+            'default': '',
+            'example': '1',
+            'values': [
             ]
           }
         ]

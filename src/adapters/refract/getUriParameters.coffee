@@ -13,25 +13,44 @@ getUriParameters = (hrefVariables, options) ->
                         .get('attributes.typeAttributes')
                         .value()
 
-    required = typeAttributes?.indexOf('required') isnt -1
-    required = typeAttributes?.indexOf('optional') is -1
+    if typeAttributes
+      required = typeAttributes.indexOf('optional') is -1
+    else
+      required = true
 
     memberContent = lodashedHrefVariable.content()
     key = memberContent.get('key').contentOrValue().value()
     memberContentValue = memberContent.get('value')
     type = memberContentValue.get('element').value()
 
-    defaultValue = memberContentValue.get('attributes.default', '').contentOrValue().value().toString()
+    sampleValues = memberContentValue.get('attributes.samples', '').contentOrValue()
+    defaultValue = memberContentValue.get('attributes.default', '').contentOrValue()
     exampleValue = ''
     values = []
+
+    if lodash.isArray(defaultValue.value())
+      defaultValue = defaultValue.first().contentOrValue().value().toString()
+    else
+      defaultValue = defaultValue.value().toString()
+
+    if sampleValues.value()
+      example = sampleValues.first().contentOrValue()
+
+      if lodash.isArray(example.value())
+        exampleValue = example.first().contentOrValue().value().toString()
+      else
+        exampleValue = example.value().toString()
 
     memberContentValueContent = memberContentValue.content()
 
     if not lodash.isArray(memberContentValueContent.value())
-      exampleValue = memberContentValueContent.value()?.toString()
+      exampleValue = memberContentValueContent.value()?.toString() or ''
     else
+      if type is 'enum'
+        type = memberContentValueContent.first().get('element', 'enum').value()
+
       values = memberContentValueContent.map((element) ->
-        {value: lodash(element).content().value()?.toString()}
+        lodash(element).content().value()?.toString()
       ).value()
 
     return {

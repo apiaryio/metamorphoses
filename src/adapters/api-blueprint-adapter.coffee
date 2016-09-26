@@ -223,6 +223,7 @@ getParametersOf = (obj, options) ->
     if param.description
       param.description = markdown.toHtmlSync(param.description, options)
     param.values = ((if typeof item is 'string' then item else item.value) for item in param.values)
+    param.type = 'string' if not param.type
     params.push(param)
 
   if not params.length
