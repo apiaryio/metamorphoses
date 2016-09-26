@@ -117,16 +117,16 @@ describe('Transformations • Refract', ->
       resource = ast.sections[0].resources[0]
     )
 
-    it('resource has three parameters', ->
-      assert.equal(resource.parameters.length, 3)
+    it('resource has two parameters', ->
+      assert.equal(resource.parameters.length, 2)
     )
 
     it('resource has one resource parameter', ->
       assert.equal(resource.resourceParameters.length, 1)
     )
 
-    it('resource has two action parameters', ->
-      assert.equal(resource.actionParameters.length, 2)
+    it('resource has one action parameter', ->
+      assert.equal(resource.actionParameters.length, 1)
     )
   )
 
