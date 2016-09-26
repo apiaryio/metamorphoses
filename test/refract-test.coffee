@@ -444,7 +444,6 @@ describe('Transformations • Refract', ->
 
       it('Data Structure is present for HTTP Requests', ->
         dataStructureElement = applicationAst.sections[0].resources[0].requests[0].attributes.element
-        console.log(dataStructureElement)
         assert.strictEqual(dataStructureElement, 'dataStructure')
       )
 
