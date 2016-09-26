@@ -138,7 +138,7 @@ module.exports = (resourceElement, location, options) ->
           # reference
           body: requestBody
           schema: requestSchema
-          # exampleId
+          exampleId: httpTransactionIndex
           attributes: requestAttributes
           authSchemes: requestAuthSchemes
         })
@@ -154,7 +154,7 @@ module.exports = (resourceElement, location, options) ->
           # reference
           body: trimLastNewline(if _.content(httpResponseBody) then _.content(httpResponseBody) else '')
           schema: trimLastNewline(if _.content(httpResponseBodySchemas) then _.content(httpResponseBodySchemas) else '')
-          # exampleId
+          exampleId: httpTransactionIndex
           attributes: responseAttributes
         })
 
