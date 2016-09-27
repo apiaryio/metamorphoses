@@ -14,9 +14,9 @@ getUriParameters = (hrefVariables, options) ->
                         .value()
 
     if typeAttributes
-      required = typeAttributes.indexOf('optional') is -1
+      required = typeAttributes.indexOf('required') isnt -1
     else
-      required = true
+      required = false
 
     memberContent = lodashedHrefVariable.content()
     key = memberContent.get('key').contentOrValue().value()

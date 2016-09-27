@@ -116,7 +116,7 @@ describe('Transformation • Refract • getUriParameters' , ->
           }
         ]
       },
-      # Parameter is required by default with no type attributes
+      # Parameter is optional by default with no type attributes
       {
         hrefVariables: {
           'element': 'hrefVariables',
@@ -141,7 +141,7 @@ describe('Transformation • Refract • getUriParameters' , ->
             'key': 'question_id',
             'description': '',
             'type': 'number',
-            'required': true,
+            'required': false,
             'default': '',
             'example': '1',
             'values': [
