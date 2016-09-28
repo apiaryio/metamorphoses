@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/apiaryio/metamorphoses",
   "dependencies": {
-    "blueprint-markdown-renderer": "^0.2.3",
+    "blueprint-markdown-renderer": "^0.3.0",
     "lodash": ">=3.10.1",
     "lodash-api-description": "0.0.2",
     "media-typer": "^0.3.0"
