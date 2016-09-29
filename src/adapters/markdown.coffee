@@ -1,21 +1,17 @@
 # This is our Markdown parser implementation
 
-{renderHtml, renderRobotskirtHtml} = require('blueprint-markdown-renderer')
+{renderHtml} = require('blueprint-markdown-renderer')
 
 parseMarkdown = (markdown, params, cb) ->
   # do not mutate passed-in argument "params", create our own options
   options = {
     sanitize: params?.sanitize
-    commonMark: params?.commonMark
   }
 
   # sanitize is enabled by default
   options.sanitize ?= true
 
-  if options.commonMark
-    results = renderHtml(markdown, options)
-  else
-    results = renderRobotskirtHtml(markdown, options)
+  results = renderHtml(markdown, options)
 
   # Return <span> if the results are empty. This way other code
   # that renders knows this code has been parsed.
@@ -37,7 +33,6 @@ toHtml = (markdown, params, cb) ->
     # do not mutate passed-in argument "params", create our own options
     options = {
       sanitize: params?.sanitize
-      commonMark: params?.commonMark
     }
 
   unless cb
