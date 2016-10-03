@@ -173,7 +173,7 @@ module.exports = (resourceElement, location, options) ->
 
     resource.resourceParameters = resourceParameters
     resource.actionParameters = actionParameters
-    resource.parameters = resourceParameters.concat(actionParameters)
+    resource.parameters = actionParameters or resourceParameters
 
     resources.push(resource)
   )
