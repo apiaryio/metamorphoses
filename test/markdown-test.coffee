@@ -1,7 +1,7 @@
 {assert} = require('chai')
 markdown = require('../src/adapters/markdown')
 
-describe('Markdown rendered with Robotskirt', ->
+describe('Markdown rendered with CommonMark', ->
   describe('#toHtml', ->
     it('Parse a plain paragraph', (done) ->
       markdownString = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
@@ -97,11 +97,11 @@ describe('Markdown rendered with Robotskirt', ->
       <ul>
       <li>Lorem</li>
       <li>Ipsum
-
       <ul>
       <li>Dolor</li>
       <li>Ismaet</li>
-      </ul></li>
+      </ul>
+      </li>
       </ul>
 
       '''
@@ -124,15 +124,10 @@ describe('Markdown rendered with Robotskirt', ->
 
       expectedHtml = '''
       <h1>Level 1</h1>
-
       <h2>Level 2</h2>
-
       <h3>Level 3</h3>
-
       <h4>Level 4</h4>
-
       <h5>Level 5</h5>
-
       <h6>Level 6</h6>
 
       '''
@@ -152,9 +147,7 @@ Lorem ipsum dolor isamet.
 
       expectedHtml = '''
       <p>Lorem ipsum dolor isamet.</p>
-
-      <pre><code>alert(&#39;Hello!&#39;);
-      </code></pre>
+      <pre><code>alert('Hello!');</code></pre>
 
       '''
 
@@ -172,7 +165,7 @@ Lorem ipsum dolor isamet.
       '''
 
       expectedHtml = '''
-      <pre><code>alert(&#39;Hello!&#39;);
+      <pre><code>alert('Hello!');
       </code></pre>
 
       '''
@@ -193,13 +186,15 @@ Lorem ipsum dolor isamet.
       '''
 
       expectedHtml = '''
-      <table><thead>
+      <table>
+      <thead>
       <tr>
       <th align="left">First Header</th>
       <th align="center">Second Header</th>
       <th align="right">Third Header</th>
       </tr>
-      </thead><tbody>
+      </thead>
+      <tbody>
       <tr>
       <td align="left">First row</td>
       <td align="center">Data</td>
@@ -215,7 +210,8 @@ Lorem ipsum dolor isamet.
       <td align="center">Cell that spans across two columns</td>
       <td align="right"></td>
       </tr>
-      </tbody></table>
+      </tbody>
+      </table>
 
       '''
 
@@ -298,7 +294,7 @@ Lorem ipsum dolor isamet.
         '''
 
         expectedHtml = '''
-        <p><img src="/image.jpg"></p>
+        <img src="/image.jpg">
 
         '''
 
@@ -320,7 +316,7 @@ Lorem ipsum dolor isamet.
 
         '''
 
-        markdown.toHtml(markdownString, {sanitize: false}, (error, html) ->
+        markdown.toHtml(markdownString, {sanitize: false, commonMark: true}, (error, html) ->
           assert.strictEqual(html, expectedHtml)
           done(error)
         )
@@ -336,7 +332,7 @@ Lorem ipsum dolor isamet.
 
         '''
 
-        markdown.toHtml(markdownString, {sanitize: false}, (error, html) ->
+        markdown.toHtml(markdownString, {sanitize: false, commonMark: true}, (error, html) ->
           assert.strictEqual(html, expectedHtml)
           done(error)
         )
