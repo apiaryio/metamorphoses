@@ -39,7 +39,7 @@ createAdapter = (mimeType) ->
     return
 
 
-mergeParams = (resourceParams, actionParams) ->
+mergeParams = (resourceParams = [], actionParams = []) ->
   params = []
 
   actionParamKeys = actionParams.map((param) -> param.key)
