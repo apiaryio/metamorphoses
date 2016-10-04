@@ -39,6 +39,17 @@ createAdapter = (mimeType) ->
     return
 
 
+mergeParams = (resourceParams, actionParams) ->
+  params = []
+
+  actionParamKeys = actionParams.map((param) -> param.key)
+
+  for param in resourceParams
+    if param.key not in actionParamKeys
+      params.push(param)
+
+  params.concat(actionParams)
+
 module.exports = {
   # Blueprint API (aka Application AST)
   blueprintApi
@@ -48,6 +59,10 @@ module.exports = {
   apiBlueprintAdapter
   apiaryBlueprintAdapter
   refractAdapter
+
   # Markdown rendering
   markdown
+
+  # Utility
+  mergeParams
 }
