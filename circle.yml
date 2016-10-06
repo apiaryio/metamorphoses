@@ -1,9 +1,9 @@
 machine:
   node:
-    version: v0.10.40
+    version: v0.12.16
 
 dependencies:
   pre:
-    - npm install -g npm@2.14.5
+    - npm install -g npm@2.15.11
   override:
     - npm install --no-optional
