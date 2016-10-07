@@ -55,16 +55,16 @@ describe('Options are passed to markdown renderer functions', ->
         assert.isFalse(markdownAsyncSpy.called)
       )
     )
-    describe('When called with options `{commonMark:true}`', ->
+    describe('When called with options `{testOption: true}`', ->
       before(->
-        options = {commonMark: true}
+        options = {testOption: true}
       )
 
       it('It does call CommonMark Markdown to HTML renderer', ->
         assert.isTrue(markdownSpy.called)
         for callArgs in markdownSpy.args
           assert.equal(callArgs[0], 'Resource Description')
-          assert.deepEqual(callArgs[1], {'commonMark': true})
+          assert.deepEqual(callArgs[1], {'testOption': true})
         assert.isFalse(markdownAsyncSpy.called)
       )
     )
@@ -103,14 +103,14 @@ describe('Options are passed to markdown renderer functions', ->
       )
     )
 
-    describe('When called with options `{commonMark:true}`', ->
+    describe('When called with options `{testOption: true}`', ->
       before(->
-        options = {commonMark: true}
+        options = {testOption: true}
       )
       it('It does call CommonMark Markdown to HTML renderer', ->
         assert.isTrue(markdownSpy.called)
         for callArgs in markdownSpy.args
-          assert.deepEqual(callArgs[1], {'commonMark': true})
+          assert.deepEqual(callArgs[1], {'testOption': true})
         assert.isFalse(markdownAsyncSpy.called)
       )
     )
