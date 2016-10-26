@@ -1,6 +1,6 @@
 {
   "name": "@apiaryio/metamorphoses",
-  "version": "0.12.0",
+  "version": "0.12.1",
   "description": "Transforms API Blueprint AST or legacy Apiary Blueprint AST into Apiary Application AST",
   "main": "./lib/metamorphoses",
   "scripts": {
@@ -13,7 +13,7 @@
     "prepublish": "npm run compile"
   },
   "engines": {
-    "node": "0.10.x",
+    "node": ">=0.10",
     "npm": "2.15.x"
   },
   "repository": {
