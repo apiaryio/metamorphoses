@@ -191,6 +191,7 @@ class Resource
       resolvedActionAttributes: json.resolvedActionAttributes # Expanded action attributes
       actionRelation: json.actionRelation
       actionUriTemplate: json.actionUriTemplate
+      resourceUriTemplate: json.resourceUriTemplate
     )
 
   constructor: (props = {}) ->
@@ -222,6 +223,7 @@ class Resource
       resolvedActionAttributes: undefined
       actionRelation: undefined
       actionUriTemplate: undefined
+      resourceUriTemplate: ''
     )
 
   getUrlFragment: ->
@@ -274,6 +276,7 @@ class Resource
     @resolvedActionAttributes
     @actionRelation
     @actionUriTemplate
+    @resourceUriTemplate
   }
 
   # ### `toBlueprint`
