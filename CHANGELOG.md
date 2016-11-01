@@ -5,6 +5,7 @@
 ### Enhancements
 
 - Streamlined the trimming of newlines in all descriptions just to trim one newline character
+- Added resourceUriTemplate
 
 ### Bug Fixes
 

@@ -256,6 +256,7 @@ legacyResourcesFrom1AResource = (legacyUrlConverterFn, resource, sourcemap, opti
 
     legacyResource.url         = legacyUrlConverterFn(action.attributes?.uriTemplate or resource.uriTemplate)
     legacyResource.uriTemplate = action.attributes?.uriTemplate or resource.uriTemplate
+    legacyResource.resourceUriTemplate = resource.uriTemplate
 
     legacyResource.method = action.method
     legacyResource.name   = resource.name?.trim() or ''

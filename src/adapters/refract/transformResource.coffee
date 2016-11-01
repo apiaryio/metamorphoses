@@ -54,6 +54,7 @@ module.exports = (resourceElement, location, options) ->
     resource = new blueprintApi.Resource({
       url: urlPrefix + (transitionUriTemplate or resourceUriTemplate)
       uriTemplate: transitionUriTemplate or resourceUriTemplate
+      resourceUriTemplate: resourceUriTemplate
       actionUriTemplate: transitionUriTemplate
 
       name: _.chain(resourceElement).get('meta.title', '').contentOrValue().value().trim()

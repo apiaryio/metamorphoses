@@ -265,6 +265,9 @@ describe('Transformations', ->
         it('Resource has URI Template without prefix', ->
           assert.equal(resource.uriTemplate, '/resource')
         )
+        it('Resource has Resource URI Template without prefix', ->
+          assert.equal(resource.resourceUriTemplate, '/resource')
+        )
       )
 
       describe('In the JSON serialization', ->
@@ -273,6 +276,9 @@ describe('Transformations', ->
         )
         it('Resource has URI Template without prefix', ->
           assert.equal(resourceJSON.uriTemplate, '/resource')
+        )
+        it('Resource has Resource URI Template without prefix', ->
+          assert.equal(resourceJSON.resourceUriTemplate, '/resource')
         )
       )
     )
@@ -584,6 +590,9 @@ describe('Transformations', ->
         it('Resource has URI Template without prefix', ->
           assert.equal(resource.uriTemplate, '/resource')
         )
+        it('Resource has empty Resource URI Template without prefix', ->
+          assert.equal(resource.resourceUriTemplate, '')
+        )
       )
 
       describe('In the JSON serialization', ->
@@ -592,6 +601,9 @@ describe('Transformations', ->
         )
         it('Resource has URI Template without prefix', ->
           assert.equal(resourceJSON.uriTemplate, '/resource')
+        )
+        it('Resource has empty Resource URI Template without prefix', ->
+          assert.equal(resourceJSON.resourceUriTemplate, '')
         )
       )
     )
