@@ -6,4 +6,4 @@ dependencies:
   pre:
     - npm install -g npm@2.15.11
   override:
-    - npm install --no-optional
+    - npm install

@@ -267,6 +267,10 @@ describe('Transformations • Refract', ->
           assert.equal(resource.uriTemplate, '/test/{id}{?arg}')
         )
 
+        it('resourceUriTemplate equals to `/test/{id}`', ->
+          assert.equal(resource.resourceUriTemplate, '/test/{id}')
+        )
+
         it('actionUriTemplate equals to `/test/{id}{?arg}`', ->
           assert.equal(resource.actionUriTemplate, '/test/{id}{?arg}')
         )
@@ -316,6 +320,10 @@ describe('Transformations • Refract', ->
 
         it('uriTemplate equals to `/test`', ->
           assert.equal(resource.uriTemplate, '/test')
+        )
+
+        it('resourceUriTemplate equals to `/test`', ->
+          assert.equal(resource.resourceUriTemplate, '/test')
         )
 
         it('actionUriTemplate is empty', ->
