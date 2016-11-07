@@ -35,3 +35,11 @@
     removed from the ASTs metadata section.
   - Transition URLs and Resource URLs will now prepend the HOST path,
     similiarry to API Blueprint and Apiary Blueprint adapters.
+
+# Unstable
+
+## 0.12.1
+
+### Bug Fixes
+
+- Allows usage of NodeJS higher then 0.10

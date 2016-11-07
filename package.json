@@ -1,6 +1,6 @@
 {
   "name": "@apiaryio/metamorphoses",
-  "version": "0.10.0-rc.2",
+  "version": "0.12.2",
   "description": "Transforms API Blueprint AST or legacy Apiary Blueprint AST into Apiary Application AST",
   "main": "./lib/metamorphoses",
   "scripts": {
@@ -8,12 +8,12 @@
     "lint-update": "curl 'https://raw.githubusercontent.com/apiaryio/coffeescript-style-guide/master/coffeelint.json' > coffeelint.json",
     "precompile": "npm run lint",
     "compile": "coffee -b -c -o lib/ src/",
-    "server-test": "mocha --compilers coffee:coffee-script/register -R spec --recursive --timeout 5000",
+    "server-test": "mocha --compilers coffee:coffee-script/register -R spec --recursive --timeout 5000 test/**-test.coffee",
     "test": "npm run lint && npm run server-test",
     "prepublish": "npm run compile"
   },
   "engines": {
-    "node": "0.10.x",
+    "node": ">=0.10",
     "npm": "2.15.x"
   },
   "repository": {
@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/apiaryio/metamorphoses",
   "dependencies": {
-    "blueprint-markdown-renderer": "^0.2.3",
+    "blueprint-markdown-renderer": "^1.0.0",
     "lodash": ">=3.10.1",
     "lodash-api-description": "0.0.2",
     "media-typer": "^0.3.0"
