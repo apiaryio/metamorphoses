@@ -2,6 +2,16 @@
 
 # Master
 
+### Bug Fixes
+
+- Fixed the behaviour of resource.parameters in Refract adapter when no action parameters are present
+
+# 0.12.2
+
+### BREAKING
+
+- Removed robotskirt option
+
 ### Enhancements
 
 - Streamlined the trimming of newlines in all descriptions just to trim one newline character
