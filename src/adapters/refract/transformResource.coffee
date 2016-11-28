@@ -172,9 +172,9 @@ module.exports = (resourceElement, location, options) ->
 
       resource.requests.push(resource.request)
 
-    resource.resourceParameters = resourceParameters
-    resource.actionParameters = actionParameters
-    resource.parameters = actionParameters or resourceParameters
+    resource.resourceParameters = resourceParameters or []
+    resource.actionParameters = actionParameters or []
+    resource.parameters = actionParameters or resourceParameters or []
 
     resources.push(resource)
   )

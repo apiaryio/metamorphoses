@@ -5,7 +5,7 @@ getUriParameters = (hrefVariables, options) ->
   hrefVariablesContent = lodash.content(hrefVariables)
 
   if hrefVariablesContent is undefined
-    return []
+    return undefined
 
   hrefVariablesContent.map((hrefVariable) ->
     lodashedHrefVariable = lodash.chain(hrefVariable)
@@ -63,6 +63,5 @@ getUriParameters = (hrefVariables, options) ->
       key
     }
   )
-
 
 module.exports = getUriParameters

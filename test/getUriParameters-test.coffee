@@ -149,6 +149,10 @@ describe('Transformation • Refract • getUriParameters' , ->
           }
         ]
       },
+      {
+        hrefVariables: undefined,
+        parameters: undefined,
+      },
     ]
 
     it('should be transformed into a `parameter` object', ->

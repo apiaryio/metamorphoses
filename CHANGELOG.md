@@ -1,6 +1,16 @@
 # Metamorphoses Changelog
 
-# Master
+# 0.12.3
+
+### Bug Fixes
+
+- Fixed the behaviour of resource.parameters in Refract adapter when no action parameters are present
+
+# 0.12.2
+
+### BREAKING
+
+- Removed robotskirt option
 
 ### Enhancements
 
