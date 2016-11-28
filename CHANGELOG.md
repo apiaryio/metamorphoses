@@ -1,6 +1,6 @@
 # Metamorphoses Changelog
 
-# Master
+# 0.12.3
 
 ### Bug Fixes
 
