@@ -34,7 +34,6 @@
   },
   "devDependencies": {
     "swagger-zoo": "^2.2.1",
-    "apiary-blueprint-parser": "^0.5.3",
     "chai": "^3.2.0",
     "coffee-script": "~1.9",
     "coffeeify": "^1.1.0",

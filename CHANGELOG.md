@@ -1,5 +1,13 @@
 # Metamorphoses Changelog
 
+# Master
+
+## Breaking
+
+- Removes support for Apiary Blueprint AST. [Fury Apiary Blueprint
+  Parser](https://github.com/apiaryio/fury-adapter-apiary-blueprint-parser) can
+  be used in conjunction with the API Elements adapter in Metamorphoses.
+
 # 0.12.3
 
 ### Bug Fixes
