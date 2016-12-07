@@ -1,5 +1,11 @@
 # Metamorphoses Changelog
 
+# Master
+
+## Breaking
+
+- `transformError` now accepts a parse result.
+
 # 0.12.3
 
 ### Bug Fixes

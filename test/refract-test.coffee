@@ -628,4 +628,65 @@ describe('Transformations • Refract', ->
       )
     )
   )
+
+  describe('Transforming an Error', ->
+    it('can transform an error from a parse result', ->
+      parseResult = {
+        element: 'parseResult',
+        content: [
+          {
+            element: 'annotation',
+            meta: {
+              classes: ['error'],
+            },
+            attributes: {
+              sourceMap: [
+                {
+                  element: 'sourceMap',
+                  content: [[9, 5]],
+                }
+              ],
+              code: 10,
+            },
+            content: 'Malformed syntax'
+          }
+        ]
+      }
+
+      err = refractAdapter.transformError('source\n\n\nerror line\n\n', parseResult)
+      assert.isDefined(err)
+      assert.equal(err.message, 'Malformed syntax')
+      assert.equal(err.code, 10)
+      assert.equal(err.line, 4)
+      assert.equal(err.location.length, 1)
+      assert.equal(err.location[0].index, 9)
+      assert.equal(err.location[0].length, 5)
+    )
+
+    it('does not return an error when there is no error in parse result', ->
+      parseResult = {
+        element: 'parseResult',
+        content: [
+          {
+            element: 'annotation',
+            meta: {
+              classes: ['warning'],
+            },
+            attributes: {
+              sourceMap: [
+                {
+                  element: 'sourceMap',
+                  content: [[18, 1]],
+                }
+              ]
+            },
+            content: 'Something is wrong'
+          }
+        ]
+      }
+
+      err = refractAdapter.transformError('source', parseResult)
+      assert.isUndefined(err)
+    )
+  )
 )
