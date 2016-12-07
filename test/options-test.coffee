@@ -97,7 +97,7 @@ describe('Options are passed to markdown renderer functions', ->
         assert.isTrue(markdownSpy.called)
         for callArgs in markdownSpy.args
           # Allow empty string because resource group description
-          assert.oneOf(callArgs[0], ['Yours lines are good!', 'such _description_.\n', ''])
+          assert.oneOf(callArgs[0], ['Yours lines are good!', 'such _description_.', ''])
           assert.isUndefined(callArgs[1])
         assert.isFalse(markdownAsyncSpy.called)
       )
