@@ -117,7 +117,7 @@ describe('Transformations', ->
             assert.equal(ast.name, 'API name')
           )
           it('I got API description', ->
-            assert.equal(ast.description, 'Lorem ipsum 1\n')
+            assert.equal(ast.description, 'Lorem ipsum 1')
           )
           it('I got API HTML description', ->
             assert.equal(ast.htmlDescription, '<p>Lorem ipsum 1</p>')
@@ -129,7 +129,7 @@ describe('Transformations', ->
             assert.equal(ast.sections[0].name, 'Name')
           )
           it('group has correct description', ->
-            assert.equal(ast.sections[0].description, 'Lorem ipsum 2\n')
+            assert.equal(ast.sections[0].description, 'Lorem ipsum 2')
           )
           it('group has HTML description', ->
             assert.equal(ast.sections[0].htmlDescription, '<p>Lorem ipsum 2</p>')
@@ -141,13 +141,13 @@ describe('Transformations', ->
             assert.equal(ast.sections[0].resources[0].url, '/resource')
           )
           it('resource has correct description', ->
-            assert.equal(ast.sections[0].resources[0].description, 'Lorem ipsum 3\n')
+            assert.equal(ast.sections[0].resources[0].description, 'Lorem ipsum 3')
           )
           it('resource has HTML description', ->
             assert.equal(ast.sections[0].resources[0].htmlDescription, '<p>Lorem ipsum 3</p>')
           )
           it('resource has action description', ->
-            assert.equal(ast.sections[0].resources[0].actionDescription, 'Lorem ipsum 4\n')
+            assert.equal(ast.sections[0].resources[0].actionDescription, 'Lorem ipsum 4')
           )
           it('resource has action HTML description', ->
             assert.equal(ast.sections[0].resources[0].actionHtmlDescription, '<p>Lorem ipsum 4</p>')
