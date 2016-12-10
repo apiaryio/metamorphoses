@@ -643,7 +643,10 @@ describe('Transformations • Refract', ->
               sourceMap: [
                 {
                   element: 'sourceMap',
-                  content: [[9, 5]],
+                  content: [
+                    [9, 5],
+                    [16, 2],
+                  ]
                 }
               ],
               code: 10,
@@ -653,14 +656,16 @@ describe('Transformations • Refract', ->
         ]
       }
 
-      err = refractAdapter.transformError('source\n\n\nerror line\n\n', parseResult)
+      err = refractAdapter.transformError('source\n\n\nerror line\n\nerr', parseResult)
       assert.isDefined(err)
       assert.equal(err.message, 'Malformed syntax')
       assert.equal(err.code, 10)
       assert.equal(err.line, 4)
-      assert.equal(err.location.length, 1)
+      assert.equal(err.location.length, 2)
       assert.equal(err.location[0].index, 9)
       assert.equal(err.location[0].length, 5)
+      assert.equal(err.location[1].index, 16)
+      assert.equal(err.location[1].length, 2)
     )
 
     it('does not return an error when there is no error in parse result', ->
