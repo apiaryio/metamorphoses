@@ -66,13 +66,14 @@ transformError = (source, parseResult) ->
     .value()
 
   if errors.length > 0
-    sourceMaps = errors[0]?.attributes?.sourceMap?[0]?.content
+    errorElement = errors[0]
+    sourceMaps = errorElement.attributes?.sourceMap?[0]?.content
     locations = sourceMaps.map((sourceMap) -> {index: sourceMap[0], length: sourceMap[1]})
 
     error = {
-      message: errors?[0]?.content
-      code: errors?[0]?.attributes?.code or 1
-      line: countLines(source, locations[0].index)
+      message: errorElement.content
+      code: errorElement.attributes?.code or 1
+      line: countLines(source, locations?[0]?.index)
       location: locations
     }
 
