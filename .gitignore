@@ -8,3 +8,5 @@ lib
 npm-debug.log
 *.DS_Store
 *.sublime-workspace
+
+coverage/
