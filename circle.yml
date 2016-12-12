@@ -7,3 +7,7 @@ dependencies:
     - npm install -g npm@2.15.11
   override:
     - npm install
+
+test:
+  post:
+    - npm run coveralls

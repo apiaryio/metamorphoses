@@ -8,8 +8,9 @@
     "lint-update": "curl 'https://raw.githubusercontent.com/apiaryio/coffeescript-style-guide/master/coffeelint.json' > coffeelint.json",
     "precompile": "npm run lint",
     "compile": "coffee -b -c -o lib/ src/",
-    "server-test": "mocha --compilers coffee:coffee-script/register -R spec --recursive --timeout 5000 test/**-test.coffee",
-    "test": "npm run lint && npm run server-test",
+    "test": "npm run lint && mocha",
+    "cover": "istanbul report text-summary lcov",
+    "coveralls": "npm run cover && cat coverage/lcov.info | coveralls",
     "prepublish": "npm run compile"
   },
   "engines": {
@@ -35,10 +36,13 @@
   "devDependencies": {
     "swagger-zoo": "^2.2.1",
     "chai": "^3.2.0",
+    "coffee-coverage": "^1.0.1",
     "coffee-script": "~1.9",
     "coffeeify": "^1.1.0",
     "coffeelint": "^1.11.1",
+    "coveralls": "^2.11.0",
     "protagonist": "^1.6.2",
+    "istanbul": "^0.4.5",
     "mocha": "^2.3.0",
     "sinon": "^1.17.2"
   }
