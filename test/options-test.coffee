@@ -7,7 +7,6 @@ markdown = require('../src/adapters/markdown')
 lodash = require('../src/adapters/refract/helper')
 
 refractAdapter = require('../src/adapters/refract-adapter')
-apiaryBlueprintAdapter = require('../src/adapters/apiary-blueprint-adapter')
 apiBlueprintAdapter = require('../src/adapters/api-blueprint-adapter')
 
 describe('Options are passed to markdown renderer functions', ->
