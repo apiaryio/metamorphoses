@@ -6,6 +6,15 @@ transformAuth = require('./refract/transformAuth')
 transformSections = require('./refract/transformSections')
 transformDataStructures = require('./refract/transformDataStructures')
 
+
+countLines = (code, index) ->
+  if index > 0
+    excerpt = code.substr(0, index)
+    return excerpt.split(/\r\n|\r|\n/).length
+  else
+    return 1
+
+
 transformAst = (element, sourcemap, options) ->
 
   applicationAst = new blueprintApi.Blueprint({
@@ -50,7 +59,28 @@ transformAst = (element, sourcemap, options) ->
   applicationAst
 
 
+transformError = (source, parseResult) ->
+  errors = _.chain(parseResult)
+    .filterContent({element: 'annotation'})
+    .filter({meta: {classes: ['error']}})
+    .value()
+
+  if errors.length > 0
+    errorElement = errors[0]
+    sourceMaps = errorElement.attributes?.sourceMap?[0]?.content
+    locations = sourceMaps.map((sourceMap) -> {index: sourceMap[0], length: sourceMap[1]})
+
+    error = {
+      message: errorElement.content
+      code: errorElement.attributes?.code or 1
+      line: countLines(source, locations?[0]?.index)
+      location: locations
+    }
+
+    return error
+
+
 module.exports = {
   transformAst
-  transformError: (source, err) -> err
+  transformError
 }

@@ -35,7 +35,11 @@ parseApiBlueprint = (source, type, cb) ->
 
     sourcemap = result?.sourcemap
 
-    err = adapter.transformError(source, err)
+    if err
+      # Protagonist does not include error in parse result, only in err
+      result.error = err
+
+    err = adapter.transformError(source, result)
     ast = adapter.transformAst(ast, sourcemap)
     cb(err, ast, result?.warnings or [])
 

@@ -68,8 +68,8 @@ var adapter = metamorphoses.apiBlueprintAdapter;
 // or the legacy Blueprint Parser (https://github.com/apiaryio/blueprint-parser)
 parse(source, ..., function (err, result) {
 
-  // transform the error object
-  var err = adapter.transformError(source, err);
+  // transform the error parse result into an error
+  var err = adapter.transformError(source, parseResult);
   console.log(err); // transformed error object
 
   // transform the AST
@@ -86,6 +86,20 @@ metamorphoses.blueprintApi.Blueprint.fromJSON({
   ...
 });
 ```
+
+### `transformError`
+
+Transforming an error accepts the source API Description Document and the
+resultant parse result. The method returns an error if there was an error in
+the parse result, the error will be a JSON object as follows:
+
+- message - Error message
+- code - Error code
+- location (array) - Error source map
+    - (object)
+        - index (number)
+        - length (number)
+- line - The line producing the error from the source API Description Document derived from the source map
 
 ## Name
 

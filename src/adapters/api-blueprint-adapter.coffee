@@ -399,9 +399,11 @@ legacyASTfrom1AAST = (ast, sourcemap, options) ->
   return legacyAST
 
 
-transformError = (source, err) ->
-  err.line = countLines(source, err.location[0]?.index) if err
-  return err
+transformError = (source, parseResult) ->
+  if parseResult?.error and parseResult?.error?.code isnt 0
+    error = parseResult.error
+    error.line = countLines(source, error.location[0]?.index)
+    return error
 
 
 module.exports = {
