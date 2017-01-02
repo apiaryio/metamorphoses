@@ -1,5 +1,12 @@
 # Metamorphoses Changelog
 
+# 0.13.1
+
+### Bug Fixes
+
+- Fixes Refract adapters `transformError` to handle errors which do not contain
+  a source map.
+
 # 0.13.0
 
 ## Breaking
