@@ -668,6 +668,33 @@ describe('Transformations • Refract', ->
       assert.equal(err.location[1].length, 2)
     )
 
+    it('can transform an error from a parse result with missing source maps', ->
+      parseResult = {
+        element: 'parseResult',
+        content: [
+          {
+            element: 'annotation',
+            meta: {
+              classes: ['error'],
+            },
+            attributes: {
+              code: 10,
+            },
+            content: 'Malformed syntax'
+          }
+        ]
+      }
+
+      err = refractAdapter.transformError('source\n\n\nerror line\n\nerr', parseResult)
+      assert.isDefined(err)
+      assert.equal(err.message, 'Malformed syntax')
+      assert.equal(err.code, 10)
+      assert.equal(err.line, 1)
+      assert.equal(err.location.length, 1)
+      assert.equal(err.location[0].index, 0)
+      assert.equal(err.location[0].length, 24)
+    )
+
     it('does not return an error when there is no error in parse result', ->
       parseResult = {
         element: 'parseResult',

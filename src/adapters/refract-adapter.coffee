@@ -68,7 +68,11 @@ transformError = (source, parseResult) ->
   if errors.length > 0
     errorElement = errors[0]
     sourceMaps = errorElement.attributes?.sourceMap?[0]?.content
-    locations = sourceMaps.map((sourceMap) -> {index: sourceMap[0], length: sourceMap[1]})
+    locations = sourceMaps?.map((sourceMap) -> {index: sourceMap[0], length: sourceMap[1]})
+
+    unless locations
+      # When there is no existing source maps, treat whole document as source
+      locations = [{index: 0, length: source.length}]
 
     error = {
       message: errorElement.content
