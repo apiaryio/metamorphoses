@@ -14,19 +14,12 @@ trimLastNewline = (s) ->
   if s[s.length - 1] is '\n' then s.slice(0, -1) else s
 
 
-module.exports = (resourceElement, location, options) ->
+module.exports = (resourceElement, urlPrefix, options) ->
   resources = []
 
   resourceDescription = getDescription(resourceElement, options)
-
   transitions = _.transitions(resourceElement)
 
-  urlPrefix = ''
-  if location
-    host = url.parse(location)
-
-    if host.path and host.path isnt '/'
-      urlPrefix = host.path.replace(/\/$/, '')
 
   resourceUriTemplate = _.chain(resourceElement).get('attributes.href', '').contentOrValue().value()
   resourceUrl = urlPrefix + resourceUriTemplate

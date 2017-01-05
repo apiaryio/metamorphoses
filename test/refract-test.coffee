@@ -605,6 +605,7 @@ describe('Transformations • Refract', ->
     describe('without a trailing slash', ->
       ast = null
       resource = null
+
       before( ->
         ast = convertToApplicationAst(require('./fixtures/refract-parse-result-host.json'))
         resource = ast.sections[0].resources[0]
@@ -618,8 +619,23 @@ describe('Transformations • Refract', ->
     describe('with a trailing slash', ->
       ast = null
       resource = null
+
       before( ->
         ast = convertToApplicationAst(require('./fixtures/refract-parse-result-host-trailing.json'))
+        resource = ast.sections[0].resources[0]
+      )
+
+      it('has a url including the host prefix', ->
+        assert.equal(resource.url, '/prefix/example')
+      )
+    )
+
+    describe('with bad value', ->
+      ast = null
+      resource = null
+
+      before( ->
+        ast = convertToApplicationAst(require('./fixtures/refract-parse-result-host-bad.json'))
         resource = ast.sections[0].resources[0]
       )
 
