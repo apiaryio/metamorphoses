@@ -518,13 +518,12 @@ describe('Transformations • Refract', ->
 
       it('has a single request with correct exampleId', ->
         assert.strictEqual(applicationAst.sections[0].resources[0].requests.length, 1)
-        assert.strictEqual(applicationAst.sections[0].resources[0].requests[0].exampleId, 1)
+        assert.strictEqual(applicationAst.sections[0].resources[0].requests[0].exampleId, 0)
       )
 
       it('has two responses with correct exampleId', ->
-        assert.strictEqual(applicationAst.sections[0].resources[0].responses.length, 2)
+        assert.strictEqual(applicationAst.sections[0].resources[0].responses.length, 1)
         assert.strictEqual(applicationAst.sections[0].resources[0].responses[0].exampleId, 0)
-        assert.strictEqual(applicationAst.sections[0].resources[0].responses[1].exampleId, 1)
       )
     )
 
