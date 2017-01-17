@@ -1,5 +1,18 @@
 # Metamorphoses Changelog
 
+# 0.13.2
+
+### Enhancements
+
+- Remove duplicate requests and responses from a transaction example in refract adapter. This works even in the case
+  where the API Blueprint contains 2 continous transaction examples with the same request
+
+### Bug Fixes
+
+- Refract adapter's `transformAst` now returns `null` if no element is given as input'
+- Fixed HOST url prefix handling in refract adapter
+- Fixed a crash in refract adapter when parameters have no example values
+
 # 0.13.1
 
 ### Bug Fixes

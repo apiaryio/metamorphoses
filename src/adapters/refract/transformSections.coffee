@@ -14,6 +14,18 @@ module.exports = (parentElement, location, options) ->
   # Refract Resources into the Application AST Resource).
   resourcesWithoutGroup = []
 
+  urlPrefix = ''
+
+  if location
+    urlWithoutProtocol = location.replace(/^https?:\/\//, '')
+    pathIndex = urlWithoutProtocol.indexOf("/")
+
+    if pathIndex > 0
+      urlPrefix = urlWithoutProtocol.slice(pathIndex)
+
+      if urlPrefix isnt ''
+        urlPrefix = urlPrefix.replace(/\/$/, '')
+
   _.forEach(_.get(parentElement, 'content'), (element, index) ->
     # There might be two types of elements—resource and
     # category. Categories are being mapped 1:1 to
@@ -22,7 +34,7 @@ module.exports = (parentElement, location, options) ->
     # an artificial section.
     if element.element is 'resource'
       resourcesWithoutGroup = resourcesWithoutGroup.concat(
-        transformResource(element, location, options)
+        transformResource(element, urlPrefix, options)
       )
 
     if element.element is 'category'
@@ -47,7 +59,7 @@ module.exports = (parentElement, location, options) ->
           name: _.chain(element).get('meta.title', '').contentOrValue().value()
           description: description.raw
           htmlDescription: description.html
-          resources: transformResources(element, location, options)
+          resources: transformResources(element, urlPrefix, options)
         })
 
         resourceGroups.push(resourceGroup)

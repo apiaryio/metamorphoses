@@ -16,6 +16,7 @@ countLines = (code, index) ->
 
 
 transformAst = (element, sourcemap, options) ->
+  return null unless element
 
   applicationAst = new blueprintApi.Blueprint({
     name: _.chain(element).get('meta.title', '').contentOrValue().trimLastNewline().value()
