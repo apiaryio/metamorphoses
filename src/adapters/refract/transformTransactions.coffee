@@ -115,6 +115,10 @@ module.exports = (transactions, options) ->
 
   # Add an empty request if no requests exit
   if not requests.length
-    requests.push(new blueprintApi.Request({}))
+    requests.push(new blueprintApi.Request({
+      name: ''
+      description: ''
+      htmlDescription: ''
+    }))
 
   [method, requests, responses]
