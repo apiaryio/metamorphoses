@@ -1,6 +1,12 @@
 # Metamorphoses Changelog
 
-# 0.13.2
+## 0.13.3
+
+### Bug Fixes
+
+- Fixes the format of an empty request in refract adapter when no requests are given.
+
+## 0.13.2
 
 ### Enhancements
 
@@ -13,14 +19,14 @@
 - Fixed HOST url prefix handling in refract adapter
 - Fixed a crash in refract adapter when parameters have no example values
 
-# 0.13.1
+## 0.13.1
 
 ### Bug Fixes
 
 - Fixes Refract adapters `transformError` to handle errors which do not contain
   a source map.
 
-# 0.13.0
+## 0.13.0
 
 ## Breaking
 
@@ -30,13 +36,13 @@
   Parser](https://github.com/apiaryio/fury-adapter-apiary-blueprint-parser) can
   be used in conjunction with the API Elements adapter in Metamorphoses.
 
-# 0.12.3
+## 0.12.3
 
 ### Bug Fixes
 
 - Fixed the behaviour of resource.parameters in Refract adapter when no action parameters are present
 
-# 0.12.2
+## 0.12.2
 
 ### BREAKING
 

@@ -487,6 +487,26 @@ describe('Transformations • Refract', ->
       )
     )
 
+    describe('No request', ->
+      applicationAst = null
+
+      before(->
+        applicationAst = convertToApplicationAst(
+          require('./fixtures/refract-parse-result-no-request.json')
+        )
+      )
+
+      it('Has a request', ->
+        assert.isObject(applicationAst.sections[0].resources[0].request)
+      )
+
+      it('Has empty name, description and htmlDescription', ->
+        assert.strictEqual(applicationAst.sections[0].resources[0].request.name, '')
+        assert.strictEqual(applicationAst.sections[0].resources[0].request.description, '')
+        assert.strictEqual(applicationAst.sections[0].resources[0].request.htmlDescription, '')
+      )
+    )
+
     describe('Empty request', ->
       applicationAst = null
 
