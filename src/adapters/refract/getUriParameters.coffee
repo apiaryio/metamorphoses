@@ -29,7 +29,7 @@ getUriParameters = (hrefVariables, options) ->
     values = []
 
     if lodash.isArray(defaultValue.value())
-      defaultValue = defaultValue.first().contentOrValue().value().toString()
+      defaultValue = defaultValue.first().contentOrValue().value()?.toString()
     else
       defaultValue = defaultValue.value().toString()
 

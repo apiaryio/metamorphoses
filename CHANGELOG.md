@@ -1,5 +1,11 @@
 # Metamorphoses Changelog
 
+## 0.13.4
+
+### Bug Fixes
+
+- Fixes a crash in refract adapter when parameters have no default value
+
 ## 0.13.3
 
 ### Bug Fixes
