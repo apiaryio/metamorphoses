@@ -19,9 +19,11 @@ getUriParameters = (hrefVariables, options) ->
       required = false
 
     memberContent = lodashedHrefVariable.content()
+    title = lodashedHrefVariable.get('meta.title', '').contentOrValue().value()
     key = memberContent.get('key').contentOrValue().value()
     memberContentValue = memberContent.get('value')
-    type = memberContentValue.get('element').value()
+
+    type = title or memberContentValue.get('element').value()
 
     sampleValues = memberContentValue.get('attributes.samples', '').contentOrValue()
     defaultValue = memberContentValue.get('attributes.default', '').contentOrValue()

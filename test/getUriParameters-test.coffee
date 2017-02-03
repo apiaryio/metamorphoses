@@ -153,6 +153,42 @@ describe('Transformation • Refract • getUriParameters' , ->
         hrefVariables: undefined,
         parameters: undefined,
       },
+      {
+        hrefVariables: {
+          'element': 'hrefVariables',
+          'content': [
+            {
+              'element': 'member',
+              'meta': {
+                'title': 'datetime',
+                'description': 'Filter for posts since the specified date'
+              },
+              'content': {
+                'key': {
+                  'element': 'string',
+                  'content': 'since'
+                },
+                'value': {
+                  'element': 'string',
+                  'content': 'thursday'
+                }
+              }
+            }
+          ]
+        },
+        parameters: [
+          {
+            'key': 'since',
+            'description': '<p>Filter for posts since the specified date</p>\n',
+            'type': 'datetime',
+            'required': false,
+            'default': '',
+            'example': 'thursday',
+            'values': [
+            ]
+          }
+        ]
+      },
     ]
 
     it('should be transformed into a `parameter` object', ->
