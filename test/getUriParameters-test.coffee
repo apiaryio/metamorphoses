@@ -189,6 +189,73 @@ describe('Transformation • Refract • getUriParameters' , ->
           }
         ]
       },
+      {
+        hrefVariables: {
+          "element": "hrefVariables",
+          "meta": {},
+          "attributes": {},
+          "content": [
+            {
+              "element": "member",
+              "meta": {},
+              "attributes": {},
+              "content": {
+                "key": {
+                  "element": "string",
+                  "meta": {},
+                  "attributes": {},
+                  "content": "filters"
+                },
+                "value": {
+                  "element": "array",
+                  "meta": {},
+                  "attributes": {},
+                  "content": [
+                    {
+                      "element": "enum",
+                      "meta": {},
+                      "attributes": {},
+                      "content": [
+                        {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "wifi"
+                        },
+                        {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "accept_cards"
+                        },
+                        {
+                          "element": "string",
+                          "meta": {},
+                          "attributes": {},
+                          "content": "open_now"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        parameters: [{
+          "default": ""
+          "description": ""
+          "example": ""
+          "key": "filters"
+          "required": false
+          "type": "array"
+          "values": [
+            "wifi",
+            "accept_cards",
+            "open_now"
+          ]
+        }]
+      }
     ]
 
     it('should be transformed into a `parameter` object', ->
