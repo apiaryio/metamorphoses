@@ -52,8 +52,13 @@ getUriParameters = (hrefVariables, options) ->
         type = memberContentValueContent.first().get('element', 'enum').value()
 
       values = memberContentValueContent.map((element) ->
-        lodash(element).content().value()?.toString()
-      ).value()
+        elementContent = lodash(element).content()
+
+        if lodash.isArray(elementContent.value())
+          elementContent.map('content').value()
+        else
+          elementContent.value()?.toString()
+      ).flatten().value()
 
     return {
       description: getMetaDescription(hrefVariable, options)
