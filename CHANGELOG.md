@@ -1,5 +1,13 @@
 # Metamorphoses Changelog
 
+## 0.13.5
+
+### Enhancements
+
+- Metamorphoses Refract adapter will use the title of an href variable as the
+  type if available.  
+  [api-elements#20](https://github.com/apiaryio/api-elements/pull/20)
+
 ## 0.13.4
 
 ### Bug Fixes
