@@ -401,7 +401,7 @@ describe('Transformations', ->
             headers = ast.sections[0].resources[0].responses[0].headers
             assert.equal(headers['Content-Type'], 'application/json')
             assert.equal(headers['X-My-Header'], 'The Value')
-            assert.equal(headers['Set-Cookie'], 'efgh')
+            assert.equal(headers['Set-Cookie'], 'abcd; efgh')
           )
 
           it('I got parameters right', ->

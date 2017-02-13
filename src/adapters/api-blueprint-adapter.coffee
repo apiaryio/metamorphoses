@@ -67,6 +67,48 @@ ensureObjectOfObjects = (data, key = 'name') ->
     data
 
 
+# # Merges multiple headers with the same key into one
+# This is needed in A1 -> legacy header merge / transformation,
+# since A1 can contain multiple values for given
+# header key, legacy cannot
+#
+#   [
+#     { name: 'Set-Cookie', value: 'abcde' }
+#     { name: 'Set-Cookie', value: 'Alan Turing' }
+#   ]
+#
+# is turned into
+#
+#   [
+#     { name: 'Set-Cookie', value: 'abcde; Alan Turing' }
+#   ]
+mergeMultipleHeaders = (headers) ->
+  if not headers or not headers.length
+    return headers
+
+  mergedHeadersMap = headers.reduce((result, header) ->
+    value = null
+
+    if result[header.name] then value = "#{result[header.name]}; #{header.value}"
+    else value = header.value
+
+    result[header.name] = value
+
+    return result
+  , {}
+  )
+
+  mergedHeaders = []
+
+  for own key, value of mergedHeadersMap
+    mergedHeaders.push({
+      name: key,
+      value: value
+    })
+
+  return mergedHeaders
+
+
 # ## `legacyHeadersFrom1AHeaders`
 #
 # Turns an array of headers into an object.
@@ -91,7 +133,8 @@ ensureObjectOfObjects = (data, key = 'name') ->
 # ```
 legacyHeadersFrom1AHeaders = (headers) ->
   legacyHeaders = {}
-  for own key, header of ensureObjectOfObjects(headers) or {} when header?.value?
+  mergedHeaders = mergeMultipleHeaders(headers)
+  for own key, header of ensureObjectOfObjects(mergedHeaders) or {} when header?.value?
     legacyHeaders[key] = header.value
   legacyHeaders
 
