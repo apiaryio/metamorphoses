@@ -46,6 +46,24 @@
                 "content": "https://example.com"
               }
             }
+          },
+          {
+            "element": "member",
+            "meta": {
+              "classes": [
+                "user"
+              ]
+            },
+            "content": {
+              "key": {
+                "element": "string",
+                "content": "FORMAT"
+              },
+              "value": {
+                "element": "string",
+                "content": "1A"
+              }
+            }
           }
         ]
       },

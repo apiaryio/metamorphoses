@@ -42,6 +42,7 @@ transformAst = (element, sourcemap, options) ->
       else
         {name, value}
     ).compact()
+    .uniqBy('name')
     .value()
 
   # description
