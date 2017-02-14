@@ -12,7 +12,7 @@ module.exports = (element) ->
     key = _.chain(content).get('key').contentOrValue().value()
     value = _.chain(content).get('value').contentOrValue().value()
 
-    if headers[key] then headers[key] = "#{headers[key]}; #{value}"
+    if headers[key] then headers[key] = "#{headers[key]}, #{value}"
     else headers[key] = value if key
   )
 

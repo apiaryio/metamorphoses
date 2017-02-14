@@ -80,7 +80,7 @@ ensureObjectOfObjects = (data, key = 'name') ->
 # is turned into
 #
 #   [
-#     { name: 'Set-Cookie', value: 'abcde; Alan Turing' }
+#     { name: 'Set-Cookie', value: 'abcde, Alan Turing' }
 #   ]
 mergeMultipleHeaders = (headers) ->
   if not headers or not headers.length
@@ -89,7 +89,7 @@ mergeMultipleHeaders = (headers) ->
   mergedHeadersMap = headers.reduce((result, header) ->
     value = null
 
-    if result[header.name] then value = "#{result[header.name]}; #{header.value}"
+    if result[header.name] then value = "#{result[header.name]}, #{header.value}"
     else value = header.value
 
     result[header.name] = value

@@ -167,7 +167,7 @@ describe('Transformations', ->
               assert.equal(ast.sections[0].resources[0].responses[0].body, 'Hello World')
           )
           it('response has correctly merged headers', ->
-            assert.equal(ast.sections[0].resources[0].responses[0].headers['Set-Cookie'], 'Yo!; Yo again!; Yo moar!')
+            assert.equal(ast.sections[0].resources[0].responses[0].headers['Set-Cookie'], 'Yo!, Yo again!, Yo moar!')
           )
           if type.match(/source-map/)
             it('resource group has a valid source map', ->
@@ -410,7 +410,7 @@ describe('Transformations', ->
             headers = ast.sections[0].resources[0].responses[0].headers
             assert.equal(headers['Content-Type'], 'application/json')
             assert.equal(headers['X-My-Header'], 'The Value')
-            assert.equal(headers['Set-Cookie'], 'abcd; efgh')
+            assert.equal(headers['Set-Cookie'], 'abcd, efgh')
           )
 
           it('I got parameters right', ->
