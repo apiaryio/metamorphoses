@@ -48,9 +48,6 @@ getUriParameters = (hrefVariables, options) ->
     if not lodash.isArray(memberContentValueContent.value())
       exampleValue = memberContentValueContent.value()?.toString() or ''
     else
-      if type is 'enum'
-        type = memberContentValueContent.first().get('element', 'enum').value()
-
       values = memberContentValueContent.map((element) ->
         elementContent = lodash(element).content()
 

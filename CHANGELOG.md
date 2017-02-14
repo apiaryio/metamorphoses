@@ -1,5 +1,13 @@
 # Metamorphoses Changelog
 
+## 0.13.7
+
+### Bug Fixes
+
+- Fixes the duplication of metadata in refract adapter during certain cases.
+
+- Fixes the parameter type to be enum in refract adapter to align with the AST adapter.
+
 ## 0.13.6
 
 ### Bug Fixes

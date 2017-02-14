@@ -104,7 +104,7 @@ describe('Transformation • Refract • getUriParameters' , ->
           {
             'key': 'page',
             'description': '',
-            'type': 'number',
+            'type': 'enum',
             'required': false,
             'default': '1',
             'example': '2',
