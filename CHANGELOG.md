@@ -1,5 +1,11 @@
 # Metamorphoses Changelog
 
+## 0.13.8
+
+### Bug Fixes
+
+- Fixes dropped values when there are multiple headers with the same key in the API Blueprint adapter.
+
 ## 0.13.7
 
 ### Bug Fixes
