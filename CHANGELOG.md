@@ -4,7 +4,7 @@
 
 ### Bug Fixes
 
-- Fixes dropped values when there are multiple headers with the same key in the API Blueprint adapter.
+- Fixes dropped values when there are multiple headers with the same key in the API Blueprint and refract adapters.
 
 ## 0.13.7
 
