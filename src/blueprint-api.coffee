@@ -305,6 +305,7 @@ class Request
       description: json.description # Markdown description of the request
       htmlDescription: json.htmlDescription # Rendered description of the request
       headers: json.headers
+      headers1A: json.headers1A
       reference: json.reference
       body: json.body
       schema: json.schema
@@ -320,6 +321,7 @@ class Request
       description: undefined
       htmlDescription: undefined
       headers: {}
+      headers1A: []
       reference: undefined
       body: ''
       schema: ''
@@ -334,6 +336,7 @@ class Request
     @description
     @htmlDescription
     @headers
+    @headers1A
     @reference
     @body
     @schema
@@ -361,6 +364,7 @@ class Response
       description: json.description
       htmlDescription: json.htmlDescription
       headers: json.headers
+      headers1A: json.headers1A
       reference: json.reference
       body: json.body
       schema: json.schema
@@ -375,6 +379,7 @@ class Response
       description: undefined
       htmlDescription: undefined
       headers: {}
+      headers1A: []
       reference: undefined
       body: ''
       schema: ''
@@ -388,6 +393,7 @@ class Response
     @description
     @htmlDescription
     @headers
+    @headers1A
     @reference
     @body
     @schema

@@ -152,6 +152,8 @@ legacyRequestFrom1ARequest = (request, action, resource, exampleId = undefined, 
     exampleId: exampleId
   )
 
+  legacyRequest.headers1A = request.headers
+
   legacyRequest.description     = trimLastNewline(request.description) or ''
   legacyRequest.htmlDescription = trimLastNewline(markdown.toHtmlSync(request.description, options)) or ''
 
@@ -186,6 +188,8 @@ legacyResponseFrom1AResponse = (response, action, resource, exampleId = undefine
     headers: legacyHeadersCombinedFrom1A(response, action, resource)
     exampleId: exampleId
   )
+
+  legacyResponse.headers1A = response.headers
 
   legacyResponse.description     = trimLastNewline(response.description) or ''
   legacyResponse.htmlDescription = trimLastNewline(markdown.toHtmlSync(response.description, options)) or ''
