@@ -2,6 +2,7 @@ _ = require('./helper')
 
 module.exports = (element) ->
   headers = {}
+  headers1A = []
 
   httpHeaders = _.get(element, 'attributes.headers')
 
@@ -13,6 +14,11 @@ module.exports = (element) ->
     value = _.chain(content).get('value').contentOrValue().value()
 
     headers[key] = value if key
+
+    headers1A.push({
+      key,
+      value
+    }) if key
   )
 
-  headers
+  [headers, headers1A]
