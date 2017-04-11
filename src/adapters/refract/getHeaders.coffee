@@ -16,7 +16,7 @@ module.exports = (element) ->
     headers[key] = value if key
 
     headers1A.push({
-      key,
+      name: key
       value
     }) if key
   )
