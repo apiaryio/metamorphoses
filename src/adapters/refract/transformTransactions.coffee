@@ -1,8 +1,8 @@
 _ = require('./helper')
 blueprintApi = require('../../blueprint-api')
 getDescription = require('./getDescription')
-getHeaders = require('./getHeaders')
 transformAuth = require('./transformAuth')
+{getHeaders, getHeaders1A} = require('./getHeaders')
 
 trimLastNewline = (s) ->
   unless s
@@ -69,7 +69,8 @@ module.exports = (transactions, options) ->
     requestSchema = trimLastNewline(if _.content(httpRequestBodySchemas) then _.content(httpRequestBodySchemas) else '')
     requestAuthSchemes = transformAuth(httpTransaction, options)
 
-    [requestHeaders, requestHeaders1A] = getHeaders(httpRequest)
+    requestHeaders = getHeaders(httpRequest)
+    requestHeaders1A = getHeaders1A(httpRequest)
 
     httpRequestIsEmpty = _.isEmpty(requestName) \
       and _.isEmpty(httpRequestDescription.raw) \
@@ -100,7 +101,8 @@ module.exports = (transactions, options) ->
       prevRequests.push(httpRequest)
 
     if not alreadyUsedResponse and (httpResponse?.content.length or (not _.isEmpty(httpResponse?.attributes)))
-      [httpResponseHeaders, httpResponseHeaders1A] = getHeaders(httpResponse)
+      httpResponseHeaders = getHeaders(httpResponse)
+      httpResponseHeaders1A = getHeaders1A(httpResponse)
 
       response = new blueprintApi.Response({
         status: _.chain(httpResponse).get('attributes.statusCode').contentOrValue().value()

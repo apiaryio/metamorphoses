@@ -1,24 +1,35 @@
 _ = require('./helper')
 
-module.exports = (element) ->
-  headers = {}
-  headers1A = []
-
+transformHeaders = (element, type) ->
+  result = if type is 'legacy' then {} else []
   httpHeaders = _.get(element, 'attributes.headers')
 
-  return headers if not httpHeaders
+  return result if not httpHeaders
 
   _.content(httpHeaders).forEach((headerElement) ->
     content = _.content(headerElement)
     key = _.chain(content).get('key').contentOrValue().value()
     value = _.chain(content).get('value').contentOrValue().value()
 
-    headers[key] = value if key
-
-    headers1A.push({
-      name: key
-      value
-    }) if key
+    switch type
+      when 'legacy'
+        result[key] = value if key
+      when '1A'
+        result.push({
+          name: key
+          value
+        })
   )
 
-  [headers, headers1A]
+  result
+
+getHeaders = (element) ->
+  transformHeaders(element, 'legacy')
+
+getHeaders1A = (element) ->
+  transformHeaders(element, '1A')
+
+module.exports = {
+  getHeaders
+  getHeaders1A
+}
