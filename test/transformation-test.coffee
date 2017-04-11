@@ -170,10 +170,16 @@ describe('Transformations', ->
             assert.isDefined(ast.sections[0].resources[0].responses[0].headers1A)
           )
           it('response has headers1A with three Set-Cookie headers', ->
+            expectedValues = ['Yo!', 'Yo again!', 'Yo moar!']
             setCookieHeaders = ast.sections[0].resources[0].responses[0].headers1A.filter((item) ->
               item.name is 'Set-Cookie'
             )
+
             assert.equal(setCookieHeaders.length, 3)
+
+            setCookieHeaders.forEach((item, index) ->
+              assert.equal(item.value, expectedValues[index])
+            )
           )
           if type.match(/source-map/)
             it('resource group has a valid source map', ->
