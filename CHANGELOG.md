@@ -4,7 +4,7 @@
 
 ### Enhancements
 
-- `headers1A` property added to the Request / Response transaction pairs for both API Blueprint and Refract adapters.
+- `headers1A` property added to the Request / Response transaction pairs for both API Blueprint and Refract adapters to support multiple headers with the same key / name.
 
 ## 0.13.7
 
