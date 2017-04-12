@@ -1,8 +1,8 @@
 _ = require('./helper')
 blueprintApi = require('../../blueprint-api')
 getDescription = require('./getDescription')
-getHeaders = require('./getHeaders')
 transformAuth = require('./transformAuth')
+{getHeaders, getHeaders1A} = require('./getHeaders')
 
 trimLastNewline = (s) ->
   unless s
@@ -65,10 +65,12 @@ module.exports = (transactions, options) ->
 
     # Check for empty http request
     requestName = _.chain(httpRequest).get('meta.title', '').contentOrValue().value()
-    requestHeaders = getHeaders(httpRequest)
     requestBody = trimLastNewline(if _.content(httpRequestBody) then _.content(httpRequestBody) else '')
     requestSchema = trimLastNewline(if _.content(httpRequestBodySchemas) then _.content(httpRequestBodySchemas) else '')
     requestAuthSchemes = transformAuth(httpTransaction, options)
+
+    requestHeaders = getHeaders(httpRequest)
+    requestHeaders1A = getHeaders1A(httpRequest)
 
     httpRequestIsEmpty = _.isEmpty(requestName) \
       and _.isEmpty(httpRequestDescription.raw) \
@@ -87,6 +89,7 @@ module.exports = (transactions, options) ->
         description: httpRequestDescription.raw
         htmlDescription: httpRequestDescription.html
         headers: requestHeaders
+        headers1A: requestHeaders1A
         body: requestBody
         schema: requestSchema
         exampleId: exampleIndex
@@ -98,11 +101,15 @@ module.exports = (transactions, options) ->
       prevRequests.push(httpRequest)
 
     if not alreadyUsedResponse and (httpResponse?.content.length or (not _.isEmpty(httpResponse?.attributes)))
+      httpResponseHeaders = getHeaders(httpResponse)
+      httpResponseHeaders1A = getHeaders1A(httpResponse)
+
       response = new blueprintApi.Response({
         status: _.chain(httpResponse).get('attributes.statusCode').contentOrValue().value()
         description: httpResponseDescription.raw
         htmlDescription: httpResponseDescription.html
-        headers: getHeaders(httpResponse)
+        headers: httpResponseHeaders
+        headers1A: httpResponseHeaders1A
         body: trimLastNewline(if _.content(httpResponseBody) then _.content(httpResponseBody) else '')
         schema: trimLastNewline(if _.content(httpResponseBodySchemas) then _.content(httpResponseBodySchemas) else '')
         exampleId: exampleIndex

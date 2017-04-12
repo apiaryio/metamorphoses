@@ -1,5 +1,11 @@
 # Metamorphoses Changelog
 
+## 0.13.8
+
+### Enhancements
+
+- `headers1A` property added to the Request / Response transaction pairs for both API Blueprint and Refract adapters to support multiple headers with the same key / name.
+
 ## 0.13.7
 
 ### Bug Fixes
