@@ -101,6 +101,20 @@ the parse result, the error will be a JSON object as follows:
         - length (number)
 - line - The line producing the error from the source API Description Document derived from the source map
 
+## Interface
+
+```javascript
+metamorphoses = require('metamorphoses');
+
+// Turning API Blueprint AST into the Apiary Application AST
+var apiBlueprintAst = {...};
+applicationAst = metamorphoses.transform(apiBlueprintAst, 'application/vnd.apiblueprint.ast');
+
+// Turning legacy Apiary Blueprint AST into the Apiary Application AST
+var apiaryBlueprintAst = {...};
+applicationAst = metamorphoses.transform(apiaryBlueprintAst, 'application/vnd.legacyblueprint.ast');
+```
+
 ## Name
 
 [Wikipedia](https://en.wikipedia.org/wiki/Metamorphoses): The Metamorphoses (Latin: *Metamorphōseōn librī*: "Books of Transformations") is a Latin narrative poem by the Roman poet Ovid.
