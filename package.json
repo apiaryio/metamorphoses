@@ -40,9 +40,10 @@
     "coffeeify": "^1.1.0",
     "coffeelint": "^1.11.1",
     "coveralls": "^2.11.0",
+    "drafter": "^1.2.0",
     "istanbul": "^0.4.5",
     "mocha": "^2.3.0",
-    "protagonist": "^1.6.4",
+    "protagonist": "^1.6.8",
     "sinon": "^1.17.2",
     "swagger-zoo": "^2.2.1"
   }
