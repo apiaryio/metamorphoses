@@ -72,18 +72,7 @@ module.exports = (transactions, options) ->
     requestHeaders = getHeaders(httpRequest)
     requestHeaders1A = getHeaders1A(httpRequest)
 
-    httpRequestIsEmpty = _.isEmpty(requestName) \
-      and _.isEmpty(httpRequestDescription.raw) \
-      and _.isEmpty(requestHeaders) \
-      and _.isEmpty(requestBody) \
-      and _.isEmpty(requestSchema) \
-      and _.isEmpty(requestAttributes) \
-      and _.isEmpty(requestAuthSchemes)
-
-    if httpRequestIsEmpty
-      prevRequests.push(httpRequest)
-
-    if not httpRequestIsEmpty and not alreadyUsedRequest
+    if not alreadyUsedRequest
       request = new blueprintApi.Request({
         name: requestName
         description: httpRequestDescription.raw
