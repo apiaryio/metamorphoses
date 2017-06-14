@@ -1,5 +1,11 @@
 # Metamorphoses Changelog
 
+## 0.14.0
+
+### BREAKING
+
+- Leading empty requests (defined in API Blueprint just as `+ Request`) are not skipped anymore and will appear in the metamorphoses output.
+
 ## 0.13.8
 
 ### Enhancements
