@@ -21,6 +21,9 @@
     "type": "git",
     "url": "git+ssh://git@github.com:apiaryio/metamorphoses.git"
   },
+  "publishConfig": {
+    "registry": "https://registry.apiary-internal.com"
+  },
   "author": "Apiary Inc <support@apiary.io>",
   "license": "MIT",
   "bugs": {
