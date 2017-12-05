@@ -48,6 +48,6 @@
     "mocha": "^2.3.0",
     "protagonist": "^1.6.8",
     "sinon": "^1.17.2",
-    "swagger-zoo": "^2.2.1"
+    "swagger-zoo": "2.2.1"
   }
 }
