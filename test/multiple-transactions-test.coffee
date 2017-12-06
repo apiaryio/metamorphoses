@@ -36,7 +36,7 @@ isApiElement = (element) ->
   return element.meta?.classes.indexOf('api') isnt -1
 
 
-describe.only('Multiple Transactions', ->
+describe('Multiple Transactions', ->
   describe('when API Blueprint has three request-response pairs', ->
     applicationAst = undefined
 
