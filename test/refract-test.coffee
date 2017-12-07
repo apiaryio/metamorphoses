@@ -27,7 +27,7 @@ getZooFeature = (name, debug) ->
     console.log('\n----------------------------\n')
     console.log('REFRACT:', JSON.stringify(refract, null, 2))
     console.log('\n----------------------------\n')
-    console.log('AST:', JSON.stringify(ast, null, 2))
+    console.log('APPLICATION AST:', JSON.stringify(ast, null, 2))
 
   {ast, refract, swagger}
 

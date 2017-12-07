@@ -2,53 +2,37 @@
 protagonist = require('protagonist')
 
 CURRENT_APPLICATION_AST_VERSION = require('../src/blueprint-api').Version
-apiBlueprintAdapter = require('../src/adapters/api-blueprint-adapter')
 refractAdapter = require('../src/adapters/refract-adapter')
 apiNamespaceHelper = require('../src/adapters/refract/helper')
 
-
-
-
-# Supported types:
-#
-# - 'refract'
-#   Uses Protagonist and returns everything as Refract.
-#
-# - 'ast' (default)
-#   Uses Protagonist and returns API Blueprint AST, which includes MSON
-#   returned as Refract.
-#
-# - 'ast-source-map'
-#   Uses Protagonist and returns API Blueprint AST, which includes MSON
-#   returned as Refract and also includes source maps.
-parseApiBlueprint = (source, type, cb) ->
-  [cb, type] = [type, 'ast'] if typeof type is 'function'
-
+parseApiBlueprint = (source, cb) ->
   transform = (err, result) ->
-    adapter = if type is 'refract' then refractAdapter else apiBlueprintAdapter
+    ast = apiNamespaceHelper(result)
+            .content()
+            .find({element: 'category', meta: {classes: ['api']}})
 
-    ast = result?.ast
-    if type is 'refract'
-      ast = apiNamespaceHelper(result)
-                .content()
-                .find({element: 'category', meta: {classes: ['api']}})
+    warnings = result.content.filter((element) ->
+      element.element is 'annotation'
+    ).map((annotation) ->
+      {
+        message: annotation.content
+        code: annotation.attributes.code
+        location: [
+          {
+            index: annotation.attributes.sourceMap[0].content[0][0]
+            length: annotation.attributes.sourceMap[0].content[0][1]
+          }
+        ]
+      }
+    )
 
-    sourcemap = result?.sourcemap
+    err = refractAdapter.transformError(source, result)
+    ast = refractAdapter.transformAst(ast, null)
 
-    if err
-      # Protagonist does not include error in parse result, only in err
-      result.error = err
-
-    err = adapter.transformError(source, result)
-    ast = adapter.transformAst(ast, sourcemap)
-    cb(err, ast, result?.warnings or [])
+    cb(err, ast, warnings)
 
   options =
     requireBlueprintName: true
-    type: if type.match(/refract/) then 'refract' else 'ast'
-
-  if type.match(/source-map/)
-    options.exportSourcemap = true
 
   protagonist.parse(source, options, transform)
 
@@ -56,8 +40,6 @@ parseApiBlueprint = (source, type, cb) ->
 describe('Transformations', ->
   describe('API Blueprint', ->
     [
-      'ast',
-      'ast-source-map',
       'refract'
     ].forEach((type) ->
       context("Parsed by protagonist as `#{type}`", ->
@@ -68,7 +50,7 @@ describe('Transformations', ->
                    # API name
                    '''
 
-            parseApiBlueprint(code, type, (err, newAst) ->
+            parseApiBlueprint(code, (err, newAst) ->
               ast = newAst
               done(err)
             )
@@ -107,7 +89,7 @@ describe('Transformations', ->
                                Hello World
                    '''
 
-            parseApiBlueprint(code, type, (err, newAst) ->
+            parseApiBlueprint(code, (err, newAst) ->
               ast = newAst
               done(err)
             )
@@ -217,7 +199,7 @@ describe('Transformations', ->
                       + Attributes
                           + status: ok
                   '''
-            parseApiBlueprint(code, type, (err, newAst) ->
+            parseApiBlueprint(code, (err, newAst) ->
               ast = newAst
               done(err)
             )
@@ -294,207 +276,6 @@ describe('Transformations', ->
         )
         it('Resource has Resource URI Template without prefix', ->
           assert.equal(resourceJSON.resourceUriTemplate, '/resource')
-        )
-      )
-    )
-
-    describe('Upgrade of Protagonist from 0.8 to 0.11', ->
-      astCaches =
-        '0.8':
-          _version: '2.0'
-          metadata:
-            FORMAT: {value: '1A'}
-            HOST: {value: 'http://www.example.com'}
-          name: ''
-          description: ''
-          resourceGroups: [
-            name: ''
-            description: ''
-            resources: [
-              name: 'Note'
-              description: ''
-              uriTemplate: '/notes/{id}'
-              model: {}
-              headers: {}
-              parameters:
-                id:
-                  description: 'Numeric `id` of the Note to perform action with. Has example value.\n'
-                  type: 'number'
-                  required: true
-                  default: ''
-                  example: ''
-                  values: ['A', 'B', 'C']
-              actions: [
-                name: 'Retrieve a Note'
-                description: ''
-                method: 'GET'
-                parameters: []
-                headers: {}
-                examples: [
-                  name: ''
-                  description: ''
-                  requests: []
-                  responses: [
-                    name: '200'
-                    description: ''
-                    headers:
-                      'Content-Type': {value: 'application/json'}
-                      'X-My-Header': {value: 'The Value'}
-                      'Set-Cookie': {value: 'efgh'}
-                    body: '{ "id": 2, "title": "Pick-up posters from post-office" }\n'
-                    schema: ''
-                  ]
-                ]
-              ]
-            ]
-          ]
-
-        '0.11':
-          _version: '2.0'
-          metadata: [
-            {name: 'FORMAT', value: '1A'}
-            {name: 'HOST', value: 'http://www.example.com'}
-          ]
-          name: ''
-          description: ''
-          resourceGroups: [
-            name: ''
-            description: ''
-            resources: [
-              name: 'Note'
-              description: ''
-              uriTemplate: '/notes/{id}'
-              model: {}
-              parameters: [
-                name: 'id'
-                description: 'Numeric `id` of the Note to perform action with. Has example value.\n'
-                type: 'number'
-                required: true
-                default: ''
-                example: ''
-                values: [
-                  {value: 'A'}
-                  {value: 'B'}
-                  {value: 'C'}
-                ]
-              ]
-              actions: [
-                name: 'Retrieve a Note'
-                description: ''
-                method: 'GET'
-                parameters: []
-                examples: [
-                  name: ''
-                  description: ''
-                  requests: []
-                  responses: [
-                    name: '200'
-                    description: ''
-                    headers: [
-                      {name: 'Content-Type', value: 'application/json'}
-                      {name: 'X-My-Header', value: 'The Value'}
-                      {name: 'Set-Cookie', value: 'abcd'}
-                      {name: 'Set-Cookie', value: 'efgh'}
-                    ]
-                    body: '{ "id": 2, "title": "Pick-up posters from post-office" }\n'
-                    schema: ''
-                  ]
-                ]
-              ]
-            ]
-          ]
-
-      for version, astCache of astCaches
-        describe("When I transform an AST produced by Protagonist v#{version}", ->
-          ast = undefined
-          before( ->
-            ast = apiBlueprintAdapter.transformAst(astCache)
-          )
-
-          it('I got metadata right, with location is aside', ->
-            assert.equal(ast.location, 'http://www.example.com')
-            assert.equal(ast.metadata.length, 1)
-            assert.equal(ast.metadata[0].name, 'FORMAT')
-            assert.equal(ast.metadata[0].value, '1A')
-          )
-
-          it('I got headers right', ->
-            headers = ast.sections[0].resources[0].responses[0].headers
-            assert.equal(headers['Content-Type'], 'application/json')
-            assert.equal(headers['X-My-Header'], 'The Value')
-            assert.equal(headers['Set-Cookie'], 'efgh')
-          )
-
-          it('I got parameters right', ->
-            param = ast.sections[0].resources[0].parameters[0]
-            assert.equal(param.key, 'id')
-          )
-
-          it('I got parameter values right', ->
-            values = ast.sections[0].resources[0].parameters[0].values
-            assert.equal(values[0], 'A')
-            assert.equal(values[1], 'B')
-            assert.equal(values[2], 'C')
-          )
-        )
-    )
-  )
-
-  describe('Coercing to object of objects from', ->
-    describe('null', ->
-      data = undefined
-      before( ->
-        data = apiBlueprintAdapter.ensureObjectOfObjects(null)
-      )
-      it('results in {}', ->
-        assert.deepEqual(data, {})
-      )
-    )
-
-    describe('object', ->
-      data = undefined
-      before( ->
-        data = apiBlueprintAdapter.ensureObjectOfObjects(
-          'Accept-Language': {'value': 'cs'}
-          'Accept': {'value': 'beverage/beer'}
-        )
-      )
-      it('results in the same object', ->
-        assert.deepEqual(data,
-          'Accept-Language': {'value': 'cs'}
-          'Accept': {'value': 'beverage/beer'}
-        )
-      )
-    )
-
-    describe('array of objects', ->
-      data = undefined
-      before( ->
-        data = apiBlueprintAdapter.ensureObjectOfObjects([
-          {'name': 'Accept-Language', 'value': 'cs'}
-          {'name': 'Accept', 'value': 'beverage/beer'}
-        ])
-      )
-      it('results in the right object', ->
-        assert.deepEqual(data,
-          'Accept-Language': {'value': 'cs'}
-          'Accept': {'value': 'beverage/beer'}
-        )
-      )
-    )
-
-    describe('array of objects with custom key selected', ->
-      data = undefined
-      before( ->
-        data = apiBlueprintAdapter.ensureObjectOfObjects([
-          {'name': 'Accept-Language', 'value': 'cs'}
-          {'name': 'Accept', 'value': 'beverage/beer'}
-        ], 'value')
-      )
-      it('results in the right object', ->
-        assert.deepEqual(data,
-          'cs': {'name': 'Accept-Language'}
-          'beverage/beer': {'name': 'Accept'}
         )
       )
     )
