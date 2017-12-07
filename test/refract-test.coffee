@@ -518,12 +518,13 @@ describe('Transformations • Refract', ->
 
       it('Has a request', ->
         assert.isObject(applicationAst.sections[0].resources[0].request)
-        assert.strictEqual(applicationAst.sections[0].resources[0].request.name, 'Only one user')
+        assert.strictEqual(applicationAst.sections[0].resources[0].request.name, '')
       )
 
-      it('Has the correct HTTP request', ->
-        assert.strictEqual(applicationAst.sections[0].resources[0].requests.length, 1)
-        assert.strictEqual(applicationAst.sections[0].resources[0].requests[0].name, 'Only one user')
+      it('Has the correct HTTP requests', ->
+        assert.strictEqual(applicationAst.sections[0].resources[0].requests.length, 2)
+        assert.strictEqual(applicationAst.sections[0].resources[0].requests[0].name, '')
+        assert.strictEqual(applicationAst.sections[0].resources[0].requests[1].name, 'Only one user')
       )
     )
 
@@ -537,8 +538,9 @@ describe('Transformations • Refract', ->
       )
 
       it('has a single request with correct exampleId', ->
-        assert.strictEqual(applicationAst.sections[0].resources[0].requests.length, 1)
+        assert.strictEqual(applicationAst.sections[0].resources[0].requests.length, 2)
         assert.strictEqual(applicationAst.sections[0].resources[0].requests[0].exampleId, 0)
+        assert.strictEqual(applicationAst.sections[0].resources[0].requests[1].exampleId, 0)
       )
 
       it('has two responses with correct exampleId', ->
