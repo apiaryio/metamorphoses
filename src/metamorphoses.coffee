@@ -3,7 +3,6 @@ typer = require('media-typer')
 
 blueprintApi = require('./blueprint-api')
 markdown = require('./adapters/markdown')
-apiBlueprintAdapter = require('./adapters/api-blueprint-adapter')
 refractAdapter = require('./adapters/refract-adapter')
 
 
@@ -14,14 +13,6 @@ createAdapter = (mimeType) ->
     return # not parseable mime type?!
 
   if parsedMimeType.type isnt 'application'
-    return
-
-  # API Blueprint
-  # http://github.com/apiaryio/api-blueprint-ast#serialization-formats
-  if parsedMimeType.subtype is 'vnd.apiblueprint.ast' or
-     parsedMimeType.subtype is 'vnd.apiblueprint.ast.raw'
-    if not parsedMimeType.suffix or parsedMimeType.suffix is 'json'
-      return apiBlueprintAdapter
     return
 
   # Refract
@@ -49,7 +40,6 @@ module.exports = {
 
   # Adapters
   createAdapter
-  apiBlueprintAdapter
   refractAdapter
 
   # Markdown rendering
