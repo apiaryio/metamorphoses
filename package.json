@@ -34,7 +34,9 @@
     "blueprint-markdown-renderer": "^1.0.0",
     "lodash": ">=3.10.1",
     "lodash-api-description": "0.0.2",
-    "media-typer": "^0.3.0"
+    "media-typer": "^0.3.0",
+    "minim": "^0.20.2",
+    "minim-parse-result": "^0.10.0"
   },
   "devDependencies": {
     "chai": "^3.2.0",

@@ -1,14 +1,10 @@
 _ = require('./helper')
+minim = require('./minim')
+
 blueprintApi = require('../../blueprint-api')
 getDescription = require('./getDescription')
 transformAuth = require('./transformAuth')
 {getHeaders, getHeaders1A} = require('./getHeaders')
-
-trimLastNewline = (s) ->
-  unless s
-    return
-
-  if s[s.length - 1] is '\n' then s.slice(0, -1) else s
 
 module.exports = (transactions, options) ->
   requests = []
@@ -20,42 +16,41 @@ module.exports = (transactions, options) ->
   exampleIndex = -1
 
   transactions.forEach((httpTransaction, httpTransactionIndex, httpTransactions) ->
+    httpRequest = httpTransaction.request
+    httpResponse = httpTransaction.response
+
     # Transactions only have 1 request and 1 response
-    httpRequest = _(httpTransaction).httpRequests().first()
-    httpResponse  = _(httpTransaction).httpResponses().first()
+    httpRequestElement = minim.serialiser06.serialise(httpRequest)
+    httpResponseElement = minim.serialiser06.serialise(httpResponse)
 
     # In refract, we have method only in this place
-    method = _.chain(httpRequest).get('attributes.method', '').contentOrValue().value()
+    method = httpRequest.method?.toValue() or ''
 
     # Request retrieving
-    httpRequestBody = _(httpRequest).messageBodies().first()
-    httpRequestBodySchemas = _(httpRequest).messageBodySchemas().first()
+    httpRequestBody = httpRequest.messageBody
+    httpRequestBodySchema = httpRequest.messageBodySchema
     httpRequestDescription = getDescription(httpRequest, options)
-    httpRequestBodyDataStructures = _.dataStructures(httpRequest)
+    requestAttributes = httpRequest.dataStructure
 
-    if _.isEmpty(httpRequestBodyDataStructures)
-      requestAttributes = undefined
-    else
-      requestAttributes = httpRequestBodyDataStructures[0]
+    if requestAttributes
+      requestAttributes = minim.serialiser06.serialise(requestAttributes)
 
     # Response retrieving
-    httpResponseBody = _(httpResponse).messageBodies().first()
-    httpResponseBodySchemas = _(httpResponse).messageBodySchemas().first()
+    httpResponseBody = httpResponse.messageBody
+    httpResponseBodySchema = httpResponse.messageBodySchema
     httpResponseDescription = getDescription(httpResponse, options)
-    httpResponseBodyDataStructures = _.dataStructures(httpResponse)
+    responseAttributes = httpResponse.dataStructure
 
-    if _.isEmpty(httpResponseBodyDataStructures)
-      responseAttributes = undefined
-    else
-      responseAttributes = httpResponseBodyDataStructures[0]
+    if responseAttributes
+      responseAttributes = minim.serialiser06.serialise(responseAttributes)
 
     # Example Id handling
     alreadyUsedRequest = _.some(prevRequests, (prevRequest) ->
-      _.isEqual(prevRequest, httpRequest)
+      _.isEqual(prevRequest, httpRequestElement)
     )
 
     alreadyUsedResponse = _.some(prevResponses, (prevResponse) ->
-      _.isEqual(prevResponse, httpResponse)
+      _.isEqual(prevResponse, httpResponseElement)
     )
 
     if not alreadyUsedRequest and not alreadyUsedResponse
@@ -63,50 +58,38 @@ module.exports = (transactions, options) ->
       prevRequests = []
       prevResponses = []
 
-    # Check for empty http request
-    requestName = _.chain(httpRequest).get('meta.title', '').contentOrValue().value()
-    requestBody = trimLastNewline(if _.content(httpRequestBody) then _.content(httpRequestBody) else '')
-    requestSchema = trimLastNewline(if _.content(httpRequestBodySchemas) then _.content(httpRequestBodySchemas) else '')
-    requestAuthSchemes = transformAuth(httpTransaction, options)
-
-    requestHeaders = getHeaders(httpRequest)
-    requestHeaders1A = getHeaders1A(httpRequest)
-
     if not alreadyUsedRequest
       request = new blueprintApi.Request({
-        name: requestName
+        name: httpRequest.title?.toValue()
         description: httpRequestDescription.raw
         htmlDescription: httpRequestDescription.html
-        headers: requestHeaders
-        headers1A: requestHeaders1A
-        body: requestBody
-        schema: requestSchema
+        headers: getHeaders(httpRequest)
+        headers1A: getHeaders1A(httpRequest)
+        body: _.trimLastNewline(httpRequestBody?.toValue() or '')
+        schema: _.trimLastNewline(httpRequestBodySchema?.toValue() or '')
         exampleId: exampleIndex
         attributes: requestAttributes
-        authSchemes: requestAuthSchemes
+        authSchemes: transformAuth(httpTransaction, options)
       })
 
       requests.push(request)
-      prevRequests.push(httpRequest)
+      prevRequests.push(httpRequestElement)
 
-    if not alreadyUsedResponse and (httpResponse?.content.length or (not _.isEmpty(httpResponse?.attributes)))
-      httpResponseHeaders = getHeaders(httpResponse)
-      httpResponseHeaders1A = getHeaders1A(httpResponse)
-
+    if not alreadyUsedResponse and (httpResponse.content?.length or (not _.isEmpty(httpResponse.attributes.toValue())))
       response = new blueprintApi.Response({
-        status: _.chain(httpResponse).get('attributes.statusCode').contentOrValue().value()
+        status: httpResponse.statusCode?.toValue() or ''
         description: httpResponseDescription.raw
         htmlDescription: httpResponseDescription.html
-        headers: httpResponseHeaders
-        headers1A: httpResponseHeaders1A
-        body: trimLastNewline(if _.content(httpResponseBody) then _.content(httpResponseBody) else '')
-        schema: trimLastNewline(if _.content(httpResponseBodySchemas) then _.content(httpResponseBodySchemas) else '')
+        headers: getHeaders(httpResponse)
+        headers1A: getHeaders1A(httpResponse)
+        body: _.trimLastNewline(httpResponseBody?.toValue() or '')
+        schema: _.trimLastNewline(httpResponseBodySchema?.toValue() or '')
         exampleId: exampleIndex
         attributes: responseAttributes
       })
 
       responses.push(response)
-      prevResponses.push(httpResponse)
+      prevResponses.push(httpResponseElement)
   )
 
   # Add an empty request if no requests exit

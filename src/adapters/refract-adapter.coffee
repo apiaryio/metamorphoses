@@ -1,11 +1,11 @@
 _ = require('./refract/helper')
+minim = require('./refract/minim')
 blueprintApi = require('../blueprint-api')
 
 getDescription = require('./refract/getDescription')
 transformAuth = require('./refract/transformAuth')
 transformSections = require('./refract/transformSections')
 transformDataStructures = require('./refract/transformDataStructures')
-
 
 countLines = (code, index) ->
   if index > 0
@@ -15,33 +15,37 @@ countLines = (code, index) ->
     return 1
 
 
-transformAst = (element, sourcemap, options) ->
-  return null unless element
+transformAst = (json, sourcemap, options) ->
+  return null unless json
+
+  element = minim.serialiser06.deserialise(json) # TODO: Change to minim.fromRefract
 
   applicationAst = new blueprintApi.Blueprint({
-    name: _.chain(element).get('meta.title', '').contentOrValue().trimLastNewline().value()
+    name: _.trimLastNewline(element.title.toValue())
     version: blueprintApi.Version
     metadata: []
   })
 
   # Metadata and location
   applicationAst.metadata =
-    _.chain(element)
-    .get('attributes.meta')
-    .contentOrValue()
-    .filter({meta: {classes: ['user']}})
+    (element.attributes.get('meta') or [])
+    .filter((item) ->
+      item.classes.contains('user')
+    )
     .map((entry) ->
-      content = _.content(entry)
-
-      name = _.chain(entry).content().get('key').contentOrValue().value()
-      value = _.chain(entry).content().get('value', '').contentOrValue().value()
+      name = entry.key.toValue()
+      value = entry.value.toValue()
 
       if name is 'HOST'
-        applicationAst.location = value if name is 'HOST'
+        applicationAst.location = value
         return null
       else
         {name, value}
-    ).compact()
+    )
+
+  applicationAst.metadata =
+    _.chain(applicationAst.metadata)
+    .compact()
     .uniqBy('name')
     .value()
 
@@ -61,15 +65,14 @@ transformAst = (element, sourcemap, options) ->
   applicationAst
 
 
-transformError = (source, parseResult) ->
-  errors = _.chain(parseResult)
-    .filterContent({element: 'annotation'})
-    .filter({meta: {classes: ['error']}})
-    .value()
+transformError = (source, json) ->
+  element = minim.serialiser06.deserialise(json) # TODO: Change to minim.fromRefract
+
+  errors = element.errors
 
   if errors.length > 0
-    errorElement = errors[0]
-    sourceMaps = errorElement.attributes?.sourceMap?[0]?.content
+    annotation = errors.get(0)
+    sourceMaps = annotation.sourceMapValue
     locations = sourceMaps?.map((sourceMap) -> {index: sourceMap[0], length: sourceMap[1]})
 
     unless locations
@@ -77,8 +80,8 @@ transformError = (source, parseResult) ->
       locations = [{index: 0, length: source.length}]
 
     error = {
-      message: errorElement.content
-      code: errorElement.attributes?.code or 1
+      message: annotation.toValue()
+      code: annotation.code.toValue() or 1
       line: countLines(source, locations?[0]?.index)
       location: locations
     }

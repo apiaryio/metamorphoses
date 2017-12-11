@@ -1,4 +1,5 @@
 {assert} = require('chai')
+minim = require('../src/adapters/refract/minim')
 getUriParameters = require('../src/adapters/refract/getUriParameters')
 
 
@@ -150,10 +151,6 @@ describe('Transformation • Refract • getUriParameters' , ->
         ]
       },
       {
-        hrefVariables: undefined,
-        parameters: undefined,
-      },
-      {
         hrefVariables: {
           'element': 'hrefVariables',
           'content': [
@@ -260,8 +257,12 @@ describe('Transformation • Refract • getUriParameters' , ->
 
     it('should be transformed into a `parameter` object', ->
       tests.map((test) ->
-        assert.deepEqual(getUriParameters(test.hrefVariables), test.parameters)
+        assert.deepEqual(getUriParameters(minim.serialiser06.deserialise(test.hrefVariables)), test.parameters)
       )
+    )
+
+    it('should work with undefined', ->
+      assert.deepEqual(getUriParameters(undefined), undefined)
     )
   )
 )

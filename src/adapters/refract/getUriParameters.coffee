@@ -1,29 +1,21 @@
 lodash = require('./helper')
+minim = require('./minim')
 getMetaDescription = require('./getMetaDescription')
 
 getUriParameters = (hrefVariables, options) ->
-  hrefVariablesContent = lodash.content(hrefVariables)
-
-  if hrefVariablesContent is undefined
+  if hrefVariables is undefined
     return undefined
 
-  hrefVariablesContent.map((hrefVariable) ->
-    lodashedHrefVariable = lodash.chain(hrefVariable)
-    typeAttributes = lodashedHrefVariable
-                        .get('attributes.typeAttributes')
-                        .value()
+  hrefVariables.content.map((hrefVariable) ->
+    typeAttributes = hrefVariable.attributes.get('typeAttributes')?.toValue()
+    required = typeAttributes?.contains('required') || false
+    
+    title = hrefVariable.title.toValue()
+    key = hrefVariable.key.toValue()
+    value = hrefVariable.value
+    memberContentValue = lodash.chain(minim.serialiser06.serialise(value))
 
-    if typeAttributes
-      required = typeAttributes.indexOf('required') isnt -1
-    else
-      required = false
-
-    memberContent = lodashedHrefVariable.content()
-    title = lodashedHrefVariable.get('meta.title', '').contentOrValue().value()
-    key = memberContent.get('key').contentOrValue().value()
-    memberContentValue = memberContent.get('value')
-
-    type = title or memberContentValue.get('element').value()
+    type = title or value.element
 
     sampleValues = memberContentValue.get('attributes.samples', '').contentOrValue()
     defaultValue = memberContentValue.get('attributes.default', '').contentOrValue()

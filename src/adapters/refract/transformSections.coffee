@@ -26,7 +26,7 @@ module.exports = (parentElement, location, options) ->
       if urlPrefix isnt ''
         urlPrefix = urlPrefix.replace(/\/$/, '')
 
-  _.forEach(_.get(parentElement, 'content'), (element, index) ->
+  parentElement.map((element, index) ->
     # There might be two types of elements—resource and
     # category. Categories are being mapped 1:1 to
     # sections (resource groups), resources are being
@@ -51,12 +51,11 @@ module.exports = (parentElement, location, options) ->
 
       description = getDescription(element, options)
 
-      classes = _.get(element, 'meta.classes', [])
-      if classes.length is 0 or classes.indexOf('resourceGroup') isnt -1
+      if element.classes.contains('resourceGroup')
         # Then create a new section in the Application AST
         # corresponding to the Category element.
         resourceGroup = new blueprintApi.Section({
-          name: _.chain(element).get('meta.title', '').contentOrValue().value()
+          name: element.title.toValue()
           description: description.raw
           htmlDescription: description.html
           resources: transformResources(element, urlPrefix, options)

@@ -1,19 +1,21 @@
-_ = require('./helper')
-
-getDescription = require('./getDescription')
+minim = require('./minim')
 
 module.exports = (parentElement, options) ->
   # Auth information can be present in two places:
   # 1. An `authSchemes` category that contains definitions
-  # 2. An `authSchems` attribute that defines which definition to use
+  # 2. An `authSchemes` attribute that defines which definition to use
   authSchemes = []
 
-  if parentElement and parentElement.element is 'category'
-    for child in _.get(parentElement, 'content', [])
-      if child and child.element is 'category' and _.get(child, 'meta.classes', []).indexOf('authSchemes') isnt -1
-        authSchemes = authSchemes.concat(child.content)
+  if parentElement.element is 'category'
+    (parentElement.authSchemeGroups or []).forEach((authSchemeGroup) ->
+      (authSchemeGroup.authSchemes or []).forEach((authScheme) ->
+        authSchemes.push(minim.serialiser06.serialise(authScheme))
+      )
+    )
 
-  if _.get(parentElement, 'attributes.authSchemes')
-    authSchemes = authSchemes.concat(parentElement.attributes.authSchemes)
+  if parentElement.element is 'httpTransaction'
+    (parentElement.authSchemes or []).forEach((authScheme) ->
+      authSchemes.push(minim.serialiser06.serialise(authScheme))
+    )
 
   authSchemes

@@ -1,16 +1,13 @@
-_ = require('./helper')
+minim = require('./minim')
 
 module.exports = (parentElement, options) ->
   dataStructures = []
 
-  _.forEach(_.get(parentElement, 'content'), (element, index) ->
-    if element.element is 'category'
-      classes = _.get(element, 'meta.classes', [])
-
-      if classes.indexOf('dataStructures') isnt -1
-        dataStructures = dataStructures.concat(
-          _.get(element, 'content')
-        )
+  parentElement.map((element) ->
+    if element.classes.contains('dataStructures')
+      element.map((item) ->
+        dataStructures.push(minim.serialiser06.serialise(item))
+      )
   )
 
   dataStructures

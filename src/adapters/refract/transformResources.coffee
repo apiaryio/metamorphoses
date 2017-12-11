@@ -5,8 +5,8 @@ transformResource = require('./transformResource')
 module.exports = (element, urlPrefix, options) ->
   resources = []
 
-  _.resources(element).forEach((resourceElement) ->
-    resources = resources.concat(transformResource(resourceElement, urlPrefix, options))
+  element.resources.forEach((resource) ->
+    resources = resources.concat(transformResource(resource, urlPrefix, options))
   )
 
   resources
