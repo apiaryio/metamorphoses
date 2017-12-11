@@ -1,4 +1,10 @@
-node_modules
+src/
+.travis.yml
+circle.yml
+.git*
+.npmignore
+.eslintcache
+
 npm-debug.log
 .DS_Store
 *.sublime-*

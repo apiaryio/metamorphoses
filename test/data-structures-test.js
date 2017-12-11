@@ -1,30 +1,35 @@
-{assert} = require('chai')
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
+ */
+const {assert} = require('chai');
 
-lodash = require('../src/adapters/refract/helper')
-refractAdapter = require('../src/adapters/refract-adapter')
+const lodash = require('../src/adapters/refract/helper');
+const refractAdapter = require('../src/adapters/refract-adapter');
 
-describe('Transformations • API Elements', ->
-  describe('Multiple Data Structures', ->
-    applicationAst = null
+describe('Transformations • API Elements', function() {
+  describe('Multiple Data Structures', function() {
+    let applicationAst = null;
 
-    before(->
-      parseResultElement = require('./fixtures/refract-parse-result-data-structures.json')
-      apiElement = lodash.chain(parseResultElement)
+    before(function() {
+      const parseResultElement = require('./fixtures/refract-parse-result-data-structures.json');
+      const apiElement = lodash.chain(parseResultElement)
         .content()
         .find({element: 'category', meta: {classes: ['api']}})
-        .value()
+        .value();
 
-      applicationAst = refractAdapter.transformAst(apiElement)
-    )
+      return applicationAst = refractAdapter.transformAst(apiElement);
+    });
 
-    it('Has correct number of Data Structure elements', ->
+    it('Has correct number of Data Structure elements', () =>
       assert.strictEqual(
         applicationAst.dataStructures.length,
         2
       )
-    )
+    );
 
-    it('First element has the correct structure', ->
+    it('First element has the correct structure', () =>
       assert.deepEqual(
         {
           "element": "dataStructure",
@@ -57,9 +62,9 @@ describe('Transformations • API Elements', ->
         },
         applicationAst.dataStructures[0]
       )
-    )
+    );
 
-    it('Second element has the correct structure', ->
+    return it('Second element has the correct structure', () =>
       assert.deepEqual(
         {
           "element": "dataStructure",
@@ -89,27 +94,27 @@ describe('Transformations • API Elements', ->
         },
         applicationAst.dataStructures[1]
       )
-    )
-  )
+    );
+  });
 
-  describe('No Data Structures', ->
-    applicationAst = null
+  return describe('No Data Structures', function() {
+    let applicationAst = null;
 
-    before(->
-      parseResultElement = require('./fixtures/refract-parse-result-no-data-structures.json')
-      apiElement = lodash.chain(parseResultElement)
+    before(function() {
+      const parseResultElement = require('./fixtures/refract-parse-result-no-data-structures.json');
+      const apiElement = lodash.chain(parseResultElement)
         .content()
         .find({element: 'category', meta: {classes: ['api']}})
-        .value()
+        .value();
 
-      applicationAst = refractAdapter.transformAst(apiElement)
-    )
+      return applicationAst = refractAdapter.transformAst(apiElement);
+    });
 
-    it('Has no Data Structure elements', ->
+    return it('Has no Data Structure elements', () =>
       assert.strictEqual(
         applicationAst.dataStructures.length,
         0
       )
-    )
-  )
-)
+    );
+  });
+});

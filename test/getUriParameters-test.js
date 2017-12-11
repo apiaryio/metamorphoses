@@ -1,12 +1,17 @@
-{assert} = require('chai')
-getUriParameters = require('../src/adapters/refract/getUriParameters')
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
+ */
+const {assert} = require('chai');
+const getUriParameters = require('../src/adapters/refract/getUriParameters');
 
 
-describe('Transformation • Refract • getUriParameters' , ->
-  context('Transforming URI Parameters without error', ->
+describe('Transformation • Refract • getUriParameters' , () =>
+  context('Transforming URI Parameters without error', function() {
 
 
-    tests = [
+    const tests = [
       {
         hrefVariables: {
           'element': 'hrefVariables',
@@ -116,7 +121,7 @@ describe('Transformation • Refract • getUriParameters' , ->
           }
         ]
       },
-      # Parameter is optional by default with no type attributes
+      // Parameter is optional by default with no type attributes
       {
         hrefVariables: {
           'element': 'hrefVariables',
@@ -243,12 +248,12 @@ describe('Transformation • Refract • getUriParameters' , ->
           ]
         },
         parameters: [{
-          "default": ""
-          "description": ""
-          "example": ""
-          "key": "filters"
-          "required": false
-          "type": "array"
+          "default": "",
+          "description": "",
+          "example": "",
+          "key": "filters",
+          "required": false,
+          "type": "array",
           "values": [
             "wifi",
             "accept_cards",
@@ -256,12 +261,10 @@ describe('Transformation • Refract • getUriParameters' , ->
           ]
         }]
       }
-    ]
+    ];
 
-    it('should be transformed into a `parameter` object', ->
-      tests.map((test) ->
-        assert.deepEqual(getUriParameters(test.hrefVariables), test.parameters)
-      )
-    )
-  )
-)
+    return it('should be transformed into a `parameter` object', () =>
+      tests.map(test => assert.deepEqual(getUriParameters(test.hrefVariables), test.parameters))
+    );
+  })
+);

@@ -4,18 +4,18 @@
   "description": "Transforms API Blueprint AST or legacy Apiary Blueprint AST into Apiary Application AST",
   "main": "./lib/metamorphoses",
   "scripts": {
-    "lint": "coffeelint src test",
-    "lint-update": "curl 'https://raw.githubusercontent.com/apiaryio/coffeescript-style-guide/master/coffeelint.json' > coffeelint.json",
-    "precompile": "npm run lint",
-    "compile": "coffee -b -c -o lib/ src/",
-    "test": "npm run lint && mocha",
-    "cover": "istanbul report text-summary lcov",
-    "coveralls": "npm run cover && cat coverage/lcov.info | coveralls",
-    "prepublish": "npm run compile"
+    "lint": "peasant lint",
+    "test": "peasant test",
+    "build": "peasant -s build",
+    "web": "peasant -w build",
+    "ci": "peasant -s test",
+    "prepublish": "npm run ci && npm run build",
+    "cover": "peasant cover",
+    "peasant": "peasant",
+    "coveralls": "npm run cover && cat coverage/lcov.info | coveralls"
   },
   "engines": {
-    "node": ">=0.10",
-    "npm": "2.15.x"
+    "node": ">=4"
   },
   "repository": {
     "type": "git",
@@ -37,15 +37,12 @@
     "media-typer": "^0.3.0"
   },
   "devDependencies": {
-    "chai": "^3.2.0",
-    "coffee-coverage": "^1.0.1",
-    "coffee-script": "^1.12.3",
-    "coffeeify": "^1.1.0",
-    "coffeelint": "^1.11.1",
+    "babel-plugin-array-includes": "^2.0.3",
+    "chai": "^4.1.2",
     "coveralls": "^2.11.0",
     "drafter": "^1.2.0",
-    "istanbul": "^0.4.5",
     "mocha": "^2.3.0",
+    "peasant": "^1.3.0",
     "protagonist": "^1.6.8",
     "sinon": "^1.17.2",
     "swagger-zoo": "2.2.1"
