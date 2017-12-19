@@ -7,9 +7,9 @@ getUriParameters = (hrefVariables, options) ->
     return undefined
 
   hrefVariables.content.map((hrefVariable) ->
-    typeAttributes = hrefVariable.attributes.get('typeAttributes')?.toValue()
-    required = typeAttributes?.contains('required') || false
-    
+    typeAttributes = hrefVariable.attributes.get('typeAttributes')
+    required = typeAttributes?.contains('required') or false
+
     title = hrefVariable.title.toValue()
     key = hrefVariable.key.toValue()
     value = hrefVariable.value
