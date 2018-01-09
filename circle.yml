@@ -1,12 +1,6 @@
 machine:
   node:
-    version: v0.12.16
-
-dependencies:
-  pre:
-    - npm install -g npm@2.15.11
-  override:
-    - npm install
+    version: v6
 
 test:
   post:
