@@ -1,0 +1,21 @@
+version: 2
+
+defaults: &defaults
+  working_directory: ~/metamorphoses
+  steps:
+    - checkout
+    - run: npm install
+    - run: npm test
+    - run: npm run coveralls
+
+jobs:
+  test-node8:
+    <<: *defaults
+    docker:
+      - image: circleci/node:8
+
+workflows:
+  version: 2
+  test-publish:
+    jobs:
+      - test-node8
