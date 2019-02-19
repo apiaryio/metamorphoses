@@ -255,7 +255,130 @@ describe('Transformation • Refract • getUriParameters' , ->
             "open_now"
           ]
         }]
-      }
+      },
+      {
+        hrefVariables: {
+          'element': 'hrefVariables',
+          'content': [
+            {
+              'element': 'member',
+              'attributes': {
+                'typeAttributes': [
+                  'optional'
+                ]
+              },
+              'content': {
+                'key': {
+                  'element': 'string',
+                  'content': 'page'
+                },
+                'value': {
+                  'element': 'enum',
+                  'attributes': {
+                    'samples': {
+                        'element': 'number',
+                    },
+                    'default': {
+                        'element': 'number',
+                    }
+                  },
+                  'content': [
+                    {
+                      'element': 'number',
+                      'content': 1
+                    },
+                    {
+                      'element': 'number',
+                      'content': 2
+                    },
+                    {
+                      'element': 'number',
+                      'content': 3
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        parameters: [
+          {
+            'key': 'page',
+            'description': '',
+            'type': 'enum',
+            'required': false,
+            'default': '',
+            'example': '',
+            'values': [
+                '1',
+                '2',
+                '3'
+            ]
+          }
+        ]
+      },
+      {
+        hrefVariables: {
+          'element': 'hrefVariables',
+          'content': [
+            {
+              'element': 'member',
+              'attributes': {
+                'typeAttributes': [
+                  'optional'
+                ]
+              },
+              'content': {
+                'key': {
+                  'element': 'string',
+                  'content': 'page'
+                },
+                'value': {
+                  'element': 'array',
+                  'attributes': {
+                    'samples': {
+                      'element': 'array',
+                    },
+                    'default': {
+                      'content': [],
+                      'element': 'array',
+                    }
+                  },
+                  'content': [
+                    {
+                      'element': 'number',
+                      'content': 1
+                    },
+                    {
+                      'element': 'number',
+                      'content': 2
+                    },
+                    {
+                      'element': 'number',
+                      'content': 3
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        parameters: [
+          {
+            'key': 'page',
+            'description': '',
+            'type': 'array',
+            'required': false,
+            'default': [],
+            'example': '',
+            'values': [
+                '1',
+                '2',
+                '3'
+            ]
+          }
+        ]
+      },
     ]
 
     it('should be transformed into a `parameter` object', ->
