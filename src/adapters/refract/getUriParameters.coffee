@@ -33,7 +33,7 @@ getUriParameters = (hrefVariables, options) ->
     if lodash.isArray(defaultValue.value())
       defaultValue = defaultValue.first().contentOrValue().value()?.toString()
     else
-      defaultValue = defaultValue.value().toString()
+      defaultValue = defaultValue.value()?.toString()
 
     if sampleValues.value()
       example = sampleValues.first().contentOrValue()
@@ -41,7 +41,7 @@ getUriParameters = (hrefVariables, options) ->
       if lodash.isArray(example.value())
         exampleValue = example.first().contentOrValue().value()?.toString()
       else
-        exampleValue = example.value().toString()
+        exampleValue = example.value()?.toString()
 
     memberContentValueContent = memberContentValue.content()
 
