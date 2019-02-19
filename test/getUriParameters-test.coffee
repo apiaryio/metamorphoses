@@ -256,6 +256,7 @@ describe('Transformation • Refract • getUriParameters' , ->
           ]
         }]
       },
+      # Sample and default attributes specify no content, just type
       {
         hrefVariables: {
           'element': 'hrefVariables',
@@ -276,10 +277,10 @@ describe('Transformation • Refract • getUriParameters' , ->
                   'element': 'enum',
                   'attributes': {
                     'samples': {
-                        'element': 'number',
+                      'element': 'number',
                     },
                     'default': {
-                        'element': 'number',
+                      'element': 'number',
                     }
                   },
                   'content': [
@@ -317,6 +318,7 @@ describe('Transformation • Refract • getUriParameters' , ->
           }
         ]
       },
+      # Default attribute's content is empty array
       {
         hrefVariables: {
           'element': 'hrefVariables',
