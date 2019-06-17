@@ -43,6 +43,6 @@
     "coffeescript": "^2.4.1",
     "mocha": "^6.1.4",
     "sinon": "^1.17.2",
-    "swagger-zoo": "2.2.1"
+    "swagger-zoo": "2.2.6"
   }
 }
