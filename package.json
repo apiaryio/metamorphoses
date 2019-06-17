@@ -9,8 +9,6 @@
     "precompile": "npm run lint",
     "compile": "coffee -b -c -o lib/ src/",
     "test": "npm run lint && mocha",
-    "cover": "istanbul report text-summary lcov",
-    "coveralls": "npm run cover && cat coverage/lcov.info | coveralls",
     "prepublish": "npm run compile"
   },
   "engines": {
@@ -38,13 +36,9 @@
   },
   "devDependencies": {
     "chai": "^3.2.0",
-    "coffee-coverage": "^1.0.1",
     "coffee-script": "^1.12.3",
-    "coffeeify": "^1.1.0",
     "coffeelint": "^1.11.1",
-    "coveralls": "^2.11.0",
     "drafter": "^1.2.0",
-    "istanbul": "^0.4.5",
     "mocha": "^2.3.0",
     "protagonist": "^1.6.8",
     "sinon": "^1.17.2",

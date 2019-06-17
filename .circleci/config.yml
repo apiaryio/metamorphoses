@@ -6,7 +6,6 @@ defaults: &defaults
     - checkout
     - run: npm install
     - run: npm test
-    - run: npm run coveralls
 
 jobs:
   test-node8:
