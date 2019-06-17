@@ -13,8 +13,8 @@
     "prepublish": "npm run compile"
   },
   "engines": {
-    "node": ">=0.10",
-    "npm": "2.15.x"
+    "node": "8.x || 10.x",
+    "npm": ""
   },
   "repository": {
     "type": "git",
@@ -37,10 +37,9 @@
   },
   "devDependencies": {
     "chai": "^3.2.0",
-    "drafter": "^1.2.0",
-    "protagonist": "^1.6.8",
     "coffeelint": "^2.1.0",
     "coffeescript": "^2.4.1",
+    "drafter.js": "^2.6.7",
     "mocha": "^6.1.4",
     "sinon": "^1.17.2",
     "swagger-zoo": "2.2.6"

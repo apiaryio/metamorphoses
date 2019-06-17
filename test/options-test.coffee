@@ -1,6 +1,5 @@
 {assert} = require('chai')
 sinon = require('sinon')
-protagonist = require('protagonist')
 
 markdown = require('../src/adapters/markdown')
 lodash = require('../src/adapters/refract/helper')
