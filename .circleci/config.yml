@@ -6,7 +6,6 @@ defaults: &defaults
     - checkout
     - run: npm install
     - run: npm test
-    - run: npm run coveralls
 
 jobs:
   test-node8:
@@ -14,8 +13,15 @@ jobs:
     docker:
       - image: circleci/node:8
 
+  test-node10:
+    <<: *defaults
+    docker:
+      - image: circleci/node:10
+
+
 workflows:
   version: 2
   test-publish:
     jobs:
       - test-node8
+      - test-node10

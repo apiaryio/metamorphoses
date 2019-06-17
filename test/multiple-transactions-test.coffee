@@ -1,5 +1,5 @@
 {assert} = require('chai')
-drafter = require('drafter')
+drafter = require('drafter.js')
 
 metamorphoses = require('../src/metamorphoses')
 
@@ -44,7 +44,11 @@ describe('Multiple Transactions', ->
       mediaType = 'application/vnd.refract.api-description+json'
       adapter = metamorphoses.createAdapter(mediaType)
 
-      drafter.parse(source, (err, parseResult) ->
+      drafter.parse(source, {
+        generateSourceMap: false,
+        json: true,
+        requireBlueprintName: false,
+      }, (err, parseResult) ->
         return done(err) if err
 
         apiElement = parseResult.content.filter(isApiElement)[0]

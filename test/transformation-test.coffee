@@ -1,5 +1,5 @@
 {assert} = require('chai')
-protagonist = require('protagonist')
+drafter = require('drafter.js')
 
 CURRENT_APPLICATION_AST_VERSION = require('../src/blueprint-api').Version
 refractAdapter = require('../src/adapters/refract-adapter')
@@ -31,10 +31,13 @@ parseApiBlueprint = (source, cb) ->
 
     cb(err, ast, warnings)
 
-  options =
-    requireBlueprintName: true
+  options = {
+    requireBlueprintName: true,
+    json: true,
+    generateSourceMap: false,
+  }
 
-  protagonist.parse(source, options, transform)
+  drafter.parse(source, options, transform)
 
 
 describe('Transformations', ->
