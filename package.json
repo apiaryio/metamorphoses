@@ -9,6 +9,7 @@
     "precompile": "npm run lint",
     "compile": "coffee -b -c -o lib/ src/",
     "test": "npm run lint && mocha",
+    "test-only": "mocha",
     "prepublish": "npm run compile"
   },
   "engines": {
@@ -36,11 +37,11 @@
   },
   "devDependencies": {
     "chai": "^3.2.0",
-    "coffee-script": "^1.12.3",
-    "coffeelint": "^1.11.1",
     "drafter": "^1.2.0",
-    "mocha": "^2.3.0",
     "protagonist": "^1.6.8",
+    "coffeelint": "^2.1.0",
+    "coffeescript": "^2.4.1",
+    "mocha": "^6.1.4",
     "sinon": "^1.17.2",
     "swagger-zoo": "2.2.1"
   }
